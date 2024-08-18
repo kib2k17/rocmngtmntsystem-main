@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">ROC DIRECTORY COMPLAINT REGISTRATION</h4>
+         <hr>
+          <form class="forms-sample" method="POST" action="{% url 'regcomplaint' %}" enctype="multipart/form-data">
+            {% include 'includes/messages.html' %}
+            {% csrf_token %}
+
+            <div class="form-group">
+              <label for="exampleInputUsername1">Complaint Pace no.</label>
+              <input type="text" placeholder="Enter Nature of Complaint"  name="complainant_pace" class="form-control" disabled>
+            </div>
+
+            <div class="form-group">
+
+              <label for="exampleInputUsername1">Select Division Name</label>
+              <select name="cat_id" class="form-control" required="true" id="category">
+              
+                <option value="">Select Division</option>
+                {% for i in category %}
+                 
+                <option value="{{i.id}}">{{i.catname}}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+
+            <div class="form-group">
+              
+                <label for="exampleInputUsername1">Section Name</label>
+                <select class="form-control form-control-rounded" name="subcategory_id" id="subcategory" required="required">
+                    <option value="">Select Section</option>
+                    {% for i in category.subcategory.id  %}
+                    <option value="{{i.id}}">{{i.subcatname}}</option>
+                    {% endfor %}
+
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleInputUsername1">Complinant Name</label>
+                <input type="text" placeholder="Enter Full name of Complinant"  name="complainant_fname" class="form-control">
+                <span id="char-error-message" class="error-message" style="color: rgb(130, 140, 152);"><i>Please leave it in blank if the client is anonymous.</i></span>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleInputUsername1">Complainant Mobile Number</label>
+                <input type="text" id="complainant_mobile" placeholder="Enter Mobile Number of Complainant" name="selfcomplaint_number" class="form-control" maxlength="11">
+                <span id="char-error-message" class="error-message" style="color: rgb(130, 140, 152);"><i>Please leave it in blank if the client has no mobile number provided.</i></span>
+                <br>
+                <span id="char-error-message" class="error-message" style="color: red;">Please enter only numeric characters.</span>
+                <span id="length-error-message" class="error-message" style="color: red;">Mobile number must be exactly 11 digits.</span>
+              </div>
+
+              
+              <div class="form-group">
+                <label for="exampleInputUsername1">Complinant Email Address</label>
+                <input type="email" placeholder="Enter Full name of Complinant"  name="complaint_email" class="form-control">
+                <span id="char-error-message" class="error-message" style="color: rgb(130, 140, 152);"><i>Please leave it in blank if the client has no email address.</i></span>
+              </div>
+
+        
+
+
+              <div class="form-group">
+                <label for="exampleInputUsername1">Complaint Type</label>
+                <select class="form-control form-control-rounded" name="complainttype" id="complainttype" required="required">
+                    <option value="">Select Complaint Type</option>
+                    <option value="Complaint">Complaint</option>
+                    <option value="General Query">General Query</option>
+                    <option value="General Query">8888 Query</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleInputUsername1">Select Place</label>
+                <select name="stateid" class="form-control" required="true" id="stateid">
+                
+                  <option value="">Select State</option>
+                  {% for i in state %}
+                   
+                  <option value="{{i.id}}">{{i.statename}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="exampleInputUsername1">Nature of Complaint</label>
+                <input type="text" placeholder="Enter Nature of Complaint"  name="noc" class="form-control" required="true">
+              </div>
+
+
+              <div class="form-group">
+                <label for="exampleInputUsername1">Complaint Details (max 2000 words)</label>
+                <textarea  name="complaindetails" required="required" cols="10" rows="10" class="form-control" maxlength="2000"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputUsername1">Complaint Related Doc(if any)</label>
+                <input type="file" name="compfile" class="form-control" value="">
+              </div>
+          
+           
+            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+      var mobileInput = document.getElementById('complainant_mobile');
+      var charErrorMessage = document.getElementById('char-error-message');
+      var lengthErrorMessage = document.getElementById('length-error-message');
+
+      mobileInput.addEventListener('input', function (event) {
+          var input = event.target.value;
+          var hasInvalidChars = /[^0-9]/.test(input);
+
+          if (hasInvalidChars) {
+              charErrorMessage.style.display = 'block';
+              event.target.value = input.replace(/[^0-9]/g, '');
+          } else {
+              charErrorMessage.style.display = 'none';
+          }
+
+          // Hide the length error message while typing
+          if (input.length <= 11) {
+              lengthErrorMessage.style.display = 'none';
+          }
+      });
+
+      mobileInput.addEventListener('blur', function (event) {
+          var input = event.target.value;
+          if (input.length !== 11) {
+              lengthErrorMessage.style.display = 'block';
+          } else {
+              lengthErrorMessage.style.display = 'none';
+          }
+      });
+  </script>
+
+  
+<script>
+ $(document).ready(function() {
+    $('#category').change(function() {
+        var cid = $(this).val();
+        $.ajax({
+            url: '/get_subcat/',
+            type: 'GET',
+            data: {
+                'c_id': cid
+            },
+            success: function(data) {
+                
+                var subcatoptions = data.subcat_options;
+                
+                $('#subcategory').html(subcatoptions);
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+              
+            }
+        });
+    });
+});
+
+    </script>
+
+    {% endblock %}

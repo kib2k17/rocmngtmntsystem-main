@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+
+<div class="row">
+    <div class="col-md-12 grid-margin">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="d-sm-flex align-items-baseline report-summary-header">
+                <h5 class="font-weight-semibold">Admin Report Summary</h5> <span class="ml-auto">Updated Report</span> <button class="btn btn-icons border-0 p-2"><i class="icon-refresh"></i></button>
+              </div>
+            </div>
+          </div>
+          <div class="row report-inner-cards-wrapper">
+            <div class=" col-md -6 col-xl report-inner-card">
+              <div class="inner-card-text">
+                <span class="report-title">Total Register Users</span>
+                <h4>{{user_count}}</h4>
+                <a href="{% url 'manageusers' %}"><span class="report-count"> View Details</span></a>
+              </div>
+              <div class="inner-card-icon bg-success">
+                <i class="icon-user"></i>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl report-inner-card">
+              <div class="inner-card-text">
+                <span class="report-title">Total Register Divisions</span>
+                <h4>{{category_count}}</h4>
+                <a href="{% url 'manage_category' %}"><span class="report-count"> View Details</span></a>
+              </div>
+              <div class="inner-card-icon bg-danger">
+                <i class="icon-doc"></i>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl report-inner-card">
+              <div class="inner-card-text">
+                <span class="report-title">Total Register Sections</span>
+                <h4>{{subcategory_count}}</h4>
+                <a href="{% url 'manage_subcategory' %}"><span class="report-count"> View Details</span></a>
+              </div>
+              <div class="inner-card-icon bg-warning">
+                <i class="icon-doc"></i>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl report-inner-card">
+              <div class="inner-card-text">
+                <span class="report-title">Total Register Places</span>
+                <h4>{{state_count}}</h4>
+                <a href="{% url 'manage_state' %}"><span class="report-count"> View Details</span></a>
+              </div>
+              <div class="inner-card-icon bg-primary">
+                <i class="icon-doc"></i>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="row report-inner-cards-wrapper">
+            <div class=" col-md -6 col-xl report-inner-card">
+              <div class="inner-card-text">
+                <span class="report-title">Total Complaints</span>
+                <h4>{{complaints_count}}</h4>
+                <a href="{% url 'lodgedcomplaint' %}"><span class="report-count"> View Details</span></a>
+              </div>
+              <div class="inner-card-icon bg-primary">
+                <i class="icon-doc"></i>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl report-inner-card">
+              <div class="inner-card-text">
+                <span class="report-title">New Complaints</span>
+                <h4>{{newcom_count}}</h4>
+                <a href="{% url 'newcomplaints' %}"><span class="report-count"> View Details</span></a>
+              </div>
+              <div class="inner-card-icon bg-warning">
+                <i class="icon-doc"></i>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl report-inner-card">
+              <div class="inner-card-text">
+                <span class="report-title">Inprocess Complaints</span>
+                <h4>{{ipcom_count}}</h4>
+                <a href="{% url 'inprocesscomplaints' %}"><span class="report-count"> View Details</span></a>
+              </div>
+              <div class="inner-card-icon bg-danger">
+                <i class="icon-doc"></i>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl report-inner-card">
+              <div class="inner-card-text">
+                <span class="report-title">Closed Complaints</span>
+                <h4>{{closed_count}}</h4>
+                <a href="{% url 'closedcomplaints' %}"><span class="report-count"> View Details</span></a>
+              </div>
+              <div class="inner-card-icon bg-success">
+                <i class="icon-doc"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Map area -->
+  <div class="row">
+    <div class="col-md-12 grid-margin">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+          
+              <h3>Map</h3>
+              <div class="ratio ratio-16x9">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2016555.52652149!2d124.51383849652163!3d9.191853568945382!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33019a34a07829a1%3A0x5b57e273cc22bdb8!2sCaraga!5e0!3m2!1sen!2sph!4v1723426309089!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              </div>
+              </div>
+          </div>
+          </div>
+      </div>
+      </div>
+      </div>
+
+<!-- Calendar Area -->
+<div class="row">
+  <div class="col-md-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>Calendar</h1>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+
+
+      
+{% endblock %}
