@@ -12,9 +12,10 @@
               <tr>
                 <th style="font-weight: bolder;"> # </th>
                 <th style="font-weight: bolder;"> Complaint No</th>
-      
+                <th style="font-weight: bolder;"> Complaint PACE No</th>
                 <th style="font-weight: bolder;"> Complainant Name</th>
                 <th style="font-weight: bolder;"> Complainant Mobile Number</th>
+                <th style="font-weight: bolder;"> Complainant Email Address</th>
                 <th style="font-weight: bolder;"> Complainant Place</th>
 
                 <th style="font-weight: bolder;"> Accountable Person Name</th>
@@ -30,8 +31,10 @@
                 <td> {{ forloop.counter }}</td>
 
                 <td>{{i.complaint_text}}</td>
+                <td style="color: red;">{{i.complainant_pace}}</td>
                 <td>{{i.complainant_fname}}</td>
                 <td>{{i.selfcomplaint_number}}</td>
+                <td>{{i.complaint_email}}</td>
                 <td>{{i.stateid}}</td>
                 
                 <td>{{ i.userregid.admin.first_name }} {{ i.userregid.admin.last_name }}</td>
