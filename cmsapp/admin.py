@@ -12,3 +12,9 @@ admin.site.register(State)
 admin.site.register(UserReg)
 admin.site.register(Complaints)
 admin.site.register(ComplaintRemark)
+
+#Address
+admin.site.register(Province)
+admin.site.register(City)
+admin.site.register(Barangay)
+admin.site.register(CompleteAddress)

@@ -25,8 +25,25 @@ SECRET_KEY = 'django-insecure-))x7_tavyx&&6n!$%mq%_fomfq0!)mc58x!wj7#ulgl5!e#+4h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+#ngrok http --domain=engaging-elephant-curiously.ngrok-free.app 80
+#ngrok http --domain=engaging-elephant-curiously.ngrok-free.app 8000 --oauth=google --oauth-allow-email=hotline.focrg@dswd.gov.ph
 
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'engaging-elephant-curiously.ngrok-free.app',
+    '172.31.242.12',  # Add this
+    # Add any other trusted origins
+]
+
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://engaging-elephant-curiously.ngrok-free.app',
+]
+
+
+
+#'192.168.1.16', 'localhost', '127.0.0.1'
 
 # Application definition
 
@@ -73,27 +90,28 @@ TEMPLATES = [
 WSGI_APPLICATION = 'complaintmgmtsys.wsgi.application'
 
 
-# Database
+# SQLITE3
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-#SQLITE3
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
+# SQLITE3
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'rocdb',
-        'USER': 'postgres',
-        'PASSWORD': '12345',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# #POSTGRESSQL
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'rocdb',
+#         'USER': 'postgres',
+#         'PASSWORD': '12345',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 
 #MYSQL

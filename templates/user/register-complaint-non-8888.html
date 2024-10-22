@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
 
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
@@ -10,15 +11,33 @@
           <form class="forms-sample" method="POST" action="{% url 'non8888regcomplaint' %}" enctype="multipart/form-data">
             {% include 'includes/messages.html' %}
             {% csrf_token %}
-
+            
             <div class="form-group">
               <label for="exampleInputUsername1">Complaint Pace no.</label>
               <input type="text" placeholder="Enter Nature of Complaint"  name="complainant_pace" class="form-control" disabled>
             </div>
 
+            <div class="form-group">
+              <label for="deadline">Deadline</label>
+              <input type="date" name="deadline" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="passed_date">Passed Date</label>
+              <input type="date" name="passed_date" class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="date_received">Date Received</label>
+              <input type="date" name="date_received" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="time_received">Time Received</label>
+              <input type="time" name="time_received" class="form-control" required>
+            </div>
 
             <div class="form-group">
-
               <label for="exampleInputUsername1">Select Division Name</label>
               <select name="cat_id" class="form-control" required="true" id="category">
               
@@ -65,6 +84,8 @@
                 <span id="char-error-message" class="error-message" style="color: rgb(130, 140, 152);"><i>Please leave it in blank if the client has no email address.</i></span>
               </div>
 
+        
+
 
               <div class="form-group">
                 <label for="exampleInputUsername1">Complaint Type</label>
@@ -76,7 +97,7 @@
                 </select>
               </div>
 
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label for="exampleInputUsername1">Select Place</label>
                 <select name="stateid" class="form-control" required="true" id="stateid">
                 
@@ -86,12 +107,44 @@
                   <option value="{{i.id}}">{{i.statename}}</option>
                   {% endfor %}
                 </select>
-              </div>
+              </div> -->
+
+              <div class="form-group">
+                <label for="province">Province</label>
+                <select name="province" class="form-control" required>
+                    <option value="">Select Province</option>
+                    {% for province in provinces %}
+                        <option value="{{ province.id }}">{{ province.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        
+            <div class="form-group">
+                <label for="city">City</label>
+                <select name="city" class="form-control" required>
+                    <option value="">Select City</option>
+                    {% for city in cities %}
+                        <option value="{{ city.id }}">{{ city.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        
+            <div class="form-group">
+                <label for="barangay">Barangay</label>
+                <select name="barangay" class="form-control" required>
+                    <option value="">Select Barangay</option>
+                    {% for barangay in barangays %}
+                        <option value="{{ barangay.id }}">{{ barangay.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
               
               <div class="form-group">
                 <label for="exampleInputUsername1">Nature of Complaint</label>
                 <input type="text" placeholder="Enter Nature of Complaint"  name="noc" class="form-control" required="true">
               </div>
+
+
               <div class="form-group">
                 <label for="exampleInputUsername1">Complaint Details (max 2000 words)</label>
                 <textarea  name="complaindetails" required="required" cols="10" rows="10" class="form-control" maxlength="2000"></textarea>
@@ -101,16 +154,102 @@
                 <input type="file" name="compfile" class="form-control" value="">
               </div>
           
-           
+
             <button type="submit" class="btn btn-primary mr-2">Submit</button>
             
           </form>
         </div>
       </div>
     </div>
-    </div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Modal HTML Structure -->
+<div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="privacyModalLabel">Privacy Advisory!</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>We are committed to protecting the privacy and personal data of all users interacting with our Complaint Management System (CMS). This Privacy Advisory explains how we collect, use, and protect the personal 
+          information you provide when submitting a complaint, and outlines your rights in relation to your personal data.</p>
+        <h3>1. Collection of Personal Information</h3>
+        <p>We collect the following personal information from users who submit complaints:</p>
+        <ul>
+          <li>Full Name</li>
+          <li>Contact Information (Email address, phone number)</li>
+          <li>Address (optional)</li>
+          <li>Complaint details (including related documents or media, if provided)</li>
+        </ul>
+        <p>By submitting a complaint, you consent to the collection of this information for the purposes outlined in this advisory.</p>
+      
+        <h3>2. Use of Personal Information</h3>
+        <p>The personal information we collect is used solely for the purpose of:</p>
+        <ul>
+          <li>Processing and managing your complaint.</li>
+          <li>Communicating with you about the status and resolution of your complaint.</li>
+          <li>Ensuring accurate investigation and resolution.</li>
+        </ul>
+        <p>We do not use your personal information for marketing purposes or share it with third parties unless required by law or with your explicit consent.</p>
+      
+        <h3>3. Data Security</h3>
+        <p>We take data security seriously and implement appropriate technical and organizational measures to protect your personal data from unauthorized access, alteration, disclosure, or destruction. These measures include:</p>
+        <ul>
+          <li>Secure encryption of data during transmission and storage.</li>
+          <li>Access controls to restrict who can view or process your data.</li>
+          <li>Regular security audits to maintain high standards of data protection.</li>
+        </ul>
+      
+        <h3>4. Retention of Data</h3>
+        <p>We will retain your personal information for as long as necessary to resolve your complaint and meet legal obligations. Once the complaint is resolved and no further action is required, personal data will be securely archived or deleted.</p>
+      
+        <h3>5. Disclosure to Third Parties</h3>
+        <p>We may disclose your personal information to third parties under the following circumstances:</p>
+        <ul>
+          <li>When required by law or a valid legal process.</li>
+          <li>To trusted service providers who assist in managing or investigating complaints, provided they comply with our privacy policies.</li>
+          <li>With your explicit consent, for purposes not covered in this policy.</li>
+        </ul>
+      
+        <h3>6. Your Rights</h3>
+        <p>You have the following rights regarding your personal data:</p>
+        <ul>
+          <li><strong>Access:</strong> You may request a copy of the personal data we hold about you.</li>
+          <li><strong>Correction:</strong> You may request corrections to any inaccurate or incomplete data.</li>
+          <li><strong>Deletion:</strong> You may request the deletion of your data if it is no longer necessary for the purpose of the complaint.</li>
+          <li><strong>Objection:</strong> You may object to the processing of your personal data in certain circumstances.</li>
+        </ul>
+        <p>To exercise these rights, please contact our Data Protection Officer at hotline.focrg@dswd.gov.ph.</p>
+      
+        <h3>7. Changes to this Advisory</h3>
+        <p>We may update this Privacy Advisory from time to time. Any changes will be communicated through our website or via email, and your continued use of the CMS indicates your acceptance of any updates.</p>
+      
+        <h3>8. Contact Us</h3>
+        <p>If you have any questions about this Privacy Advisory or how we handle your personal data, please contact us at:</p>
+        <ul>
+          <li><strong>Project Development Officer II:</strong>Karl Kevin C. Bacon/karlkevincbacon@gmail.com</li>
+          <li><strong>Customer Support:</strong>hotline.focrg@dswd.gov.ph</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">I Understand</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Script to Trigger Modal on Page Load -->
+<script>
+  $(document).ready(function() {
+    $('#privacyModal').modal('show');
+  });
+</script>
+  
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
       var mobileInput = document.getElementById('complainant_mobile');
@@ -144,6 +283,7 @@
       });
   </script>
 
+  
 <script>
  $(document).ready(function() {
     $('#category').change(function() {
@@ -169,4 +309,5 @@
 });
 
     </script>
-    {% endblock %}
+
+{% endblock %}

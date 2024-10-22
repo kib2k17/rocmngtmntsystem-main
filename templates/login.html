@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'assets/vendors/simple-line-icons/css/simple-line-icons.css'%}">
     <link rel="stylesheet" href="{% static 'assets/vendors/flag-icon-css/css/flag-icon.min.css'%}">
     <link rel="stylesheet" href="{% static 'assets/vendors/css/vendor.bundle.base.css'%}">
+    <link rel="icon" href="/path/to/your-logo.ico" type="image/x-icon">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- End plugin css for this page -->
@@ -16,7 +17,6 @@
     <!-- endinject -->
     <!-- Layout styles -->
     <link rel="stylesheet" href="{% static 'assets/css/style.css'%}"> <!-- End layout styles -->
-    
   </head>
   <body>
     <div class="container-scroller">
@@ -28,6 +28,7 @@
                 <div class="brand-logo">
                  <center><h2>ROC Dashboard Management System</h2><hr /></center>
                 </div>
+                
                 <h6 class="font-weight-light">Sign in to continue.</h6>
                 <form class="pt-3" action="{% url 'doLogin' %}"  method="POST">
                     {% include 'includes/messages.html' %}
@@ -42,10 +43,10 @@
                     <button class="btn btn-primary btn-block" type="submit">Login</button>
                   </div>
                   <div class="my-2 d-flex justify-content-between align-items-center">
-                    <div class="form-check">
+                    <!-- <div class="form-check">
                       <label class="form-check-label text-muted">
-                         <a href="{% url 'usersignup' %}">User Signup</a>
-                    </div>
+                         <p>Please Register to Signup</p><a href="{% url 'usersignup' %}">User Signup</a>
+                    </div> -->
                   
                   </div>
                  

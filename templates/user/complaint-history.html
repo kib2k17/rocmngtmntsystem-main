@@ -18,9 +18,24 @@
                 <th style="font-weight: bolder;"> Complainant Name</th>
                 <th style="font-weight: bolder;"> Complainant Mobile Number</th>
                 <th style="font-weight: bolder;"> Complainant Email Address</th>
-                <th style="font-weight: bolder;"> Complainant Place</th>
+                <!-- <th style="font-weight: bolder;"> Complainant Place</th> -->
+
+                <!-- <th style="font-weight: bolder;"> Province</th>
+                <th style="font-weight: bolder;"> City</th>
+                <th style="font-weight: bolder;"> Barangay </th> -->
+                <th style="font-weight: bolder;">Complaint Complete Address </th>
+                <!-- <th style="font-weight: bolder;"> City / Municpality</th>
+                <th style="font-weight: bolder;"> Barangay </th>
+                <th style="font-weight: bolder;"> Purok </th>
+                 -->
                 
                 <th style="font-weight: bolder;"> Complaint Lodged Date </th>
+
+                <th style="font-weight: bolder;"> Deadline </th>
+                <th style="font-weight: bolder;"> Passed Date </th>
+                <th style="font-weight: bolder;"> Date Received </th>
+                <th style="font-weight: bolder;"> Time Received </th>
+
                 <th style="font-weight: bolder;"> Status </th>
                 <th style="font-weight: bolder;">Action </th>
               </tr>
@@ -36,9 +51,29 @@
                 <td> {{i.complainant_fname}}</td>
                 <td>{{i.selfcomplaint_number}}</td>
                 <td>{{i.complaint_email}}</td>
-                <td>{{i.stateid}}</td>
+               
+                <td>{{i.barangay}}</td>
+
+                <!-- <td>{{i.stateid}}</td> -->
+                <!-- <td>{{i.province}}</td>
+                <td>{{i.city}}</td>
+                <td>{{i.barangay}}</td> -->
+                <!-- <td>{{i.purok}}</td> -->
+
+               
+                <!-- <td></td>
+                <td></td>
+                <td></td>
+                <td></td> -->
                
                 <td>{{i.complaintdate_at}}</td>
+
+                <td>{{i.deadline}}</td>
+                <td>{{i.passed_date}}</td>
+                <td>{{i.date_received}}</td>
+                <td>{{i.time_received}}</td>
+
+
                 <td>{% if i.status == '0' %}
                   <span class="badge badge-danger">Not Processed Yet</span>
               {% elif i.status == 'Inprocess' %}

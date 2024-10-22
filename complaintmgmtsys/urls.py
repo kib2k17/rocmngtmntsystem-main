@@ -52,8 +52,10 @@ urlpatterns = [
     path('Comuser/UserHome', userviews.USERHOME, name='user_home'),
     path('usersignup/', userviews.USERSIGNUP, name='usersignup'),
     path('RegisterComplaint', userviews.REGCOMPLAINT, name='regcomplaint'),
-    path('Non8888RegisterComplaint', userviews.NON8888REGCOMPLAINT, name='non8888regcomplaint'),
     path('PaceRegisterComplaint', userviews.PACEREGCOMPLAINT, name='paceregcomplaint'),
+    path('non8888regcomplaint', userviews.NON8888REGCOMPLAINT, name='non8888regcomplaint'),
+
+    path('pacdcomplaint', userviews.PACDOCOMPLAINT, name='pacdcomplaint'),
     path('get_subcat/', userviews.get_subcat, name='get_subcat'),
     path('ComplaintHistory', userviews.COMPLAINTHISTORY, name='complainthistory'),
     path('ComplaintHistoryDetails/<str:id>', userviews.COMPLAINTHISTORYDETAILS, name='complainthistorydetails'),
