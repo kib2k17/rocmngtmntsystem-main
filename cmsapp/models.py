@@ -38,6 +38,8 @@ class CompleteAddress(models.Model):
     
     def __str__(self):
         return f'{self.barangay.name}, {self.barangay.city.name}, {self.barangay.city.province.name}'
+    
+
 
 
 class Category(models.Model):

@@ -12,6 +12,9 @@ urlpatterns = [
     path('doLogin', views.doLogin, name='doLogin'),
     path('doLogout', views.doLogout, name='logout'),
 
+    # This is admin version two
+    path('AdminversionTwo', adminviews.ADMINVERSIONTWO, name='adminversiontwo'),
+
      # This is admin panel
     path('Admin/AdminHome', adminviews.ADMINHOME, name='admin_home'),
     path('Admin/AddCategory', adminviews.ADD_CATEGORY, name='add_category'),
@@ -30,6 +33,8 @@ urlpatterns = [
     path('UpdateState/<str:id>', adminviews.UPDATE_STATE, name='update_state'),
     path('UpdateStateDetails', adminviews.UPDATE_STATE_DETAILS, name='update_state_details'),
     path('LodgedComplaint', adminviews.LODGEDCOMPLAINTS, name='lodgedcomplaint'),
+
+
 
     path('ViewLodgedComplaint/<str:id>', adminviews.VIEWLODGEDCOMPLAINTS, name='viewlodgedcomplaint'),
 

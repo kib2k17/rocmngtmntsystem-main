@@ -48,6 +48,12 @@ def ADD_CATEGORY(request):
         return redirect("add_category")
     return render(request,'admin/add_category.html')
 
+#Admin Version two
+@login_required(login_url='/')
+def ADMINVERSIONTWO(request):
+    context = {}
+    return render(request,'admin/dashboard_admin.html',context)
+
 @login_required(login_url='/')
 def MANAGE_CATEGORY(request):
     cat_list = Category.objects.all().order_by('catname')
@@ -65,6 +71,7 @@ def MANAGE_CATEGORY(request):
 
     context = {'categories': categories}
     return render(request, 'admin/manage_category.html', context)
+
 @login_required(login_url='/')
 def DELETE_CATEGORY(request,id):
     cat = Category.objects.get(id=id)

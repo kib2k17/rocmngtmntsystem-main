@@ -19,6 +19,8 @@
                         <td style="color: red">{{i.complaint_text}}</td>
                         <td><b>Complainant Name</b></td>
                         <td  style="color: green">{{i.complainant_fname}}</td>
+                        <td><b>Complainant Address</b></td>
+                        <td  style="color: green">{{i.barangay}}</td>
                         <td><b>Acountable Peron Name</b></td>
                         <td> {{ i.userregid.admin.first_name }} {{ i.userregid.admin.last_name }}</td>
                         <td><b>Reg Date</b></td>
@@ -26,7 +28,7 @@
                         </td>
                     </tr>
 
-<tr>
+                    <tr>
                         <td><b>Division </b></td>
                         <td>{{i.cat_id.catname}}</td>
                         <td><b>Section</b></td>
@@ -35,14 +37,14 @@
                         <td>{{i.complainttype}}
                         </td>
                     </tr>
-<tr>
+                    <tr>
                         <td><b>Place </b></td>
                         <td>{{i.stateid.statename}}</td>
                         <td ><b>Nature of Complaint</b></td>
                         <td> {{i.noc}}</td>
 
                     </tr>
-<tr>
+                    <tr>
                         <td><b>Complaint Details </b></td>
 
                         <td> {{i.complaindetails}}</td>
@@ -53,7 +55,7 @@
 <tr>
     <td><b>File(if any) </b></td>
     {% if i.compfile == '' %}
-        <td>NA</td>
+        <td>N/A</td>
     {% else %}
         <td><a href="{{ i.compfile.url }}" target="_blank">View File</a></td>
     {% endif %}
@@ -62,14 +64,17 @@
 <tr>
 <td><b>Final Status</b></td>
 
-                        <td>
-                          {% if i.status == '0' %}
+<td>
+
+{% if i.status == '0' %}
     <span class="badge badge-danger">Not Processed Yet</span>
 {% elif i.status == 'Inprocess' %}
     <span class="badge badge-warning">In Process</span>
 {% elif i.status == 'Closed' %}
     <span class="badge badge-success">Closed</span>
-{% endif %}</td>
+{% endif %}
+
+</td>
 
                     </tr>
 
@@ -102,7 +107,6 @@
             </tbody>
         </table>
         {% if i.status == '0' or i.status == 'Inprocess' %}
-
 
               <p align="center"  style="padding-top: 20px">
                 <button class="btn btn-primary waves-effect waves-light w-lg" data-toggle="modal" data-target="#myModal">Take Action</button></p>{% endif %}

@@ -23,25 +23,28 @@
                         </td>
                     </tr>
 
-<tr>
+                    <tr>
                         <td><b>Complainant name</b></td>
                         <td>{{complaints.complainant_fname}}</td>
+                        <td><b>Complainant address</b></td>
+                        <td>{{complaints.barangay}}</td>
                         <td><b>Category </b></td>
                         <td>{{complaints.cat_id.catname}}</td>
-                        <td><b>SubCategory</b></td>
-                        <td>{{complaints.subcategory_id.subcatname}}</td>
+                       
                         <td><b>Complaint Type</b></td>
                         <td>{{complaints.complainttype}}
                         </td>
                     </tr>
-<tr>
+                    <tr>
                         <td><b>State </b></td>
                         <td>{{complaints.stateid.statename}}</td>
                         <td ><b>Nature of Complaint</b></td>
                         <td colspan="3"> {{complaints.noc}}</td>
+                        <td><b>SubCategory</b></td>
+                        <td>{{complaints.subcategory_id.subcatname}}</td>
                         
                     </tr>
-<tr>
+                    <tr>
                         <td><b>Complaint Details </b></td>
                         
                         <td colspan="5"> {{complaints.complaindetails}}</td>

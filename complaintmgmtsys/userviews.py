@@ -24,6 +24,8 @@ def USERHOME(request):
     }
     return render(request,'user/userdashboard.html',context)
 
+
+
 def USERSIGNUP(request):
    
     if request.method == "POST":
