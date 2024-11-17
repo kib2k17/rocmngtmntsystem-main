@@ -59,6 +59,27 @@ class Subcategory(models.Model):
 
     def __str__(self):
         return self.subcatname
+    
+
+
+#City and Municipalality    
+class Categorycitymup(models.Model):
+    catcitymupname = models.CharField(max_length=200)
+    catcitymupdes = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.catcitymupname
+
+class Subcategorycitymup(models.Model):
+    catmupname_id = models.ForeignKey(Categorycitymup, on_delete=models.CASCADE)
+    subcatcitymupname = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.subcatcitymupname
 
 class State(models.Model):
     statename = models.CharField(max_length=200)
@@ -81,9 +102,16 @@ class UserReg(models.Model):
             return f"User not associated - {self.mobilenumber}"
 
 class Complaints(models.Model):
+    
     userregid = models.ForeignKey(UserReg, on_delete=models.CASCADE, null=True, blank=True)
+
+    # catmupname_id = models.ForeignKey(Categorycitymup, on_delete=models.CASCADE, null=True, blank=True)
+    # subcategorycitymup_id = models.ForeignKey(Subcategorycitymup, on_delete=models.CASCADE, null=True, blank=True)
+
+
     cat_id = models.ForeignKey(Category, on_delete=models.CASCADE)
     subcategory_id = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
+
 
     deadline = models.DateField(null=True, blank=True)
     passed_date = models.DateField(null=True, blank=True)

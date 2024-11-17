@@ -12,6 +12,10 @@ admin.site.register(State)
 admin.site.register(UserReg)
 admin.site.register(Complaints)
 admin.site.register(ComplaintRemark)
+admin.site.register(Categorycitymup)
+admin.site.register(Subcategorycitymup)
+
+
 
 #Address
 admin.site.register(Province)

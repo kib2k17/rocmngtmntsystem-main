@@ -18,7 +18,18 @@ urlpatterns = [
      # This is admin panel
     path('Admin/AdminHome', adminviews.ADMINHOME, name='admin_home'),
     path('Admin/AddCategory', adminviews.ADD_CATEGORY, name='add_category'),
+    path('Admin/AddCategoryCityMun', adminviews.ADD_CATEGORY_CITYMUN, name='add_category_citymun'),
     path('Admin/ManageCategory', adminviews.MANAGE_CATEGORY, name='manage_category'),
+
+    path('Admin/ManageCategoryCityMunc', adminviews.MANAGE_CATEGORY_CITYMUNC, name='manage_category_citymunc'),
+    path('UpdateCategoryCityMunc/<str:id>/', adminviews.UPDATE_CATEGORY_CITYMUNC, name='update_category_citymunc'),
+    path('UpdateCategoryDetailsCityMunc/<str:id>/', adminviews.UPDATE_CATEGORY_DETAILS_CITYMUNC, name='update_category_details_citymunc'),
+    path('Admin/DeleteCategoryCityMunc/<str:id>', adminviews.DELETE_CATEGORY_CITYMUNC, name='delete_category_citymunc'),
+
+    path('Admin/AddSubcategoryCityMunc', adminviews.ADD_SUBCATEGORY_CITYMUNC, name='add_subcategory_citymunc'),
+    path('Admin/ManageSubcategoryCityMunc', adminviews.MANAGE_SUBCATEGORY_CITYMUNC, name='manage_subcategory_citymunc'),
+    path('UpdateSubcategoryCityMunc/<str:id>', adminviews.UPDATE_SUBCATEGORY_CITYMUNC, name='update_subcategory_citymunc'),
+
     path('Admin/DeleteCategory/<str:id>', adminviews.DELETE_CATEGORY, name='delete_category'),
     path('UpdateCategory/<str:id>', adminviews.UPDATE_CATEGORY, name='update_category'),
     path('UpdateCategoryDetails', adminviews.UPDATE_CATEGORY_DETAILS, name='update_category_details'),
@@ -27,6 +38,10 @@ urlpatterns = [
     path('Admin/DeleteSubcategory/<str:id>', adminviews.DELETE_SUBCATEGORY, name='delete_subcategory'),
     path('UpdateSubcategory/<str:id>', adminviews.UPDATE_SUBCATEGORY, name='update_subcategory'),
     path('UpdateSubcategoryDetails', adminviews.UPDATE_SUBCATEGORY_DETAILS, name='update_subcategory_details'),
+    
+    path('UpdateSubcategoryDetailsCityMunc', adminviews.UPDATE_SUBCATEGORY_DETAILS_CITYMUNC, name='update_subcategory_details_citymunc'),
+    
+
     path('Admin/AddState', adminviews.ADD_STATE, name='add_state'),
     path('Admin/ManageState', adminviews.MANAGE_STATE, name='manage_state'),
     path('Admin/DeleteState/<str:id>', adminviews.DELETE_STATE, name='delete_state'),

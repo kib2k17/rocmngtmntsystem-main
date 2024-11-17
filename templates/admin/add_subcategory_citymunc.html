@@ -5,26 +5,26 @@
     <div class="col-md-6 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title">Add Subcategory</h4>
+          <h4 class="card-title">Add Subcategory Barangay</h4>
          <hr>
-          <form class="forms-sample" method="POST" action="{% url 'add_subcategory' %}">
+          <form class="forms-sample" method="POST" action="{% url 'add_subcategory_citymunc' %}">
             {% include 'includes/messages.html' %}
             {% csrf_token %}
             <div class="form-group">
-              <label for="exampleInputUsername1">Select Category Name</label>
-              <select name="cat_id" class="form-control" required="true">
+              <label for="exampleInputUsername2">Select Category Name</label>
+              <select name="catmupname_id" class="form-control" required="true">
               
                 <option value="">Select Category</option>
-                {% for i in category %}
+                {% for i in categorycitymunc %}
                  
-                <option value="{{i.id}}">{{i.catname}}</option>
+                <option value="{{i.id}}">{{i.catcitymupname}}</option>
                 
                 {% endfor %}
               </select>
             </div>
             <div class="form-group">
-                <label for="exampleInputUsername1">Subcategory Name</label>
-                <input type="text" placeholder="Enter Subcategory Name"  name="subcatname" class="form-control" required="true">
+                <label for="exampleInputUsername2">Subcategory Name</label>
+                <input type="text" placeholder="Enter Subcategory Name"  name="subcatcitymupname" class="form-control" required="true">
               </div>
           
            

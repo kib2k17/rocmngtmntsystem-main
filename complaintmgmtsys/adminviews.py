@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth.decorators import login_required
-from cmsapp.models import Category,Subcategory,State,Complaints,ComplaintRemark,UserReg
+from cmsapp.models import Category,Subcategory,State,Complaints,ComplaintRemark,UserReg, Categorycitymup, Subcategorycitymup
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import get_object_or_404
@@ -48,6 +48,8 @@ def ADD_CATEGORY(request):
         return redirect("add_category")
     return render(request,'admin/add_category.html')
 
+
+
 #Admin Version two
 @login_required(login_url='/')
 def ADMINVERSIONTWO(request):
@@ -72,6 +74,77 @@ def MANAGE_CATEGORY(request):
     context = {'categories': categories}
     return render(request, 'admin/manage_category.html', context)
 
+#Categoy for City/Places
+@login_required(login_url='/')
+def ADD_CATEGORY_CITYMUN(request):
+    if request.method == "POST":
+        catcitymupname = request.POST.get('catcitymupname')
+        catcitymupdes = request.POST.get('catcitymupdes')
+        cat =Categorycitymup(
+            catcitymupname=catcitymupname,
+            catcitymupdes=catcitymupdes,
+        )
+        cat.save()
+        messages.success(request,'Places has been added succeesfully!!!')
+        return redirect("manage_category_citymunc")
+    return render(request,'admin/add_categorycitymunicipal.html')
+
+@login_required(login_url='/')
+def MANAGE_CATEGORY_CITYMUNC(request):
+    cat_list = Categorycitymup.objects.all().order_by('catcitymupname')
+    paginator = Paginator(cat_list, 10)  # Show 10 categories per page
+
+    page_number = request.GET.get('page')
+    try:
+        categories = paginator.page(page_number)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        categories = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        categories = paginator.page(paginator.num_pages)
+
+    context = {'categories': categories}
+    return render(request, 'admin/manage_category_citymunc.html', context)
+
+login_required(login_url='/')
+def UPDATE_CATEGORY_CITYMUNC(request,id):
+    categorycitymunc = Categorycitymup.objects.get(id=id)
+    
+    context = {
+         'categorycitymunc':categorycitymunc,
+    }
+
+    return render(request,'admin/update_category_citymunc.html',context)
+
+login_required(login_url='/')
+def UPDATE_CATEGORY_DETAILS_CITYMUNC(request, id):
+    categorycitymunc = get_object_or_404(Categorycitymup, id=id)
+
+    if request.method == 'POST':
+        catcitymupname = request.POST.get('catcitymupname')
+        catcitymupdes = request.POST.get('catcitymupdes')
+
+        categorycitymunc.catcitymupname = catcitymupname
+        categorycitymunc.catcitymupdes = catcitymupdes
+        categorycitymunc.save()
+
+        messages.success(request, "Your category detail has been updated successfully")
+        return redirect('manage_category_citymunc')
+
+    return render(request, 'admin/update_category_citymunc.html', {
+        'categorycitymunc': categorycitymunc  # Pass the object to the template
+    })
+
+
+@login_required(login_url='/')
+def DELETE_CATEGORY_CITYMUNC(request,id):
+    catcitymunc = Categorycitymup.objects.get(id=id)
+    catcitymunc.delete()
+    messages.success(request,'Record Delete Succeesfully!!!')
+    
+    return redirect('manage_category_citymunc')
+
 @login_required(login_url='/')
 def DELETE_CATEGORY(request,id):
     cat = Category.objects.get(id=id)
@@ -91,7 +164,6 @@ def UPDATE_CATEGORY(request,id):
     return render(request,'admin/update_category.html',context)
 
 login_required(login_url='/')
-
 def UPDATE_CATEGORY_DETAILS(request):
         if request.method == 'POST':
           cat_id = request.POST.get('cat_id')
@@ -122,6 +194,42 @@ def ADD_SUBCATEGORY(request):
     }
     return render(request,'admin/add_subcategory.html',context)
 
+@login_required(login_url = '/')
+def ADD_SUBCATEGORY_CITYMUNC(request):
+    categorycitymunc = Categorycitymup.objects.all()
+    if request.method == "POST":
+        catmupname_id = request.POST.get('catmupname_id')
+        subcatcitymupname = request.POST.get('subcatcitymupname')
+        cidcy = Categorycitymup.objects.get(id=catmupname_id)
+        Subcatcitymunc = Subcategorycitymup(catmupname_id=cidcy, subcatcitymupname = subcatcitymupname,
+        )
+        Subcatcitymunc.save()
+        messages.success(request, 'Subcategory Added Succeesfully!!!')
+        return redirect("manage_subcategory_citymunc")
+    context = {
+        'categorycitymunc':categorycitymunc
+    }
+    return render(request,'admin/add_subcategory_citymunc.html',context)
+
+@login_required(login_url='/')
+def MANAGE_SUBCATEGORY_CITYMUNC(request):
+    subcategory_list = Subcategorycitymup.objects.all().order_by('-catmupname_id')
+    paginator = Paginator(subcategory_list, 10)  # Show 10 subcategories per page
+
+    page_number = request.GET.get('page')
+    try:
+        subcategories = paginator.page(page_number)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        subcategories = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        subcategories = paginator.page(paginator.num_pages)
+
+    context = {'subcategories': subcategories}
+    return render(request, 'admin/manage_subcategory_citymunc.html', context)
+
+@login_required(login_url='/')
 def MANAGE_SUBCATEGORY(request):
     subcategory_list = Subcategory.objects.all().order_by('-cat_id')
     paginator = Paginator(subcategory_list, 10)  # Show 10 subcategories per page
@@ -162,7 +270,19 @@ def UPDATE_SUBCATEGORY(request,id):
 
 
 login_required(login_url='/')
+def UPDATE_SUBCATEGORY_CITYMUNC(request,id):
+    category = Categorycitymup.objects.all()
+    subcategory = Subcategorycitymup.objects.get(id=id)
+    
+    context = {
+         'subcategory':subcategory,
+         'category':category,
+    }
 
+    return render(request,'admin/update_subcategory_citymunc.html',context)
+
+
+login_required(login_url='/')
 def UPDATE_SUBCATEGORY_DETAILS(request):
         if request.method == 'POST':
           subcat_id = request.POST.get('subcat_id')
@@ -176,6 +296,37 @@ def UPDATE_SUBCATEGORY_DETAILS(request):
           messages.success(request,"Your subcategory detail has been updated successfully")
           return redirect('manage_subcategory')
         return render(request, 'admin/update_subcategory.html')
+
+@login_required(login_url='/')
+def UPDATE_SUBCATEGORY_DETAILS_CITYMUNC(request):
+    category = Categorycitymup.objects.all()
+    subcategory = None
+
+    if request.method == 'POST':
+        subcatcitymunc_id = request.POST.get('subcatcitymunc_id')
+        catmupname_id = request.POST.get('catmupname_id')
+        subcatcitymupname = request.POST.get('subcatcitymupname')
+        
+        subcategory = get_object_or_404(Subcategorycitymup, id=subcatcitymunc_id)
+        categorycitymuncid = get_object_or_404(Categorycitymup, id=catmupname_id)
+        
+        subcategory.catmupname_id = categorycitymuncid
+        subcategory.subcatcitymupname = subcatcitymupname
+        subcategory.save()
+        
+        messages.success(request, "Your subcategory detail has been updated successfully")
+        return redirect('manage_subcategory_citymunc')
+    
+    # Load `subcategory` and `category` for a GET request to display data in the form
+    elif 'id' in request.GET:
+        subcatcitymunc_id = request.GET['id']
+        subcategory = get_object_or_404(Subcategorycitymup, id=subcatcitymunc_id)
+
+    context = {
+        'subcategory': subcategory,
+        'category': category,
+    }
+    return render(request, 'admin/update_subcategory_citymunc.html', context)
 
 @login_required(login_url='/')
 def ADD_STATE(request):
