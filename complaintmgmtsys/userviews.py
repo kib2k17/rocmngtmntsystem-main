@@ -1,11 +1,14 @@
 from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth.decorators import login_required
 
-from cmsapp.models import CustomUser,UserReg,Category,Subcategory,State,Complaints,ComplaintRemark,Province, City, Barangay, CompleteAddress
+from cmsapp.models import CustomUser,UserReg,Category,Subcategory,Complaints,ComplaintRemark, Categorycitymup, Subcategorycitymup
 from django.contrib import messages
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 import random
+
+
 
 @login_required(login_url='/')
 
@@ -23,6 +26,7 @@ def USERHOME(request):
     'closed_count':closed_count,        
     }
     return render(request,'user/userdashboard.html',context)
+
 
 
 
@@ -70,7 +74,6 @@ def USERSIGNUP(request):
 
 
 @login_required(login_url='/')
-
 def get_subcat(request):
     if request.method == 'GET':
         c_id = request.GET.get('c_id')
@@ -79,20 +82,38 @@ def get_subcat(request):
         for subcategory in subcat:
             subcat_options += f'<option value="{subcategory.id}">{subcategory.subcatname}</option>'
         return JsonResponse({'subcat_options': subcat_options})
+    
 
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.shortcuts import redirect, render
-import random
+
+@login_required(login_url='/')
+def get_subcats(request):
+    if request.method == 'GET':
+        # Fetch the province (catmupname_id) from the request
+        catmupname_id = request.GET.get('c_ids')
+
+        # Ensure the province ID is valid
+        if catmupname_id:
+            subcats = Subcategorycitymup.objects.filter(catmupname_id=catmupname_id)
+            subcat_options = ''
+            for subcategory in subcats:
+                subcat_options += f'<option value="{subcategory.id}">{subcategory.subcatcitymupname}</option>'
+
+            # Return the subcategory options as a JSON response
+            return JsonResponse({'subcat_options': subcat_options})
+        else:
+            # Return an empty options string if no province is selected
+            return JsonResponse({'subcat_options': ''})
+
+
 
 
 #ROC DIR REGISTRATION
 @login_required(login_url='/')
 def REGCOMPLAINT(request):
     category = Category.objects.all()
-    provinces = Province.objects.all()
-    cities = City.objects.all()
-    barangays = Barangay.objects.all()
+    # provinces = Province.objects.all()
+    # cities = City.objects.all()
+    # barangays = Barangay.objects.all()
     
     if request.method == "POST":
         try:
@@ -106,10 +127,10 @@ def REGCOMPLAINT(request):
             date_received = request.POST.get('date_received')
             time_received = request.POST.get('time_received')
 
-            # Fetching address-related fields
-            province_id = request.POST['province']
-            city_id = request.POST['city']
-            barangay_id = request.POST['barangay']
+            # # Fetching address-related fields
+            # province_id = request.POST['province']
+            # city_id = request.POST['city']
+            # barangay_id = request.POST['barangay']
 
             # Generating a random complaint number and getting other data
             complaint_number = random.randint(100000000, 999999999)
@@ -124,9 +145,9 @@ def REGCOMPLAINT(request):
             compfile = request.FILES.get('compfile')
 
             # Fetching the selected Province, City, and Barangay
-            province = Province.objects.get(id=province_id)
-            city = City.objects.get(id=city_id)
-            barangay = Barangay.objects.get(id=barangay_id)
+            # province = Province.objects.get(id=province_id)
+            # city = City.objects.get(id=city_id)
+            # barangay = Barangay.objects.get(id=barangay_id)
 
             # Fetching the selected Category and Subcategory
             cid = Category.objects.get(id=cat_id)
@@ -153,9 +174,9 @@ def REGCOMPLAINT(request):
                 complaindetails=complaindetails,
                 compfile=compfile,
                 userregid=userreg,
-                province=province,
-                city=city,
-                barangay=barangay,
+                # province=province,
+                # city=city,
+                # barangay=barangay,
             )
             complaint.save()
 
@@ -167,9 +188,9 @@ def REGCOMPLAINT(request):
     
     context = {
         'category': category,
-        'provinces': provinces,
-        'cities': cities,
-        'barangays': barangays,
+        # 'provinces': provinces,
+        # 'cities': cities,
+        # 'barangays': barangays,
     }
 
     return render(request, 'user/register-complaint.html', context)
@@ -179,9 +200,9 @@ def REGCOMPLAINT(request):
 @login_required(login_url='/')
 def PACDOCOMPLAINT(request):
     category = Category.objects.all()
-    provinces = Province.objects.all()
-    cities = City.objects.all()
-    barangays = Barangay.objects.all()
+    # provinces = Province.objects.all()
+    # cities = City.objects.all()
+    # barangays = Barangay.objects.all()
     
     if request.method == "POST":
         try:
@@ -196,9 +217,9 @@ def PACDOCOMPLAINT(request):
             time_received = request.POST.get('time_received')
 
             # Fetching address-related fields
-            province_id = request.POST['province']
-            city_id = request.POST['city']
-            barangay_id = request.POST['barangay']
+            # province_id = request.POST['province']
+            # city_id = request.POST['city']
+            # barangay_id = request.POST['barangay']
 
             # Generating a random complaint number and getting other data
             complaint_number = random.randint(100000000, 999999999)
@@ -213,9 +234,9 @@ def PACDOCOMPLAINT(request):
             compfile = request.FILES.get('compfile')
 
             # Fetching the selected Province, City, and Barangay
-            province = Province.objects.get(id=province_id)
-            city = City.objects.get(id=city_id)
-            barangay = Barangay.objects.get(id=barangay_id)
+            # province = Province.objects.get(id=province_id)
+            # city = City.objects.get(id=city_id)
+            # barangay = Barangay.objects.get(id=barangay_id)
 
             # Fetching the selected Category and Subcategory
             cid = Category.objects.get(id=cat_id)
@@ -242,9 +263,9 @@ def PACDOCOMPLAINT(request):
                 complaindetails=complaindetails,
                 compfile=compfile,
                 userregid=userreg,
-                province=province,
-                city=city,
-                barangay=barangay,
+                # province=province,
+                # city=city,
+                # barangay=barangay,
             )
             complaint.save()
 
@@ -256,27 +277,29 @@ def PACDOCOMPLAINT(request):
     
     context = {
         'category': category,
-        'provinces': provinces,
-        'cities': cities,
-        'barangays': barangays,
+        # 'provinces': provinces,
+        # 'cities': cities,
+        # 'barangays': barangays,
     }
 
     return render(request, 'user/register-complaint-pacd.html', context)
 
 
-#ROC-INQ REGISTRATION
 @login_required(login_url='/')
 def NON8888REGCOMPLAINT(request):
     category = Category.objects.all()
-    provinces = Province.objects.all()
-    cities = City.objects.all()
-    barangays = Barangay.objects.all()
-    
+    categorycitymups = Categorycitymup.objects.all()
+    subcategorycitymups = Subcategorycitymup.objects.all()
+
     if request.method == "POST":
         try:
             # Fetching the selected category and subcategory
             cat_id = request.POST.get('cat_id')
             subcategory_id_value = request.POST.get('subcategory_id')
+
+            # Citymupbarangays
+            categorycitymups_id = request.POST.get('catmupname_id')
+            subcategorycitymups_id = request.POST.get('subcategorycitymup_id')
 
             # Fetching time and date fields
             deadline = request.POST.get('deadline')
@@ -285,9 +308,9 @@ def NON8888REGCOMPLAINT(request):
             time_received = request.POST.get('time_received')
 
             # Fetching address-related fields
-            province_id = request.POST['province']
-            city_id = request.POST['city']
-            barangay_id = request.POST['barangay']
+            # province_id = request.POST['province']
+            # city_id = request.POST['city']
+            # barangay_id = request.POST['barangay']
 
             # Generating a random complaint number and getting other data
             complaint_number = random.randint(100000000, 999999999)
@@ -301,20 +324,39 @@ def NON8888REGCOMPLAINT(request):
             complaindetails = request.POST.get('complaindetails')
             compfile = request.FILES.get('compfile')
 
-            # Fetching the selected Province, City, and Barangay
-            province = Province.objects.get(id=province_id)
-            city = City.objects.get(id=city_id)
-            barangay = Barangay.objects.get(id=barangay_id)
+            # Fetching the selected Province and City
+            try:
+                categorycitymups_instance = Categorycitymup.objects.get(id=categorycitymups_id)
+            except Categorycitymup.DoesNotExist:
+                messages.error(request, "The selected Category City Municipality does not exist.")
+                return redirect('NON8888REGCOMPLAINT')
+
+            try:
+                subcategorycitymups_instance = Subcategorycitymup.objects.get(id=subcategorycitymups_id)
+            except Subcategorycitymup.DoesNotExist:
+                messages.error(request, "The selected Subcategory City Municipality does not exist.")
+                return redirect('NON8888REGCOMPLAINT')
 
             # Fetching the selected Category and Subcategory
-            cid = Category.objects.get(id=cat_id)
-            subcategory_id = Subcategory.objects.get(id=subcategory_id_value)
+            try:
+                cid = Category.objects.get(id=cat_id)
+            except Category.DoesNotExist:
+                messages.error(request, "The selected category does not exist.")
+                return redirect('NON8888REGCOMPLAINT')
+
+            try:
+                subcategory_id = Subcategory.objects.get(id=subcategory_id_value)
+            except Subcategory.DoesNotExist:
+                messages.error(request, "The selected subcategory does not exist.")
+                return redirect('NON8888REGCOMPLAINT')
 
             # Accessing the UserReg instance associated with the logged-in user
             userreg = request.user.userreg
 
             # Creating the complaint instance
             complaint = Complaints(
+                catmupname_id=categorycitymups_instance,  # Passing the instance, not the ID
+                subcategorycitymup_id=subcategorycitymups_instance,  # Same here
                 cat_id=cid,
                 subcategory_id=subcategory_id,
                 deadline=deadline,
@@ -331,9 +373,6 @@ def NON8888REGCOMPLAINT(request):
                 complaindetails=complaindetails,
                 compfile=compfile,
                 userregid=userreg,
-                province=province,
-                city=city,
-                barangay=barangay,
             )
             complaint.save()
 
@@ -341,13 +380,12 @@ def NON8888REGCOMPLAINT(request):
             return redirect("regcomplaint")
         
         except Exception as e:
-            messages.error(request, f"Error: {e}")
+            messages.error(request, f"An unexpected error occurred: {e}")
     
     context = {
         'category': category,
-        'provinces': provinces,
-        'cities': cities,
-        'barangays': barangays,
+        'categorycitymups': categorycitymups,
+        'subcategorycitymups': subcategorycitymups,
     }
 
     return render(request, 'user/register-complaint-non-8888.html', context)
@@ -356,9 +394,9 @@ def NON8888REGCOMPLAINT(request):
 @login_required(login_url='/')
 def PACEREGCOMPLAINT(request):
     category = Category.objects.all()
-    provinces = Province.objects.all()
-    cities = City.objects.all()
-    barangays = Barangay.objects.all()
+    # provinces = Province.objects.all()
+    # cities = City.objects.all()
+    # barangays = Barangay.objects.all()
     
     if request.method == "POST":
         try:
@@ -373,9 +411,9 @@ def PACEREGCOMPLAINT(request):
             time_received = request.POST.get('time_received')
 
             # Fetching address-related fields
-            province_id = request.POST['province']
-            city_id = request.POST['city']
-            barangay_id = request.POST['barangay']
+            # province_id = request.POST['province']
+            # city_id = request.POST['city']
+            # barangay_id = request.POST['barangay']
 
             # Generating a random complaint number and getting other data
             complaint_number = random.randint(100000000, 999999999)
@@ -390,9 +428,9 @@ def PACEREGCOMPLAINT(request):
             compfile = request.FILES.get('compfile')
 
             # Fetching the selected Province, City, and Barangay
-            province = Province.objects.get(id=province_id)
-            city = City.objects.get(id=city_id)
-            barangay = Barangay.objects.get(id=barangay_id)
+            # province = Province.objects.get(id=province_id)
+            # city = City.objects.get(id=city_id)
+            # barangay = Barangay.objects.get(id=barangay_id)
 
             # Fetching the selected Category and Subcategory
             cid = Category.objects.get(id=cat_id)
@@ -419,9 +457,9 @@ def PACEREGCOMPLAINT(request):
                 complaindetails=complaindetails,
                 compfile=compfile,
                 userregid=userreg,
-                province=province,
-                city=city,
-                barangay=barangay,
+                # province=province,
+                # city=city,
+                # barangay=barangay,
             )
             complaint.save()
 
@@ -433,9 +471,9 @@ def PACEREGCOMPLAINT(request):
     
     context = {
         'category': category,
-        'provinces': provinces,
-        'cities': cities,
-        'barangays': barangays,
+        # 'provinces': provinces,
+        # 'cities': cities,
+        # 'barangays': barangays,
     }
 
     return render(request, 'user/register-complaint-pace.html', context)

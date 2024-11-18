@@ -17,8 +17,8 @@ admin.site.register(Subcategorycitymup)
 
 
 
-#Address
-admin.site.register(Province)
-admin.site.register(City)
-admin.site.register(Barangay)
-admin.site.register(CompleteAddress)
+# #Address
+# admin.site.register(Province)
+# admin.site.register(City)
+# admin.site.register(Barangay)
+# admin.site.register(CompleteAddress)

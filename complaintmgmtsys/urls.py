@@ -15,7 +15,7 @@ urlpatterns = [
     # This is admin version two
     path('AdminversionTwo', adminviews.ADMINVERSIONTWO, name='adminversiontwo'),
 
-     # This is admin panel
+    # This is admin panel
     path('Admin/AdminHome', adminviews.ADMINHOME, name='admin_home'),
     path('Admin/AddCategory', adminviews.ADD_CATEGORY, name='add_category'),
     path('Admin/AddCategoryCityMun', adminviews.ADD_CATEGORY_CITYMUN, name='add_category_citymun'),
@@ -73,10 +73,11 @@ urlpatterns = [
     path('usersignup/', userviews.USERSIGNUP, name='usersignup'),
     path('RegisterComplaint', userviews.REGCOMPLAINT, name='regcomplaint'),
     path('PaceRegisterComplaint', userviews.PACEREGCOMPLAINT, name='paceregcomplaint'),
-    path('non8888regcomplaint', userviews.NON8888REGCOMPLAINT, name='non8888regcomplaint'),
+    path('Non8888RegComplaint', userviews.NON8888REGCOMPLAINT, name='non8888regcomplaint'),
 
     path('pacdcomplaint', userviews.PACDOCOMPLAINT, name='pacdcomplaint'),
     path('get_subcat/', userviews.get_subcat, name='get_subcat'),
+    path('get_subcats/', userviews.get_subcats, name='get_subcats'),
     path('ComplaintHistory', userviews.COMPLAINTHISTORY, name='complainthistory'),
     path('ComplaintHistoryDetails/<str:id>', userviews.COMPLAINTHISTORYDETAILS, name='complainthistorydetails'),
 

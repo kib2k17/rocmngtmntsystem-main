@@ -11,33 +11,33 @@ class CustomUser(AbstractUser):
 
     profile_pic = models.ImageField(upload_to='media/profile_pic')
 
-#BARANGAY
+# #BARANGAY
 
-class Province(models.Model):
-    name = models.CharField(max_length=100)
+# class Province(models.Model):
+#     name = models.CharField(max_length=100)
 
-    def __str__(self):
-        return self.name
+#     def __str__(self):
+#         return self.name
 
-class City(models.Model):
-    name = models.CharField(max_length=100)
-    province = models.ForeignKey(Province, on_delete=models.CASCADE, related_name='cities')
+# class City(models.Model):
+#     name = models.CharField(max_length=100)
+#     province = models.ForeignKey(Province, on_delete=models.CASCADE, related_name='cities')
 
-    def __str__(self):
-        return f'{self.name}, {self.province.name}'
+#     def __str__(self):
+#         return f'{self.name}, {self.province.name}'
 
-class Barangay(models.Model):
-    name = models.CharField(max_length=100)
-    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='barangays')
+# class Barangay(models.Model):
+#     name = models.CharField(max_length=100)
+#     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='barangays')
 
-    def __str__(self):
-        return f'{self.name}, {self.city.name}, {self.city.province.name}'
+#     def __str__(self):
+#         return f'{self.name}, {self.city.name}, {self.city.province.name}'
 
-class CompleteAddress(models.Model):
-    barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
+# class CompleteAddress(models.Model):
+#     barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
     
-    def __str__(self):
-        return f'{self.barangay.name}, {self.barangay.city.name}, {self.barangay.city.province.name}'
+#     def __str__(self):
+#         return f'{self.barangay.name}, {self.barangay.city.name}, {self.barangay.city.province.name}'
     
 
 
@@ -102,63 +102,58 @@ class UserReg(models.Model):
             return f"User not associated - {self.mobilenumber}"
 
 class Complaints(models.Model):
-    
     userregid = models.ForeignKey(UserReg, on_delete=models.CASCADE, null=True, blank=True)
+    
+    # Foreign keys for City and Municipality categories
+    catmupname_id = models.ForeignKey(Categorycitymup, on_delete=models.CASCADE, null=True, blank=True)
+    subcategorycitymup_id = models.ForeignKey(Subcategorycitymup, on_delete=models.CASCADE, null=True, blank=True)
 
-    # catmupname_id = models.ForeignKey(Categorycitymup, on_delete=models.CASCADE, null=True, blank=True)
-    # subcategorycitymup_id = models.ForeignKey(Subcategorycitymup, on_delete=models.CASCADE, null=True, blank=True)
-
-
+    # Other category-related fields
     cat_id = models.ForeignKey(Category, on_delete=models.CASCADE)
     subcategory_id = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
 
-
+    # Dates and times
     deadline = models.DateField(null=True, blank=True)
     passed_date = models.DateField(null=True, blank=True)
     date_received = models.DateField(null=True, blank=True)
     time_received = models.TimeField(null=True, blank=True)
 
-    province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True, blank=True, default=True)
-    city = models.ForeignKey(City, on_delete=models.CASCADE, null=True, blank=True, default=True)
-    barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE, null=True, blank=True, default=True)
+    # # Location details
+    # province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True, blank=True)
+    # city = models.ForeignKey(City, on_delete=models.CASCADE, null=True, blank=True)
+    # barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE, null=True, blank=True)
 
-
-    
+    # Complaint details
     complaint_number = models.IntegerField(default=0)
     selfcomplaint_number = models.CharField(max_length=50, blank=True, null=True)
     complainant_pace = models.CharField(max_length=250, default='No ticket number provided')
     complaint_email = models.EmailField(max_length=255, blank=True, null=True)
     complaint_text = models.CharField(max_length=255)
     complainttype = models.CharField(max_length=250)
-    # stateid = models.ForeignKey(State, on_delete=models.CASCADE)
     noc = models.CharField(max_length=250)
     complainant_fname = models.CharField(max_length=250, default='Anonymous')
     complaindetails = models.TextField(blank=True)
     compfile = models.ImageField(upload_to='media/doc_file')
     complaintdate_at = models.DateTimeField(auto_now_add=True)
     remark = models.TextField(blank=True)
-    status = models.CharField(max_length=250,default=0)
+    status = models.CharField(max_length=250, default='0')
     updated_at = models.DateTimeField(auto_now=True)
-
-    
 
     def __str__(self):
         return self.complaint_text
-    
+
     def save(self, *args, **kwargs):
         if not self.complainant_fname:
             self.complainant_fname = 'Anonymous'
-          
         if not self.complainant_pace:
             self.complainant_pace = 'No ticket number provided'
-           
         if not self.selfcomplaint_number:
             self.selfcomplaint_number = "No mobile number provided"
-            
         if not self.complaint_email:
             self.complaint_email = "No email provided"
 
         super().save(*args, **kwargs)
+
 
 class ComplaintRemark(models.Model):
     comp_id_id = models.ForeignKey(Complaints, on_delete=models.CASCADE)
