@@ -111,15 +111,18 @@ def get_subcats(request):
 @login_required(login_url='/')
 def REGCOMPLAINT(request):
     category = Category.objects.all()
-    # provinces = Province.objects.all()
-    # cities = City.objects.all()
-    # barangays = Barangay.objects.all()
-    
+    categorycitymups = Categorycitymup.objects.all()
+    subcategorycitymups = Subcategorycitymup.objects.all()
+
     if request.method == "POST":
         try:
             # Fetching the selected category and subcategory
             cat_id = request.POST.get('cat_id')
             subcategory_id_value = request.POST.get('subcategory_id')
+
+            # Citymupbarangays
+            categorycitymups_id = request.POST.get('catmupname_id')
+            subcategorycitymups_id = request.POST.get('subcategorycitymup_id')
 
             # Fetching time and date fields
             deadline = request.POST.get('deadline')
@@ -127,7 +130,7 @@ def REGCOMPLAINT(request):
             date_received = request.POST.get('date_received')
             time_received = request.POST.get('time_received')
 
-            # # Fetching address-related fields
+            # Fetching address-related fields
             # province_id = request.POST['province']
             # city_id = request.POST['city']
             # barangay_id = request.POST['barangay']
@@ -144,20 +147,39 @@ def REGCOMPLAINT(request):
             complaindetails = request.POST.get('complaindetails')
             compfile = request.FILES.get('compfile')
 
-            # Fetching the selected Province, City, and Barangay
-            # province = Province.objects.get(id=province_id)
-            # city = City.objects.get(id=city_id)
-            # barangay = Barangay.objects.get(id=barangay_id)
+            # Fetching the selected Province and City
+            try:
+                categorycitymups_instance = Categorycitymup.objects.get(id=categorycitymups_id)
+            except Categorycitymup.DoesNotExist:
+                messages.error(request, "The selected Category City Municipality does not exist.")
+                return redirect('NON8888REGCOMPLAINT')
+
+            try:
+                subcategorycitymups_instance = Subcategorycitymup.objects.get(id=subcategorycitymups_id)
+            except Subcategorycitymup.DoesNotExist:
+                messages.error(request, "The selected Subcategory City Municipality does not exist.")
+                return redirect('NON8888REGCOMPLAINT')
 
             # Fetching the selected Category and Subcategory
-            cid = Category.objects.get(id=cat_id)
-            subcategory_id = Subcategory.objects.get(id=subcategory_id_value)
+            try:
+                cid = Category.objects.get(id=cat_id)
+            except Category.DoesNotExist:
+                messages.error(request, "The selected category does not exist.")
+                return redirect('NON8888REGCOMPLAINT')
+
+            try:
+                subcategory_id = Subcategory.objects.get(id=subcategory_id_value)
+            except Subcategory.DoesNotExist:
+                messages.error(request, "The selected subcategory does not exist.")
+                return redirect('NON8888REGCOMPLAINT')
 
             # Accessing the UserReg instance associated with the logged-in user
             userreg = request.user.userreg
 
             # Creating the complaint instance
             complaint = Complaints(
+                catmupname_id=categorycitymups_instance,  # Passing the instance, not the ID
+                subcategorycitymup_id=subcategorycitymups_instance,  # Same here
                 cat_id=cid,
                 subcategory_id=subcategory_id,
                 deadline=deadline,
@@ -174,9 +196,6 @@ def REGCOMPLAINT(request):
                 complaindetails=complaindetails,
                 compfile=compfile,
                 userregid=userreg,
-                # province=province,
-                # city=city,
-                # barangay=barangay,
             )
             complaint.save()
 
@@ -184,14 +203,14 @@ def REGCOMPLAINT(request):
             return redirect("regcomplaint")
         
         except Exception as e:
-            messages.error(request, f"Error: {e}")
+            messages.error(request, f"An unexpected error occurred: {e}")
     
     context = {
         'category': category,
-        # 'provinces': provinces,
-        # 'cities': cities,
-        # 'barangays': barangays,
+        'categorycitymups': categorycitymups,
+        'subcategorycitymups': subcategorycitymups,
     }
+
 
     return render(request, 'user/register-complaint.html', context)
 
@@ -200,15 +219,18 @@ def REGCOMPLAINT(request):
 @login_required(login_url='/')
 def PACDOCOMPLAINT(request):
     category = Category.objects.all()
-    # provinces = Province.objects.all()
-    # cities = City.objects.all()
-    # barangays = Barangay.objects.all()
-    
+    categorycitymups = Categorycitymup.objects.all()
+    subcategorycitymups = Subcategorycitymup.objects.all()
+
     if request.method == "POST":
         try:
             # Fetching the selected category and subcategory
             cat_id = request.POST.get('cat_id')
             subcategory_id_value = request.POST.get('subcategory_id')
+
+            # Citymupbarangays
+            categorycitymups_id = request.POST.get('catmupname_id')
+            subcategorycitymups_id = request.POST.get('subcategorycitymup_id')
 
             # Fetching time and date fields
             deadline = request.POST.get('deadline')
@@ -233,20 +255,39 @@ def PACDOCOMPLAINT(request):
             complaindetails = request.POST.get('complaindetails')
             compfile = request.FILES.get('compfile')
 
-            # Fetching the selected Province, City, and Barangay
-            # province = Province.objects.get(id=province_id)
-            # city = City.objects.get(id=city_id)
-            # barangay = Barangay.objects.get(id=barangay_id)
+            # Fetching the selected Province and City
+            try:
+                categorycitymups_instance = Categorycitymup.objects.get(id=categorycitymups_id)
+            except Categorycitymup.DoesNotExist:
+                messages.error(request, "The selected Category City Municipality does not exist.")
+                return redirect('NON8888REGCOMPLAINT')
+
+            try:
+                subcategorycitymups_instance = Subcategorycitymup.objects.get(id=subcategorycitymups_id)
+            except Subcategorycitymup.DoesNotExist:
+                messages.error(request, "The selected Subcategory City Municipality does not exist.")
+                return redirect('NON8888REGCOMPLAINT')
 
             # Fetching the selected Category and Subcategory
-            cid = Category.objects.get(id=cat_id)
-            subcategory_id = Subcategory.objects.get(id=subcategory_id_value)
+            try:
+                cid = Category.objects.get(id=cat_id)
+            except Category.DoesNotExist:
+                messages.error(request, "The selected category does not exist.")
+                return redirect('NON8888REGCOMPLAINT')
+
+            try:
+                subcategory_id = Subcategory.objects.get(id=subcategory_id_value)
+            except Subcategory.DoesNotExist:
+                messages.error(request, "The selected subcategory does not exist.")
+                return redirect('NON8888REGCOMPLAINT')
 
             # Accessing the UserReg instance associated with the logged-in user
             userreg = request.user.userreg
 
             # Creating the complaint instance
             complaint = Complaints(
+                catmupname_id=categorycitymups_instance,  # Passing the instance, not the ID
+                subcategorycitymup_id=subcategorycitymups_instance,  # Same here
                 cat_id=cid,
                 subcategory_id=subcategory_id,
                 deadline=deadline,
@@ -263,9 +304,6 @@ def PACDOCOMPLAINT(request):
                 complaindetails=complaindetails,
                 compfile=compfile,
                 userregid=userreg,
-                # province=province,
-                # city=city,
-                # barangay=barangay,
             )
             complaint.save()
 
@@ -273,13 +311,12 @@ def PACDOCOMPLAINT(request):
             return redirect("regcomplaint")
         
         except Exception as e:
-            messages.error(request, f"Error: {e}")
+            messages.error(request, f"An unexpected error occurred: {e}")
     
     context = {
         'category': category,
-        # 'provinces': provinces,
-        # 'cities': cities,
-        # 'barangays': barangays,
+        'categorycitymups': categorycitymups,
+        'subcategorycitymups': subcategorycitymups,
     }
 
     return render(request, 'user/register-complaint-pacd.html', context)
@@ -394,15 +431,18 @@ def NON8888REGCOMPLAINT(request):
 @login_required(login_url='/')
 def PACEREGCOMPLAINT(request):
     category = Category.objects.all()
-    # provinces = Province.objects.all()
-    # cities = City.objects.all()
-    # barangays = Barangay.objects.all()
-    
+    categorycitymups = Categorycitymup.objects.all()
+    subcategorycitymups = Subcategorycitymup.objects.all()
+
     if request.method == "POST":
         try:
             # Fetching the selected category and subcategory
             cat_id = request.POST.get('cat_id')
             subcategory_id_value = request.POST.get('subcategory_id')
+
+            # Citymupbarangays
+            categorycitymups_id = request.POST.get('catmupname_id')
+            subcategorycitymups_id = request.POST.get('subcategorycitymup_id')
 
             # Fetching time and date fields
             deadline = request.POST.get('deadline')
@@ -427,20 +467,39 @@ def PACEREGCOMPLAINT(request):
             complaindetails = request.POST.get('complaindetails')
             compfile = request.FILES.get('compfile')
 
-            # Fetching the selected Province, City, and Barangay
-            # province = Province.objects.get(id=province_id)
-            # city = City.objects.get(id=city_id)
-            # barangay = Barangay.objects.get(id=barangay_id)
+            # Fetching the selected Province and City
+            try:
+                categorycitymups_instance = Categorycitymup.objects.get(id=categorycitymups_id)
+            except Categorycitymup.DoesNotExist:
+                messages.error(request, "The selected Category City Municipality does not exist.")
+                return redirect('NON8888REGCOMPLAINT')
+
+            try:
+                subcategorycitymups_instance = Subcategorycitymup.objects.get(id=subcategorycitymups_id)
+            except Subcategorycitymup.DoesNotExist:
+                messages.error(request, "The selected Subcategory City Municipality does not exist.")
+                return redirect('NON8888REGCOMPLAINT')
 
             # Fetching the selected Category and Subcategory
-            cid = Category.objects.get(id=cat_id)
-            subcategory_id = Subcategory.objects.get(id=subcategory_id_value)
+            try:
+                cid = Category.objects.get(id=cat_id)
+            except Category.DoesNotExist:
+                messages.error(request, "The selected category does not exist.")
+                return redirect('NON8888REGCOMPLAINT')
+
+            try:
+                subcategory_id = Subcategory.objects.get(id=subcategory_id_value)
+            except Subcategory.DoesNotExist:
+                messages.error(request, "The selected subcategory does not exist.")
+                return redirect('NON8888REGCOMPLAINT')
 
             # Accessing the UserReg instance associated with the logged-in user
             userreg = request.user.userreg
 
             # Creating the complaint instance
             complaint = Complaints(
+                catmupname_id=categorycitymups_instance,  # Passing the instance, not the ID
+                subcategorycitymup_id=subcategorycitymups_instance,  # Same here
                 cat_id=cid,
                 subcategory_id=subcategory_id,
                 deadline=deadline,
@@ -457,9 +516,6 @@ def PACEREGCOMPLAINT(request):
                 complaindetails=complaindetails,
                 compfile=compfile,
                 userregid=userreg,
-                # province=province,
-                # city=city,
-                # barangay=barangay,
             )
             complaint.save()
 
@@ -467,14 +523,14 @@ def PACEREGCOMPLAINT(request):
             return redirect("regcomplaint")
         
         except Exception as e:
-            messages.error(request, f"Error: {e}")
+            messages.error(request, f"An unexpected error occurred: {e}")
     
     context = {
         'category': category,
-        # 'provinces': provinces,
-        # 'cities': cities,
-        # 'barangays': barangays,
+        'categorycitymups': categorycitymups,
+        'subcategorycitymups': subcategorycitymups,
     }
+
 
     return render(request, 'user/register-complaint-pace.html', context)
  
