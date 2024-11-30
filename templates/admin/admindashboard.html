@@ -51,15 +51,17 @@
 
             <div class="col-md-6 col-xl report-inner-card">
               <div class="inner-card-text">
-                <span class="report-title">Total Register Places</span>
-                <h4>{{state_count}}</h4>
-                <a href="{% url 'manage_state' %}"><span class="report-count"> View Details</span></a>
+                  <span class="report-title">Total Register Places</span>
+                  <h4>{{ catcitymup_list }}</h4> <!-- Displays the total count -->
+                  <a href="{% url 'manage_state' %}">
+                      <span class="report-count">View Details</span>
+                  </a>
               </div>
               <div class="inner-card-icon bg-primary">
-                <i class="icon-doc"></i>
+                  <i class="icon-doc"></i>
               </div>
-            </div>
           </div>
+          
 
           <hr>
 

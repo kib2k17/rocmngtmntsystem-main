@@ -344,21 +344,26 @@ def ADD_STATE(request):
 
 @login_required(login_url='/')
 def MANAGE_STATE(request):
-    state_list = State.objects.all().order_by('statename')
-    paginator = Paginator(state_list, 4)  # Show 4 states per page
-
+    catcitymup_list = Categorycitymup.objects.all().order_by('catcitymupname')
+    total_places = catcitymup_list.count()  # Count the total places
+    
+    paginator = Paginator(catcitymup_list, 4)  # Show 4 states per page
     page_number = request.GET.get('page')
     try:
         states = paginator.page(page_number)
     except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
         states = paginator.page(1)
     except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
         states = paginator.page(paginator.num_pages)
-
-    context = {'states': states}
+    
+    print(f"Total places: {total_places}")  # Debugging
+    context = {
+        'states': states,
+        'catcitymup_list': total_places,  # Pass the total count
+    }
     return render(request, 'admin/manage_state.html', context)
+
+# ERROR NASAD DIRI
 
 @login_required(login_url='/')
 def MANAGEUSERS(request):
