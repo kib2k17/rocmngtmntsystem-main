@@ -6,11 +6,11 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <center><h4 class="section-title">PACD REGISTRATION</h4></center>
+                <center><h4 class="section-title">ROC CSC-CCB REGISTRATION</h4></center>
                 <hr>
 
                 <!-- Complaint Registration Form -->
-                <form class="forms-sample" method="POST" action="{% url 'pacdcomplaint' %}" enctype="multipart/form-data">
+                <form class="forms-sample" method="POST" action="{% url 'cscccbcomplaint' %}" enctype="multipart/form-data">
                     {% include 'includes/messages.html' %}
                     {% csrf_token %}
 
@@ -19,7 +19,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputUsername1">Tracking Number</label>
-                                <input type="text" name="complainant_pace" class="form-control" placeholder="Enter Nature of Complaint" disabled>
+                                <input type="text" name="complainant_pace" class="form-control" placeholder="Enter Nature of Complaint">
                             </div>
                         </div>
                         <div class="col-md-4">

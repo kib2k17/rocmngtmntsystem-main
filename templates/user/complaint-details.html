@@ -1,115 +1,100 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="row">
-
     <div class="col-lg-12 grid-margin stretch-card">
-      <div class="card">
-        <div class="card-body">
-          <h4 class="card-title">View Complaint Details</h4>
-          {% include 'includes/messages.html' %}
-          <table class="table table-bordered table-responsive">
-            <thead>
-                  
-            </thead>
-            <tbody>
-                                                
-                    <tr>
-                        <td><b>Complaint Number</b></td>
-                        <td style="color: red;">{{complaints.complaint_text}}</td>
-                        <td><b>Accountable Person Name</b></td>
-                        <td> {{complaints.userregid.admin.first_name}} {{complaints.userregid.admin.last_name}}</td>
-                        <td><b>Reg Date</b></td>
-                        <td>{{complaints.complaintdate_at}}
-                        </td>
-                    </tr>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title text-center">View Complaint Details</h4>
+                {% include 'includes/messages.html' %}
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <!-- Complaint Details -->
+                            <tr>
+                                <td><b>Tracking Number</b></td>
+                                <td style="color: red;">{{ complaints.complaint_text }}</td>
+                                <td><b>Accountable Person Name</b></td>
+                                <td>{{ complaints.userregid.admin.first_name }} {{ complaints.userregid.admin.last_name }}</td>
+                                <td><b>Registration Date</b></td>
+                                <td>{{ complaints.complaintdate_at }}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Name</b></td>
+                                <td>{{ complaints.complainant_fname }}</td>
+                                <td><b>Complete Address</b></td>
+                                <td>{{complaints.catmupname_id}}, {{complaints.subcategorycitymup_id}}</td>
+                                <td><b>Division</b></td>
+                                <td>{{ complaints.cat_id.catname }}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Complaint Type</b></td>
+                                <td>{{ complaints.complainttype }}</td>
+                                <td><b>Subject Concern</b></td>
+                                <td colspan="3">{{ complaints.noc }}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Section</b></td>
+                                <td>{{ complaints.subcategory_id.subcatname }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-                    <tr>
-                        <td><b>Complainant name</b></td>
-                        <td>{{complaints.complainant_fname}}</td>
-                        <td><b>Complainant address</b></td>
-                        <td>{{complaints.barangay}}</td>
-                        <td><b>Division </b></td>
-                        <td>{{complaints.cat_id.catname}}</td>
-                       
-                        <td><b>Complaint Type</b></td>
-                        <td>{{complaints.complainttype}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><b>State </b></td>
-                        <td>{{complaints.stateid.statename}}</td>
-                        <td ><b>Nature of Complaint</b></td>
-                        <td colspan="3"> {{complaints.noc}}</td>
-                        <td><b>Section</b></td>
-                        <td>{{complaints.subcategory_id.subcatname}}</td>
-                        
-                    </tr>
-                    <tr>
-                        <td><b>Complaint Details </b></td>
-                        
-                        <td colspan="5"> {{complaints.complaindetails}}</td>
-                        
-                    </tr>
+                <!-- Narrative Section -->
+                <div class="mt-4">
+                    <h5><b>Narrative</b></h5>
+                    <p>{{ complaints.complaindetails }}</p>
+                </div>
 
-                        </tr>
-<tr>
-    <td><b>File(if any) </b></td>
-    {% if i.compfile == '' %}
-        <td colspan="5">NA</td>
-    {% else %}
-        <td colspan="5"><a href="{{ i.compfile.url }}" target="_blank">View File</a></td>
-    {% endif %}
-</tr>
+                <!-- File Section -->
+                <div class="mt-4">
+                    <h5><b>File (if any)</b></h5>
+                    {% if i.compfile == '' %}
+                        <p>NA</p>
+                    {% else %}
+                        <p><a href="{{ i.compfile.url }}" target="_blank">View File</a></p>
+                    {% endif %}
+                </div>
 
-<tr>
-  <td><b>Final Status</b></td>
-                        
-  <td colspan="5">  
-    {% if complaints.status == '0' %}
-<span class="badge badge-danger">Not Processed Yet</span>
-{% elif complaints.status == 'Inprocess' %}
-<span class="badge badge-warning">In Process</span>
-{% elif complaints.status == 'Closed' %}
-<span class="badge badge-success">Closed</span>
-{% endif %}</td>
-                        
-                    </tr>
+                <!-- Status Section -->
+                <div class="mt-4">
+                    <h5><b>Status</b></h5>
+                    {% if complaints.status == '0' %}
+                        <span class="badge badge-danger">Not Processed Yet</span>
+                    {% elif complaints.status == 'Inprocess' %}
+                        <span class="badge badge-warning">In Process</span>
+                    {% elif complaints.status == 'Closed' %}
+                        <span class="badge badge-success">Closed</span>
+                    {% endif %}
+                </div>
 
-<hr>
-
-<!---- Complaint History--->
-
-
-
-
-<tr>
-  <th>S.No</th>
-  <th>Remark</th>
-  <th>Status</th>
-  <th>Updation Date</th>
-</tr>
-
-{% for remark in complaintsremarks %}
-<tr>
-    <td>{{ forloop.counter }}</td>
-    <td>{{ remark.remark }}</td>
-    <td>{{ remark.status }}</td>
-    <td>{{ remark.remarkdate }}</td>
-</tr>
-{% endfor %}
-
-
-
-
-                    
-               
-            </tbody>
-        </table>  
+                <!-- Complaint History -->
+                <hr>
+                <h4 class="card-title text-center">Complaint History</h4>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Remark</th>
+                                <th>Status</th>
+                                <th>Updation Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for remark in complaintsremarks %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ remark.remark }}</td>
+                                    <td>{{ remark.status }}</td>
+                                    <td>{{ remark.remarkdate }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        
-      </div>
     </div>
-    
-    
-  </div>
-  {% endblock %}
+</div>
+{% endblock %}

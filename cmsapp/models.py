@@ -116,7 +116,12 @@ class Complaints(models.Model):
     deadline = models.DateField(null=True, blank=True)
     passed_date = models.DateField(null=True, blank=True)
     date_received = models.DateField(null=True, blank=True)
+    date_endorse = models.DateField(null=True, blank=True)
+    remind_date = models.DateField(null=True, blank=True)
     time_received = models.TimeField(null=True, blank=True)
+    time_acknowledge = models.TimeField(null=True, blank=True)
+    time_endorse = models.TimeField(null=True, blank=True)
+    
 
     # # Location details
     # province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True, blank=True)

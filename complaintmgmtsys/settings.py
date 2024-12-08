@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-))x7_tavyx&&6n!$%mq%_fomfq0!)mc58x!wj7#ulgl5!e#+4h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#ngrok http --domain=engaging-elephant-curiously.ngrok-free.app 80
+#ngrok http --domain=engaging-elephant-curiously.ngrok-free.app 8000
 #ngrok http --domain=engaging-elephant-curiously.ngrok-free.app 8000 --oauth=google --oauth-allow-email=hotline.focrg@dswd.gov.ph
 
 ALLOWED_HOSTS = [
@@ -175,3 +175,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'cmsapp.CustomUser'
 KEEP_SIGNED_IN_EXPIRY = 30 * 24 * 60 * 60 
+
+GOOGLE_API_KEY = ""

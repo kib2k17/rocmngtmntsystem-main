@@ -132,6 +132,8 @@
   100% {
     opacity: 1; } }
 
+
+
 @-webkit-keyframes bounce {
   0% {
     -webkit-transform: translateY(0);
@@ -6151,6 +6153,8 @@ input[type="button"].btn-block {
 .pagination-sm .page-item:last-child .page-link {
   border-top-right-radius: 0.2rem;
   border-bottom-right-radius: 0.2rem; }
+
+
 
 .badge {
   display: inline-block;

@@ -73,12 +73,15 @@ urlpatterns = [
     path('usersignup/', userviews.USERSIGNUP, name='usersignup'),
     path('RegisterComplaint', userviews.REGCOMPLAINT, name='regcomplaint'),
     path('PaceRegisterComplaint', userviews.PACEREGCOMPLAINT, name='paceregcomplaint'),
+    path('CscCcbComplaint', userviews.CSCCCB, name='cscccbcomplaint'),
     path('Non8888RegComplaint', userviews.NON8888REGCOMPLAINT, name='non8888regcomplaint'),
 
     path('pacdcomplaint', userviews.PACDOCOMPLAINT, name='pacdcomplaint'),
     path('get_subcat/', userviews.get_subcat, name='get_subcat'),
     path('get_subcats/', userviews.get_subcats, name='get_subcats'),
     path('ComplaintHistory', userviews.COMPLAINTHISTORY, name='complainthistory'),
+    path('UserDashboardHistory', userviews.USERDASHBOARDHISTORY, name='userdashboardhistory'),
+    path('UserDashboardDetails/<str:id>', userviews.USERDASHBOARDHISTORYDETAILS, name='userdashboarddetails'),
     path('ComplaintHistoryDetails/<str:id>', userviews.COMPLAINTHISTORYDETAILS, name='complainthistorydetails'),
 
 
