@@ -104,9 +104,9 @@ class UserReg(models.Model):
 class Complaints(models.Model):
     userregid = models.ForeignKey(UserReg, on_delete=models.CASCADE, null=True, blank=True)
     
-    # Foreign keys for City and Municipality categories
-    catmupname_id = models.ForeignKey(Categorycitymup, on_delete=models.CASCADE, null=True, blank=True)
-    subcategorycitymup_id = models.ForeignKey(Subcategorycitymup, on_delete=models.CASCADE, null=True, blank=True)
+    # # Foreign keys for City and Municipality categories
+    # catmupname_id = models.ForeignKey(Categorycitymup, on_delete=models.CASCADE, null=True, blank=True)
+    # subcategorycitymup_id = models.ForeignKey(Subcategorycitymup, on_delete=models.CASCADE, null=True, blank=True)
 
     # Other category-related fields
     cat_id = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -121,12 +121,12 @@ class Complaints(models.Model):
     time_received = models.TimeField(null=True, blank=True)
     time_acknowledge = models.TimeField(null=True, blank=True)
     time_endorse = models.TimeField(null=True, blank=True)
-    
 
-    # # Location details
-    # province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True, blank=True)
-    # city = models.ForeignKey(City, on_delete=models.CASCADE, null=True, blank=True)
-    # barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE, null=True, blank=True)
+    #Complete Address Details
+    region_name = models.CharField(max_length=250, blank=True, null=True)
+    province_name = models.CharField(max_length=250, blank=True, null=True)
+    city_name = models.CharField(max_length=250, blank=True, null=True)
+    barangay_name = models.CharField(max_length=250, blank=True, null=True)
 
     # Complaint details
     complaint_number = models.IntegerField(default=0)
@@ -135,14 +135,19 @@ class Complaints(models.Model):
     complaint_email = models.EmailField(max_length=255, blank=True, null=True)
     complaint_text = models.CharField(max_length=255)
     complainttype = models.CharField(max_length=250)
+
+    
+
     noc = models.CharField(max_length=250)
     complainant_fname = models.CharField(max_length=250, default='Anonymous')
     complaindetails = models.TextField(blank=True)
-    compfile = models.ImageField(upload_to='media/doc_file')
+    compfile = models.ImageField(upload_to='media/doc_file', blank=True, null=True)
     complaintdate_at = models.DateTimeField(auto_now_add=True)
     remark = models.TextField(blank=True)
     status = models.CharField(max_length=250, default='0')
     updated_at = models.DateTimeField(auto_now=True)
+
+   
 
     def __str__(self):
         return self.complaint_text

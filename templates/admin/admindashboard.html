@@ -1,187 +1,276 @@
 {% extends 'base.html' %}
+
 {% block content %}
 
 
 
-<div class="row">
-    <div class="col-md-12 grid-margin">
-      <div class="card">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="d-sm-flex align-items-baseline report-summary-header">
-                <h5 class="font-weight-semibold">Admin Report Summary</h5> <span class="ml-auto">Updated Report</span> <button class="btn btn-icons border-0 p-2"><i class="icon-refresh"></i></button>
-              </div>
-            </div>
-          </div>
-
-          <div class="row report-inner-cards-wrapper">
-            <div class=" col-md -6 col-xl report-inner-card">
-              <div class="inner-card-text">
-                <span class="report-title">Total Register Users</span>
-                <h4>{{user_count}}</h4>
-                <a href="{% url 'manageusers' %}"><span class="report-count"> View Details</span></a>
-              </div>
-              <div class="inner-card-icon bg-success">
-                <i class="icon-user"></i>
-              </div>
-            </div>
-
-            <div class="col-md-6 col-xl report-inner-card">
-              <div class="inner-card-text">
-                <span class="report-title">Total Register Divisions</span>
-                <h4>{{category_count}}</h4>
-                <a href="{% url 'manage_category' %}"><span class="report-count"> View Details</span></a>
-              </div>
-              <div class="inner-card-icon bg-danger">
-                <i class="icon-doc"></i>
-              </div>
-            </div>
-
-            <div class="col-md-6 col-xl report-inner-card">
-              <div class="inner-card-text">
-                <span class="report-title">Total Register Sections</span>
-                <h4>{{subcategory_count}}</h4>
-                <a href="{% url 'manage_subcategory' %}"><span class="report-count"> View Details</span></a>
-              </div>
-              <div class="inner-card-icon bg-warning">
-                <i class="icon-doc"></i>
-              </div>
-            </div>
-
-            <div class="col-md-6 col-xl report-inner-card">
-              <div class="inner-card-text">
-                  <span class="report-title">Total Register Places</span>
-                  <h4>{{ catcitymup_list }}</h4> <!-- Displays the total count -->
-                  <a href="{% url 'manage_state' %}">
-                      <span class="report-count">View Details</span>
-                  </a>
-              </div>
-              <div class="inner-card-icon bg-primary">
-                  <i class="icon-doc"></i>
-              </div>
-          </div>
-          
-
-          <hr>
-
-          <div class="row report-inner-cards-wrapper">
-            <div class=" col-md -6 col-xl report-inner-card">
-              <div class="inner-card-text">
-                <span class="report-title">Total Complaints</span>
-                <h4>{{complaints_count}}</h4>
-                <a href="{% url 'lodgedcomplaint' %}"><span class="report-count"> View Details</span></a>
-              </div>
-              <div class="inner-card-icon bg-primary">
-                <i class="icon-doc"></i>
-              </div>
-            </div>
-
-            <div class="col-md-6 col-xl report-inner-card">
-              <div class="inner-card-text">
-                <span class="report-title">New Complaints</span>
-                <h4>{{newcom_count}}</h4>
-                <a href="{% url 'newcomplaints' %}"><span class="report-count"> View Details</span></a>
-              </div>
-              <div class="inner-card-icon bg-warning">
-                <i class="icon-doc"></i>
-              </div>
-            </div>
-
-            <div class="col-md-6 col-xl report-inner-card">
-              <div class="inner-card-text">
-                <span class="report-title">Inprocess Complaints</span>
-                <h4>{{ipcom_count}}</h4>
-                <a href="{% url 'inprocesscomplaints' %}"><span class="report-count"> View Details</span></a>
-              </div>
-              <div class="inner-card-icon bg-danger">
-                <i class="icon-doc"></i>
-              </div>
-            </div>
-
-            <div class="col-md-6 col-xl report-inner-card">
-              <div class="inner-card-text">
-                <span class="report-title">Resolve</span>
-                <h4>0</h4>
-                <a href=""><span class="report-count"> View Details</span></a>
-              </div>
-              <div class="inner-card-icon bg-success">
-                <i class="icon-doc"></i>
-              </div>
-            </div>
-
-            <div class="col-md-6 col-xl report-inner-card">
-              <div class="inner-card-text">
-                <span class="report-title">Closed Complaints</span>
-                <h4>{{closed_count}}</h4>
-                <a href="{% url 'closedcomplaints' %}"><span class="report-count"> View Details</span></a>
-              </div>
-              <div class="inner-card-icon bg-success">
-                <i class="icon-doc"></i>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Statistic Area -->
-<div class="row">
-  <div class="col-md-12 grid-margin">
-    <div class="card">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-12">
-            <h1>Statistic</h1>
-            <br>
-          </div>
-        </div>
+<div class="container-fluid">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h3 class="font-weight-bold text-primary">Dashboard Overview</h3>
         </div>
     </div>
-    </div>
-    </div>
 
-
-
-<!-- Map area -->
-  <div class="row">
-    <div class="col-md-12 grid-margin">
-      <div class="card">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-12">
-          
-              <h3>Map</h3>
-              <div class="ratio ratio-16x9">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2016555.52652149!2d124.51383849652163!3d9.191853568945382!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33019a34a07829a1%3A0x5b57e273cc22bdb8!2sCaraga!5e0!3m2!1sen!2sph!4v1723426309089!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-              </div>
-              </div>
-          </div>
-          </div>
-      </div>
-      </div>
-      </div>
-
-<!-- Calendar Area -->
-<div class="row">
-  <div class="col-md-12 grid-margin">
-    <div class="card">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-12">
-            <h1>Google Calendar</h1>
-            <br>
-            <iframe class="col-md-12" src="https://calendar.google.com/calendar/embed?src=c_f08b8305b60f98b9ec5c6dc4b02444cfbf5521466fb5a8cb2dc690115c9750a8%40group.calendar.google.com&ctz=Asia%2FManila" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>  
-          </div>
+    <!-- Summary Cards Section -->
+    <div class="row text-center">
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Total Registered Users</h6>
+                    <h4 class="text-primary">{{ user_count }}</h4>
+                    <a href="{% url 'manageusers' %}" class="btn btn-sm btn-outline-primary">View</a>
+                </div>
+            </div>
         </div>
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Total Divisions</h6>
+                    <h4 class="text-danger">{{ category_count }}</h4>
+                    <a href="{% url 'manage_category' %}" class="btn btn-sm btn-outline-danger">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Total Sections</h6>
+                    <h4 class="text-warning">{{ subcategory_count }}</h4>
+                    <a href="{% url 'manage_subcategory' %}" class="btn btn-sm btn-outline-warning">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Total Places</h6>
+                    <h4 class="text-success">{{ catcitymup_list }}</h4>
+                    <a href="{% url 'manage_state' %}" class="btn btn-sm btn-outline-success">View</a>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Complaints Section -->
+    <div class="row text-center">
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Total Complaints</h6>
+                    <h4 class="text-primary">{{ complaints_count }}</h4>
+                    <a href="{% url 'lodgedcomplaint' %}" class="btn btn-sm btn-outline-primary">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>New Complaints</h6>
+                    <h4 class="text-warning">{{ newcom_count }}</h4>
+                    <a href="{% url 'newcomplaints' %}" class="btn btn-sm btn-outline-warning">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>In-process Complaints</h6>
+                    <h4 class="text-danger">{{ ipcom_count }}</h4>
+                    <a href="{% url 'inprocesscomplaints' %}" class="btn btn-sm btn-outline-danger">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Closed Complaints</h6>
+                    <h4 class="text-success">{{ closed_count }}</h4>
+                    <a href="{% url 'closedcomplaints' %}" class="btn btn-sm btn-outline-success">View</a>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Statistics Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5>Statistics</h5>
+                    <p>Detailed statistics will be displayed here.</p>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <!-- Map Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5>Map Overview</h5>
+                    <iframe src="https://www.google.com/maps/embed?pb=..." width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calendar Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5>Google Calendar</h5>
+                    <iframe src="https://calendar.google.com/calendar/embed?src=..." width="100%" height="400" style="border:0;" frameborder="0" scrolling="no"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <!-- Privacy Advisory Modal -->
+ <div class="modal fade" id="privacyAdvisoryModal" tabindex="-1" role="dialog" aria-labelledby="privacyAdvisoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content border-0 rounded-lg shadow-lg">
+            <div class="modal-header">
+                <h5 class="modal-title" id="privacyAdvisoryModalLabel">Privacy Advisory</h5>
+            </div>
+            <div class="modal-body">
+                <h4 class="modal-title">Privacy and Data Protection Statement</h4>
+            
+                <p>We are committed to protecting the privacy and personal data of all users. We understand the importance of safeguarding personal information and strive to handle it with the utmost care and responsibility. This statement outlines how we collect, use, store, and protect your personal data.</p>
+            
+                <h5>1. Data Collection</h5>
+                <p>We collect personal data only when necessary for providing our services. This may include:</p>
+                <ul>
+                    <li><strong>Personal Information:</strong> Name, email address, phone number, and other identifiable details.</li>
+                    <li><strong>Usage Data:</strong> Information about how you interact with our website, including IP addresses, browser types, and pages visited.</li>
+                    <li><strong>Cookies and Tracking Technologies:</strong> We may use cookies or similar technologies to improve user experience and analyze website traffic.</li>
+                </ul>
+            
+                <h5>2. Data Usage</h5>
+                <p>The personal data we collect is used to:</p>
+                <ul>
+                    <li>Provide you with the services you request.</li>
+                    <li>Improve the functionality and user experience of our website.</li>
+                    <li>Communicate important updates, notifications, and offers.</li>
+                    <li>Fulfill legal and regulatory obligations.</li>
+                </ul>
+            
+                <h5>3. Data Security</h5>
+                <p>We implement robust security measures to protect your personal data from unauthorized access, alteration, or disclosure. These measures include encryption, firewalls, and regular security audits. While we take all reasonable precautions, no method of transmission over the internet is 100% secure.</p>
+            
+                <h5>4. Data Sharing</h5>
+                <p>We do not share your personal data with third parties unless:</p>
+                <ul>
+                    <li>It is necessary to provide services that you have requested (e.g., with service providers and partners).</li>
+                    <li>We are required to do so by law or in response to a valid legal request.</li>
+                    <li>You have given explicit consent for sharing your information.</li>
+                </ul>
+            
+                <h5>5. Data Retention</h5>
+                <p>We will retain your personal data for as long as necessary to fulfill the purposes outlined in this statement or as required by law. Once data is no longer needed, we will securely delete or anonymize it.</p>
+            
+                <h5>6. User Rights</h5>
+                <p>You have the right to:</p>
+                <ul>
+                    <li>Access, update, or correct your personal data.</li>
+                    <li>Request the deletion of your personal data, subject to any legal obligations.</li>
+                    <li>Withdraw consent for data processing, where applicable.</li>
+                    <li>Opt-out of marketing communications at any time.</li>
+                </ul>
+            
+                <h5>7. Third-Party Links</h5>
+                <p>Our website may contain links to third-party sites. We are not responsible for the privacy practices or content of these external sites. We recommend reviewing the privacy policies of any third-party websites you visit.</p>
+            
+                <h5>8. Changes to the Privacy Policy</h5>
+                <p>We reserve the right to update or modify this Privacy and Data Protection Statement at any time. Any changes will be communicated through appropriate means, such as a notice on our website or direct communication.</p>
+            
+                <h5>9. Contact Us</h5>
+                <p>If you have any questions or concerns about how we handle your personal data, or if you wish to exercise your rights, please contact us at [Your Contact Information].</p>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="privacyUnderstandBtn" data-dismiss="modal">I Understand</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reminder Date Modal -->
+<!-- Reminder Date Modal -->
+<div class="modal fade" id="reminderDateModal" tabindex="-1" role="dialog" aria-labelledby="reminderDateModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="reminderDateModalLabel">Reminder - Nearing Deadline Tickets</h5>
+        </div>
+        <div class="modal-body">
+            <!-- Table for Tracking Number and Reminder Date -->
+            {% include 'includes/messages.html' %}
+            
+            <!-- Scrollable Table Wrapper -->
+            <div style="max-height: 400px; overflow-y: auto;">
+                <!-- Table with reminder date -->
+                <table class="table table-striped table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Tracking Number</th>
+                            <th>Reminder Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in complaints %}
+                            {% if i.remind_date %}
+                                <tr data-remind-date="{{ i.remind_date|date:'Y-m-d' }}">
+                                    <td>{{ i.complaint_text }}</td>
+                                    <td class="text-center text-bold" style="color: #FF5722;">
+                                        {{ i.remind_date|date:'l, F j, Y' }} <!-- Clean, bold date format -->
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% empty %}
+                            <tr>
+                                <td colspan="2" class="text-center text-muted">No complaints near deadline.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeReminderModalBtn">Close</button>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include Bootstrap JS (ensure this is placed after jQuery) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Trigger the Privacy Advisory Modal on page load
+    $('#privacyAdvisoryModal').modal('show');
+    
+    // When the "I Understand" button is clicked, close the Privacy Advisory Modal and open the Reminder Date Modal
+    $('#privacyUnderstandBtn').on('click', function () {
+        $('#privacyAdvisoryModal').modal('hide'); // Hide the Privacy Advisory Modal
+        $('#reminderDateModal').modal('show'); // Show the Reminder Date Modal
+    });
+
+    // Add manual close functionality for the "Close" button of the Reminder Date Modal
+    $('#closeReminderModalBtn').on('click', function() {
+        $('#reminderDateModal').modal('hide'); // Programmatically hide the Reminder Date Modal
+    });
+  });
+</script>
 
 
-      
+
 {% endblock %}

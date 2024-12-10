@@ -369,7 +369,7 @@ def MANAGE_STATE(request):
 def MANAGEUSERS(request):
     user_list = UserReg.objects.all().order_by('-regdate_at')
 
-    paginator = Paginator(user_list, 4)  # Show 4 states per page
+    paginator = Paginator(user_list, 10)  # Show 4 states per page
 
     page_number = request.GET.get('page')
     try:

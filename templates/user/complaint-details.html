@@ -22,15 +22,16 @@
                                 <td><b>Name</b></td>
                                 <td>{{ complaints.complainant_fname }}</td>
                                 <td><b>Complete Address</b></td>
-                                <td>{{complaints.catmupname_id}}, {{complaints.subcategorycitymup_id}}</td>
-                                <td><b>Division</b></td>
-                                <td>{{ complaints.cat_id.catname }}</td>
+                                <td>{{complaints.region_name}}, {{complaints.province_name}}, <br> {{complaints.city_name}}, {{complaints.barangay_name}} </td>
+                                
                             </tr>
                             <tr>
+                                <td><b>Division</b></td>
+                                <td>{{ complaints.cat_id.catname }}</td>
                                 <td><b>Complaint Type</b></td>
                                 <td>{{ complaints.complainttype }}</td>
-                                <td><b>Subject Concern</b></td>
-                                <td colspan="3">{{ complaints.noc }}</td>
+                                <td></td>
+                                <td colspan="3"></td>
                             </tr>
                             <tr>
                                 <td><b>Section</b></td>
@@ -38,6 +39,12 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+
+                <div class="mt-4">
+                    <h5><b>Subject of concern</b></h5>
+                    <p>{{ complaints.noc }}</p>
                 </div>
 
                 <!-- Narrative Section -->

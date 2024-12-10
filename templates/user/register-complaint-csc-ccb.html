@@ -6,11 +6,11 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <center><h4 class="section-title">ROC CSC-CCB REGISTRATION</h4></center>
+                <center><h4 class="section-title">CSC-CCB REGISTRATION</h4></center>
                 <hr>
 
                 <!-- Complaint Registration Form -->
-                <form class="forms-sample" method="POST" action="{% url 'cscccbcomplaint' %}" enctype="multipart/form-data">
+                <form id="submitForm"  class="forms-sample" method="POST" action="{% url 'cscccbcomplaint' %}" enctype="multipart/form-data">
                     {% include 'includes/messages.html' %}
                     {% csrf_token %}
 
@@ -87,32 +87,49 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="provincescitymup" class="form-label">
-                                    <i class="fas fa-map-marker-alt"></i> Province
+                                <label for="region" class="form-label">
+                                    <i class="fas fa-map-marker-alt"></i> Region
                                     <span class="required">*</span>
                                 </label>
-                                <select name="catmupname_id" id="provincescitymup" class="form-control" required>
-                                    <option value="">-- Select Province --</option>
-                                    {% for provincescitymup in categorycitymups %}
-                                        <option value="{{ provincescitymup.id }}">{{ provincescitymup.catcitymupname }}</option>
-                                    {% endfor %}
-                                </select>
+                                <select class="form-select form-control" id="region" name="region_code"></select>
+                                <input type="hidden" id="region_name" name="region_name">
                             </div>
                         </div>
+                        
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="citymup" class="form-label">
+                                <label for="province" class="form-label">
+                                    <i class="fas fa-city"></i> Province
+                                    <span class="required">*</span>
+                                </label>
+                                <select class="form-select form-control" id="province" name="province_code"></select>
+                                <input type="hidden" id="province_name" name="province_name">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="city" class="form-label">
                                     <i class="fas fa-city"></i> City
                                     <span class="required">*</span>
                                 </label>
-                                <select name="subcategorycitymup_id" id="citymup" class="form-control" required>
-                                    <option value="">-- Select City --</option>
-                                    {% for citymup in subcategorycitymups %}
-                                        <option value="{{ citymup.id }}">{{ citymup.subcatcitymupname }}</option>
-                                    {% endfor %}
-                                </select>
+                                <select class="form-select form-control" id="city" name="city_code"></select>
+                                <input type="hidden" id="city_name" name="city_name">
                             </div>
                         </div>
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="brgy" class="form-label">
+                                    <i class="fas fa-city"></i> Barangay
+                                    <span class="required">*</span>
+                                </label>
+                                <select class="form-select form-control" id="brgy" name="barangay_code"></select>
+                                <input type="hidden" id="barangay_name" name="barangay_name">
+                            </div>
+                        </div>
+                        
+
                         
                     </div>
 
@@ -221,8 +238,29 @@
                     </div>
 
                     
+                <!-- Submit Button -->
+                <button type="button" class="btn btn-primary mr-2" id="submitbutton1x1" data-toggle="modal" data-target="#confirmationModal">Submit</button>
 
-                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                <!-- Modal -->
+                <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmationModalLabel">Confirm Submission</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to submit this form?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary" id="confirmSubmit">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 </form>
             </div>
         </div>
@@ -232,6 +270,258 @@
 
 <!-- Include JavaScript for dynamic dropdowns -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- JavaScript for Modal -->
+<script>
+    // Handle the submit confirmation in the modal
+    document.getElementById('confirmSubmit').addEventListener('click', function() {
+        // Submit the form once confirmed
+        document.getElementById('submitForm').submit(); // Make sure the form has the id 'submitForm'
+    });
+</script>
+
+<script>
+    document.getElementById("region").addEventListener("change", function () {
+    const selectedRegion = this.options[this.selectedIndex];
+    document.getElementById("region_name").value = selectedRegion.textContent;
+
+    // Clear dependent fields and update provinces
+    fetchProvinces(selectedRegion.value);
+});
+
+document.getElementById("province").addEventListener("change", function () {
+    const selectedProvince = this.options[this.selectedIndex];
+    document.getElementById("province_name").value = selectedProvince.textContent;
+
+    // Clear dependent fields and update cities
+    fetchCities(selectedProvince.value);
+});
+
+document.getElementById("city").addEventListener("change", function () {
+    const selectedCity = this.options[this.selectedIndex];
+    document.getElementById("city_name").value = selectedCity.textContent;
+
+    // Clear dependent fields and update barangays
+    fetchBarangays(selectedCity.value);
+});
+
+document.getElementById("brgy").addEventListener("change", function () {
+    const selectedBarangay = this.options[this.selectedIndex];
+    document.getElementById("barangay_name").value = selectedBarangay.textContent;
+});
+</script>
+
+<script>
+
+    async function populateRegionDropdown() {
+        const apiUrl = "https://psgc.gitlab.io/api/regions/";
+        const selectElement = document.getElementById("region");
+        const defaultValue = "160000000";
+
+        try {
+            // Fetch data from the API
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const regions = await response.json();
+
+            // Clear existing options (if any)
+            selectElement.innerHTML = "";
+
+            // Populate the dropdown
+            regions.forEach(region => {
+                const option = document.createElement("option");
+                option.value = region.code;
+                option.textContent = region.regionName;
+                selectElement.appendChild(option);
+            });
+
+            // Set default selected value
+            selectElement.value = defaultValue;
+
+            fetchProvinces(160000000)
+        } catch (error) {
+            console.error("Error fetching or populating regions:", error);
+        }
+    }
+
+    // Call the function to populate the dropdown
+    populateRegionDropdown();
+
+    async function fetchProvinces(regionCode) {
+        const apiUrl = `https://psgc.gitlab.io/api/regions/${regionCode}/provinces/`;
+        const provinceSelect = document.getElementById("province");
+        const defaultValue = "160200000";
+
+        try {
+            // Fetch data using POST method
+            const response = await fetch(apiUrl, {
+                method: "GET",
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const provinces = await response.json();
+
+            // Clear existing options in the province dropdown
+            provinceSelect.innerHTML = "";
+
+            const option = document.createElement("option");
+            option.value = "";
+            option.textContent = "";
+            provinceSelect.appendChild(option);
+
+            // Populate the province dropdown
+            provinces.forEach(province => {
+                const option = document.createElement("option");
+                option.value = province.code;
+                option.textContent = province.name;
+                provinceSelect.appendChild(option);
+            });
+
+            fetchCities(160200000);
+        } catch (error) {
+            console.error("Error fetching or populating provinces:", error);
+        }
+    }
+
+    async function fetchCities(provinceCode) {
+        
+        const apiUrl = `https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`;
+        const citySelect = document.getElementById("city");
+        const defaultValue = "160202000";
+
+        try {
+            // Fetch data using POST method
+            const response = await fetch(apiUrl, {
+                method: "GET",
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const cities = await response.json();
+
+            // Clear existing options in the province dropdown
+            citySelect.innerHTML = "";
+
+            const option = document.createElement("option");
+            option.value = "";
+            option.textContent = "";
+            citySelect.appendChild(option);
+
+            // Populate the province dropdown
+            cities.forEach(city => {
+                const option = document.createElement("option");
+                option.value = city.code;
+                option.textContent = city.name;
+                citySelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error("Error fetching or populating provinces:", error);
+        }
+
+        fetchBarangays(160202000)
+    }
+
+    async function fetchBarangays(cityCode) {
+        
+        const apiUrl = `https://psgc.gitlab.io/api/cities-municipalities/${cityCode}/barangays/`;
+        const barangaySelect = document.getElementById("brgy");
+
+        try {
+            // Fetch data using POST method
+            const response = await fetch(apiUrl, {
+                method: "GET",
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const barangays = await response.json();
+
+            // Clear existing options in the province dropdown
+            barangaySelect.innerHTML = "";
+
+            const option = document.createElement("option");
+            option.value = "";
+            option.textContent = "";
+            barangaySelect.appendChild(option);
+
+            // Populate the province dropdown
+            barangays.forEach(brgy => {
+                const option = document.createElement("option");
+                option.value = brgy.code;
+                option.textContent = brgy.name;
+                barangaySelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error("Error fetching or populating provinces:", error);
+        }
+    }
+    
+    // Add event listener for the region dropdown
+    document.getElementById("region").addEventListener("change", function () {
+
+        const provinceSelect = document.getElementById("province");
+        provinceSelect.innerHTML = '';
+
+        const citySelect = document.getElementById("city");
+        citySelect.innerHTML = '';
+
+        const barangaySelect = document.getElementById("brgy");
+        barangaySelect.innerHTML = '';
+        
+        const selectedRegionCode = this.value;
+
+        if (selectedRegionCode) {
+            fetchProvinces(selectedRegionCode);
+        }
+        
+    });
+
+    // Add event listener for the province dropdown
+    document.getElementById("province").addEventListener("change", function () {
+
+        const citySelect = document.getElementById("city");
+        citySelect.innerHTML = '';
+
+        const barangaySelect = document.getElementById("brgy");
+        barangaySelect.innerHTML = '';
+
+        const selectedProvinceCode = this.value;
+
+        if (selectedProvinceCode) {
+            fetchCities(selectedProvinceCode);
+        }
+
+    });
+
+    // Add event listener for the cities dropdown
+    document.getElementById("city").addEventListener("change", function () {
+        
+        const barangaySelect = document.getElementById("brgy");
+        barangaySelect.innerHTML = '';
+
+        const selectedCityCode = this.value;
+
+        if (selectedCityCode) {
+            fetchBarangays(selectedCityCode);
+        }
+    });
+
+
+</script>
+
+
+
+
+
 <script>
     $(document).ready(function() {
         $('#category').change(function() {
