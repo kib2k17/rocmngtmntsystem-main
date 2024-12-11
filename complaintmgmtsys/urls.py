@@ -75,6 +75,7 @@ urlpatterns = [
     path('PaceRegisterComplaint', userviews.PACEREGCOMPLAINT, name='paceregcomplaint'),
     path('CscCcbComplaint', userviews.CSCCCB, name='cscccbcomplaint'),
     path('Non8888RegComplaint', userviews.NON8888REGCOMPLAINT, name='non8888regcomplaint'),
+    path('PacDeveReg', userviews.PACDEVEREG, name='pacdevereg'),
 
     path('pacdcomplaint', userviews.PACDOCOMPLAINT, name='pacdcomplaint'),
     path('get_subcat/', userviews.get_subcat, name='get_subcat'),

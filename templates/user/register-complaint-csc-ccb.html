@@ -16,12 +16,15 @@
 
                     <!-- Complaint Tracking Details -->
                     <div class="row">
+
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputUsername1">Tracking Number</label>
                                 <input type="text" name="complainant_pace" class="form-control" placeholder="Enter Nature of Complaint">
                             </div>
                         </div>
+                     
+                        
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="date_received">Date Received</label>
@@ -40,7 +43,8 @@
                                 <input type="time" name="time_acknowledge" class="form-control" required>
                             </div>
                         </div>
-                     
+
+                       
                        
                     </div>
 
@@ -155,6 +159,45 @@
                             </div>
                         </div>
 
+
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="noc">Subject of Concern</label>
+                                <input type="text" name="noc" class="form-control" placeholder="Enter Nature of Complaint" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="compfile">Attached Documents</label>
+                                <input type="file" name="compfile" class="form-control">
+                            </div>
+                        </div>
+
+
+                    
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="complaindetails">Narrative (max 2000 words)</label>
+                                    <textarea name="complaindetails" rows="10" class="form-control" maxlength="2000" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <br>
+                    <center><h4 class="section-title">Actions Taken</h4></center>
+                    <hr>
+
+                    <!-- Concern Details -->
+                    <div class="row">
+
+
+
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="date_endorse">Date Endorsed</label>
@@ -195,23 +238,8 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="noc">Subject of Concern</label>
-                                <input type="text" name="noc" class="form-control" placeholder="Enter Nature of Complaint" required>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
                                 <label for="deadline">Deadline</label>
                                 <input type="date" name="deadline" class="form-control" required>
-                            </div>
-                        </div>
-
-                        
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="compfile">Attached Documents</label>
-                                <input type="file" name="compfile" class="form-control">
                             </div>
                         </div>
 
@@ -226,17 +254,7 @@
 
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="complaindetails">Narrative (max 2000 words)</label>
-                                <textarea name="complaindetails" rows="10" class="form-control" maxlength="2000" required></textarea>
-                            </div>
-                        </div>
-
-
-                    </div>
-
+                 
                     
                 <!-- Submit Button -->
                 <button type="button" class="btn btn-primary mr-2" id="submitbutton1x1" data-toggle="modal" data-target="#confirmationModal">Submit</button>

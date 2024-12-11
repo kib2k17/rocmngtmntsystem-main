@@ -135,10 +135,12 @@ class Complaints(models.Model):
     complaint_email = models.EmailField(max_length=255, blank=True, null=True)
     complaint_text = models.CharField(max_length=255)
     complainttype = models.CharField(max_length=250)
+    clientdetails = models.CharField(max_length=250, blank=True, null=True)
 
     
 
     noc = models.CharField(max_length=250)
+    endorseemp = models.CharField(max_length=250, blank=True, null=True)
     complainant_fname = models.CharField(max_length=250, default='Anonymous')
     complaindetails = models.TextField(blank=True)
     compfile = models.ImageField(upload_to='media/doc_file', blank=True, null=True)

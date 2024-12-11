@@ -22,6 +22,8 @@
                             <tr>
                                 <td><b>Name</b></td>
                                 <td>{{i.complainant_fname}}</td>
+                                <td><b>Name of the DSWD <br>Endorsed to</b></td>
+                                <td>{{i.endorseemp}}</td>
                                 <td><b>Complete Address</b></td>
                                 <td>{{ i.region_name }}, {{ i.province_name }}, <br> {{ i.city_name }}, {{ i.barangay_name }}</td>
                             </tr>
@@ -60,7 +62,7 @@
                     <h5><b>Status</b></h5>
                     {% if i.status == '0' %}
                         <span class="badge badge-danger">Not Processed Yet</span>
-                    {% elif i.status == 'Inprocess' %}
+                    {% elif i.status == 'In process' %}
                         <span class="badge badge-warning">In Process</span>
                     {% elif i.status == 'Closed' %}
                         <span class="badge badge-success">Closed</span>
@@ -122,7 +124,7 @@
                                 <tr>
                                 <th>Link for <br> uploading <br>feedback report :</th>
                                 <td>
-                                    <a href="https://drive.google.com/drive/folders/14eTrS9hUU5456dgXklTMkBoCIV6iY_c7?usp=sharing">Please click to this link <br>to upload the feedback report.<br> <hr> <i>Take note, to open <br>the link kindly right click then <br>"Open link in new tab"</i></a>
+                                    <a href="https://drive.google.com/drive/folders/14eTrS9hUU5456dgXklTMkBoCIV6iY_c7?usp=sharing">Please click this link <br>to upload the feedback report.<br> <hr> <i>Note: To open <br>the link, kindly right-click and select <br>"Open link in new tab."</i>
                                 </td>
                             </tr>
                     
@@ -157,7 +159,7 @@
                                         Are you sure you want to proceed with the update?
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="redirectToDashboard()">Cancel</button>
                                         <button type="button" class="btn btn-primary" onclick="submitForm()">Confirm</button>
                                     </div>
                                 </div>
@@ -182,20 +184,40 @@
 </div>
 
 <script>
+    function redirectToDashboard() {
+        // Use a Django template tag to inject the URL into JavaScript
+        const dashboardUrl = "{% url 'admin_home' %}";
+        window.location.href = dashboardUrl;
+    }
+</script>
+
+
+
+<script>
     function showConfirmationModal() {
-        // Ensure the confirmation modal is shown
+        // Show the confirmation modal and ensure it's on top
         $('#confirmationModal').modal('show');
     }
 
     function submitForm() {
-        // Submit the form and close the confirmation modal
+        // Submit the form and hide the confirmation modal
         document.querySelector('#myModal form').submit();
+        $('#confirmationModal').modal('hide');
     }
 
-    // Cleanup: Reset modals properly if the user cancels
+    // Ensure modals don't conflict when canceling
     $('#confirmationModal').on('hidden.bs.modal', function () {
-        $('#myModal').modal('show');
+        // Reset the confirmation modal and ensure the parent modal stays active
+        if ($('#myModal').hasClass('show')) {
+            $('#myModal').modal('show');
+        }
+    });
+
+    // Ensure proper cleanup for the Cancel button
+    document.querySelector('#confirmationModal .btn-secondary').addEventListener('click', function () {
+        $('#confirmationModal').modal('hide');
     });
 </script>
+
 
 {% endblock %}

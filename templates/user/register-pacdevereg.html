@@ -6,16 +6,16 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <center><h4 class="section-title">DSWD EMAIL DIRECT REGISTRATION</h4></center>
+                <center><h4 class="section-title">PACD EVERY DAY REGISTRATION</h4></center>
                 <hr>
 
                 <!-- Complaint Registration Form -->
-                <form id="submitForm"  class="forms-sample" method="POST" action="{% url 'regcomplaint' %}" enctype="multipart/form-data">
+                <form id="submitForm"  class="forms-sample" method="POST" action="{% url 'pacdevereg' %}" enctype="multipart/form-data">
                     {% include 'includes/messages.html' %}
                     {% csrf_token %}
 
                     <!-- Complaint Tracking Details -->
-                    <div class="row">
+                    <!-- <div class="row">
                         
                         <div class="col-md-4">
                             <div class="form-group">
@@ -43,10 +43,10 @@
                         </div>
                      
                        
-                    </div>
+                    </div> -->
 
                     <br>
-                    <center><h4 class="section-title">Sender Details</h4></center>
+                    <center><h4 class="section-title">Client Details</h4></center>
                     <hr>
                     
                     <!-- Complainant Information -->
@@ -61,6 +61,9 @@
                                 <small class="text-muted d-block"><i>Leave blank if the client is anonymous.</i></small>
                             </div>
                         </div>
+
+                        
+
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="complainant_mobile" class="form-label">
@@ -129,6 +132,24 @@
                                 <input type="hidden" id="barangay_name" name="barangay_name">
                             </div>
                         </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="clientdetails" class="form-label">
+                                    <i class="fas fa-list-alt"></i> Client Sector
+                                    <span class="required">*</span>
+                                </label>
+                                <select name="clientdetails" id="clientdetails" class="form-control" required>
+                                    <option value="">-- Choose your option --</option>
+                                    <option value="Children (Nga Bata)">Children (Mga Bata)</option>
+                                    <option value="Iba pa">Iba pa</option>
+                                    <option value="Indigenous People">Indigenous People</option>
+                                    <option value="Person with disability (Taong may Kapansanan)">Person with disability (Taong may Kapansanan)</option>
+                                    <option value="Senior Citizen (Nakakatandang Mamamayan)">Senior Citizen (Nakakatandang Mamamayan)</option>
+                                    <option value="Women (Kababaihan)(Pregnant/Buntis)Women in Difficult Circumstances(Kababaihang nasa mahirap na kalagayan)">Women (Kababaihan)(Pregnant/Buntis)Women in Difficult Circumstances(Kababaihang nasa mahirap na kalagayan)</option>
+                                </select>
+                            </div>
+                        </div>
                         
 
                         
@@ -151,7 +172,8 @@
                                     <option value="">-- Select Complaint Type --</option>
                                     <option value="General Inquiries">General Inquiries</option>
                                     <option value="Request for Assistance">Request for Assistance</option>
-                                    <option value="Complaint/Grievance">Complaint/Grievance</option>
+                                    <option value="Commendation">Commendation</option>
+                                    <option value="Feedback">Feedback</option>
                                 </select>
                             </div>
                         </div>
@@ -195,7 +217,7 @@
 
 
 
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                             <div class="form-group">
                                 <label for="date_endorse">Date Endorsed</label>
                                 <input type="date" name="date_endorse" class="form-control" required>
@@ -207,7 +229,7 @@
                                 <label for="time_endorse">Time Endorsed</label>
                                 <input type="time" name="time_endorse" class="form-control" required>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="col-md-4">
                             <div class="form-group">
@@ -231,9 +253,17 @@
                             </div>
                         </div>
 
-                        
 
                         <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="endorseemp">Endorsed to? (Name of DSWD Employee)</label>
+                                <input type="text" name="endorseemp" class="form-control" placeholder="Enter the name of employee" required>
+                            </div>
+                        </div>
+
+                        
+
+                        <!-- <div class="col-md-4">
                             <div class="form-group">
                                 <label for="deadline">Deadline</label>
                                 <input type="date" name="deadline" class="form-control" required>
@@ -246,7 +276,7 @@
                                 <span class="required">*</span>
                                 <input type="date" name="remind_date" class="form-control" required>
                             </div>
-                        </div>
+                        </div> -->
 
 
                     </div>

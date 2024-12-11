@@ -159,7 +159,9 @@
                                     <tr data-remind-date="{{ i.remind_date|date:'Y-m-d' }}">
                                         <td>{{ i.complaint_text }}</td>
                                         <td class="text-center text-bold" style="color: #FF5722;">
-                                            {{ i.remind_date|date:'l, F j, Y' }} <!-- Clean, bold date format -->
+                                            {{ i.remind_date|date:'l, F j, Y' }}
+                                            <!-- Reminder countdown will be displayed here -->
+                                            <span class="reminder-countdown" id="reminder-{{ i.id }}"></span>
                                         </td>
                                     </tr>
                                 {% endif %}
@@ -184,6 +186,36 @@
 
     
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get today's date
+        const today = new Date();
+
+        // Loop through each row with the 'data-remind-date' attribute
+        document.querySelectorAll('tr[data-remind-date]').forEach(function(row) {
+            const remindDateString = row.getAttribute('data-remind-date');
+            const remindDate = new Date(remindDateString);
+
+            // Calculate the difference in days between today and the reminder date
+            const timeDiff = remindDate - today;
+            const daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert milliseconds to days
+
+            // Get the reminder countdown element and display the difference
+            const reminderCountdown = row.querySelector('.reminder-countdown');
+            if (daysLeft > 0) {
+                reminderCountdown.textContent = `Reminder: ${daysLeft} day(s) left until deadline.`;
+                reminderCountdown.style.color = "green"; // Optional: Set color to green for positive countdown
+            } else if (daysLeft === 0) {
+                reminderCountdown.textContent = "Reminder: Today is the deadline!";
+                reminderCountdown.style.color = "red"; // Optional: Set color to red for today
+            } else {
+                reminderCountdown.textContent = `Reminder: The deadline has passed.`;
+                reminderCountdown.style.color = "gray"; // Optional: Set color to gray for passed deadline
+            }
+        });
+    });
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
