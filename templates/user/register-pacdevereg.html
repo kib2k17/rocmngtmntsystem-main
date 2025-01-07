@@ -45,12 +45,14 @@
                        
                     </div> -->
 
-                    <br>
+                    <!-- Client Details -->
+
+                    <!-- <br>
                     <center><h4 class="section-title">Client Details</h4></center>
-                    <hr>
+                    <hr> -->
                     
                     <!-- Complainant Information -->
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="complainant_fname" class="form-label">
@@ -60,11 +62,11 @@
                                 <input type="text" name="complainant_fname" id="complainant_fname" class="form-control" placeholder="Enter Full Name of Complainant">
                                 <small class="text-muted d-block"><i>Leave blank if the client is anonymous.</i></small>
                             </div>
-                        </div>
+                        </div> -->
 
                         
 
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                             <div class="form-group">
                                 <label for="complainant_mobile" class="form-label">
                                     <i class="fas fa-phone"></i> Contact Number
@@ -84,10 +86,10 @@
                                 <small class="text-muted d-block"><i>Leave blank if no email address is provided.</i></small>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     
                     <!-- Complaint Type, Province, and City -->
-                    <div class="row">
+                    <!-- <div class="row">
 
                         <div class="col-md-4">
                             <div class="form-group">
@@ -150,14 +152,43 @@
                                 </select>
                             </div>
                         </div>
+                         -->
+                    <!-- end of client details -->
                         
-
-                        
-                    </div>
+                    <!-- </div> -->
 
                     <br>
-                    <center><h4 class="section-title">Concern Details</h4></center>
+                    <center><h4 class="section-title">Concern Details
+
+                        <!-- Submit Button -->
+                <button type="button" class="btn btn-primary mr-2" id="submitbutton1x1" data-toggle="modal" data-target="#confirmationModal" style="float: right;">Submit</button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmationModalLabel">Confirm Submission</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to submit this form?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary" id="confirmSubmit">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    </h4>
+                    
+                    </center>
                     <hr>
+
+                    
 
                     <!-- Concern Details -->
                     <div class="row">
@@ -165,7 +196,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="complainttype" class="form-label">
-                                    <i class="fas fa-list-alt"></i> Nature of Concern
+                                    <i class="fa fa-list-ul"></i> Nature of Concern
                                     <span class="required">*</span>
                                 </label>
                                 <select name="complainttype" id="complainttype" class="form-control" required>
@@ -182,15 +213,33 @@
 
                         <div class="col-md-4">
                             <div class="form-group" >
-                                <label for="noc" >Subject of Concern</label>
+                                <label class="fa fa-comment" for="noc" >Subject of Concern</label>
                                 <input type="text" name="noc" class="form-control" placeholder="Enter Nature of Complaint" required>
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="compfile">Attached Documents</label>
+                                <label class="bi bi-file-earmark-check-fill" for="compfile">Attached Documents</label>
                                 <input type="file" name="compfile" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="clientdetails" class="form-label">
+                                    <i class="fa fa-th-list"></i> Client Sector
+                                    <span class="required">*</span>
+                                </label>
+                                <select name="clientdetails" id="clientdetails" class="form-control" required>
+                                    <option value="">-- Choose your option --</option>
+                                    <option value="Children (Nga Bata)">Children (Mga Bata)</option>
+                                    <option value="Iba pa">Iba pa</option>
+                                    <option value="Indigenous People">Indigenous People</option>
+                                    <option value="Person with disability (Taong may Kapansanan)">Person with disability (Taong may Kapansanan)</option>
+                                    <option value="Senior Citizen (Nakakatandang Mamamayan)">Senior Citizen (Nakakatandang Mamamayan)</option>
+                                    <option value="Women (Kababaihan)(Pregnant/Buntis)Women in Difficult Circumstances(Kababaihang nasa mahirap na kalagayan)">Women (Kababaihan)(Pregnant/Buntis)Women in Difficult Circumstances(Kababaihang nasa mahirap na kalagayan)</option>
+                                </select>
                             </div>
                         </div>
 
@@ -199,7 +248,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="complaindetails">Narrative (max 2000 words)</label>
+                                    <label class="fa fa-comments" for="complaindetails">Narrative (max 2000 words)</label>
                                     <textarea name="complaindetails" rows="10" class="form-control" maxlength="2000" required></textarea>
                                 </div>
                             </div>
@@ -233,7 +282,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="category">Select Division Name</label>
+                                <label class="fa fa-users" for="category">Select Division Name</label>
                                 <select name="cat_id" id="category" class="form-control" required>
                                     <option value="">Select Division</option>
                                     {% for i in category %}
@@ -246,7 +295,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="subcategory">Section Name</label>
+                                <label class="fa fa-users" for="subcategory">Section Name</label>
                                 <select name="subcategory_id" id="subcategory" class="form-control" required>
                                     <option value="">Select Section</option>
                                 </select>
@@ -256,7 +305,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="endorseemp">Endorsed to? (Name of DSWD Employee)</label>
+                                <label class="bi bi-file-person" for="endorseemp">Endorsed to? (Name of DSWD Employee)</label>
                                 <input type="text" name="endorseemp" class="form-control" placeholder="Enter the name of employee" required>
                             </div>
                         </div>
@@ -278,34 +327,104 @@
                             </div>
                         </div> -->
 
+                        <br>
+                        <center><h4 class="section-title">Client Details</h4></center>
+                        <hr>
+
+                        <!-- Complainant Information -->
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="complainant_fname" class="form-label">
+                                    <i class="bi bi-file-person"></i> Name
+                                    <span class="required">*</span>
+                                </label>
+                                <input type="text" name="complainant_fname" id="complainant_fname" class="form-control" placeholder="Enter Full Name of Complainant">
+                                <small class="text-muted d-block"><i>Leave blank if the client is anonymous.</i></small>
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="complainant_mobile" class="form-label">
+                                    <i class="bi bi-telephone-fill"></i> Contact Number
+                                    <span class="required">*</span>
+                                </label>
+                                <input type="text" id="complainant_mobile" name="selfcomplaint_number" class="form-control" placeholder="Enter Mobile Number" maxlength="11">
+                                <small class="text-muted d-block"><i>Leave blank if no mobile number is provided.</i></small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="complaint_email" class="form-label">
+                                    <i class="bi bi-envelope-fill"></i>Email Address
+                                    <span class="required">*</span>
+                                </label>
+                                <input type="email" name="complaint_email" id="complaint_email" class="form-control" placeholder="Enter Email Address">
+                                <small class="text-muted d-block"><i>Leave blank if no email address is provided.</i></small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Complaint Type, Province, and City -->
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="region" class="form-label">
+                                    <i class="bi bi-geo-alt-fill"></i> Region
+                                    <span class="required">*</span>
+                                </label>
+                                <select class="form-select form-control" id="region" name="region_code"></select>
+                                <input type="hidden" id="region_name" name="region_name">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="province" class="form-label">
+                                    <i class="bi bi-geo-alt-fill"></i> Province
+                                    <span class="required">*</span>
+                                </label>
+                                <select class="form-select form-control" id="province" name="province_code"></select>
+                                <input type="hidden" id="province_name" name="province_name">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="city" class="form-label">
+                                    <i class="bi bi-geo-alt-fill"></i> City
+                                    <span class="required">*</span>
+                                </label>
+                                <select class="form-select form-control" id="city" name="city_code"></select>
+                                <input type="hidden" id="city_name" name="city_name">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="brgy" class="form-label">
+                                    <i class="bi bi-geo-alt-fill"></i> Barangay
+                                    <span class="required">*</span>
+                                </label>
+                                <select class="form-select form-control" id="brgy" name="barangay_code"></select>
+                                <input type="hidden" id="barangay_name" name="barangay_name">
+                            </div>
+                        </div>
+
+                       
+
+
+
 
                     </div>
 
                  
                     
-                <!-- Submit Button -->
-                <button type="button" class="btn btn-primary mr-2" id="submitbutton1x1" data-toggle="modal" data-target="#confirmationModal">Submit</button>
-
-                <!-- Modal -->
-                <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="confirmationModalLabel">Confirm Submission</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                Are you sure you want to submit this form?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary" id="confirmSubmit">Confirm</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
                 </form>
             </div>
         </div>

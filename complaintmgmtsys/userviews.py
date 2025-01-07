@@ -143,7 +143,7 @@ def REGCOMPLAINT(request):
 
             # Generating a unique complaint number
             complaint_number = random.randint(100000000, 999999999)
-            complaint_text = f"ROC-DIR-24-{complaint_number}"
+            complaint_text = f"CARAGA-FO-ROC-DIR-25-{complaint_number}"
 
             # Accessing the UserReg instance associated with the logged-in user
             userreg = request.user.userreg
@@ -228,7 +228,7 @@ def PACDOCOMPLAINT(request):
 
             # Generating a unique complaint number
             complaint_number = random.randint(100000000, 999999999)
-            complaint_text = f"ROC-PACD-24-{complaint_number}"
+            complaint_text = f"CARAGA-FO-ROC-PACD-25-{complaint_number}"
 
             # Accessing the UserReg instance associated with the logged-in user
             userreg = request.user.userreg
@@ -312,7 +312,7 @@ def NON8888REGCOMPLAINT(request):
 
             # Generating a unique complaint number
             complaint_number = random.randint(100000000, 999999999)
-            complaint_text = f"ROC-INQ-24-{complaint_number}"
+            complaint_text = f"CARAGA-FO-ROC-INQ-25-{complaint_number}"
 
             # Accessing the UserReg instance associated with the logged-in user
             userreg = request.user.userreg
@@ -396,7 +396,7 @@ def PACEREGCOMPLAINT(request):
 
             # Generating a unique complaint number
             complaint_number = random.randint(100000000, 999999999)
-            complaint_text = f"ROC-PACE-24-{complaint_number}"
+            complaint_text = f"CARAGA-FO-ROC-PACE-25-{complaint_number}"
 
             # Accessing the UserReg instance associated with the logged-in user
             userreg = request.user.userreg
@@ -479,7 +479,7 @@ def CSCCCB(request):
 
             # Generating a unique complaint number
             complaint_number = random.randint(100000000, 999999999)
-            complaint_text = f"ROC-CSC-CCB-24-{complaint_number}"
+            complaint_text = f"CARAGA-FO-ROC-CSCCCB-25-{complaint_number}"
 
             # Accessing the UserReg instance associated with the logged-in user
             userreg = request.user.userreg
@@ -528,6 +528,7 @@ def CSCCCB(request):
     return render(request, 'user/register-complaint-csc-ccb.html', context)
 
 
+
  #ROC-CSC-CCB REGISTRATION
 @login_required(login_url='/')
 def PACDEVEREG(request):
@@ -565,7 +566,7 @@ def PACDEVEREG(request):
 
             # Generating a unique complaint number
             complaint_number = random.randint(100000000, 999999999)
-            complaint_text = f"ROC-PACD-E-24-{complaint_number}"
+            complaint_text = f"CARAGA-FO-ROC-PACD-25-{complaint_number}"
 
             # Accessing the UserReg instance associated with the logged-in user
             userreg = request.user.userreg
@@ -602,7 +603,7 @@ def PACDEVEREG(request):
             complaint.save()
 
             messages.success(request, 'Complaint Lodged Successfully!')
-            return redirect("cscccbcomplaint")
+            return redirect("pacdevereg")
 
         except Exception as e:
             messages.error(request, f"An unexpected error occurred: {e}")

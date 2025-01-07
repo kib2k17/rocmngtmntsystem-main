@@ -19,7 +19,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="exampleInputUsername1">Tracking Number</label>
+                                <label class="fa fa-map-pin" for="exampleInputUsername1">Tracking Number</label>
                                 <input type="text" name="complainant_pace" class="form-control" placeholder="Enter Nature of Complaint">
                             </div>
                         </div>
@@ -27,19 +27,19 @@
                         
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="date_received">Date Received</label>
+                                <label class="fa fa-calendar" for="date_received">Date Received</label>
                                 <input type="date" name="date_received" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="time_received">Time Received</label>
+                                <label class="bi bi-clock-fill" for="time_received"><b>Time Received</b></label>
                                 <input type="time" name="time_received" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="time_acknowledge">Time Acknowledge</label>
+                                <label class="bi bi-clock-fill" for="time_acknowledge"><b>Time Acknowledge</b></label>
                                 <input type="time" name="time_acknowledge" class="form-control" required>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="complainant_fname" class="form-label">
-                                    <i class="fas fa-user"></i> Name
+                                    <i class="bi bi-file-person"></i> Name
                                     <span class="required">*</span>
                                 </label>
                                 <input type="text" name="complainant_fname" id="complainant_fname" class="form-control" placeholder="Enter Full Name of Complainant">
@@ -67,7 +67,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="complainant_mobile" class="form-label">
-                                    <i class="fas fa-phone"></i> Contact Number
+                                    <i class="bi bi-telephone-fill"></i> Contact Number
                                     <span class="required">*</span>
                                 </label>
                                 <input type="text" id="complainant_mobile" name="selfcomplaint_number" class="form-control" placeholder="Enter Mobile Number" maxlength="11">
@@ -77,7 +77,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="complaint_email" class="form-label">
-                                    <i class="fas fa-envelope"></i>Email Address
+                                    <i class="bi bi-envelope-fill"></i>Email Address
                                     <span class="required">*</span>
                                 </label>
                                 <input type="email" name="complaint_email" id="complaint_email" class="form-control" placeholder="Enter Email Address">
@@ -92,7 +92,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="region" class="form-label">
-                                    <i class="fas fa-map-marker-alt"></i> Region
+                                    <i class="bi bi-geo-alt-fill"></i> Region
                                     <span class="required">*</span>
                                 </label>
                                 <select class="form-select form-control" id="region" name="region_code"></select>
@@ -103,7 +103,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="province" class="form-label">
-                                    <i class="fas fa-city"></i> Province
+                                    <i class="bi bi-geo-alt-fill"></i> Province
                                     <span class="required">*</span>
                                 </label>
                                 <select class="form-select form-control" id="province" name="province_code"></select>
@@ -114,7 +114,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="city" class="form-label">
-                                    <i class="fas fa-city"></i> City
+                                    <i class="bi bi-geo-alt-fill"></i> City
                                     <span class="required">*</span>
                                 </label>
                                 <select class="form-select form-control" id="city" name="city_code"></select>
@@ -125,7 +125,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="brgy" class="form-label">
-                                    <i class="fas fa-city"></i> Barangay
+                                    <i class="bi bi-geo-alt-fill"></i> Barangay
                                     <span class="required">*</span>
                                 </label>
                                 <select class="form-select form-control" id="brgy" name="barangay_code"></select>
@@ -147,7 +147,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="complainttype" class="form-label">
-                                    <i class="fas fa-list-alt"></i> Complaint Type
+                                    <i  class="fa fa-th-list"></i> Complaint Type
                                     <span class="required">*</span>
                                 </label>
                                 <select name="complainttype" id="complainttype" class="form-control" required>
@@ -163,14 +163,14 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="noc">Subject of Concern</label>
+                                <label class="fa fa-comment" for="noc">Subject of Concern</label>
                                 <input type="text" name="noc" class="form-control" placeholder="Enter Nature of Complaint" required>
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="compfile">Attached Documents</label>
+                                <label class="bi bi-file-earmark-check-fill" for="compfile">Attached Documents</label>
                                 <input type="file" name="compfile" class="form-control">
                             </div>
                         </div>
@@ -180,7 +180,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="complaindetails">Narrative (max 2000 words)</label>
+                                    <label class="fa fa-comments" for="complaindetails">Narrative (max 2000 words)</label>
                                     <textarea name="complaindetails" rows="10" class="form-control" maxlength="2000" required></textarea>
                                 </div>
                             </div>
@@ -200,21 +200,21 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="date_endorse">Date Endorsed</label>
+                                <label class="fa fa-calendar" for="date_endorse">Date Endorsed</label>
                                 <input type="date" name="date_endorse" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="time_endorse">Time Endorsed</label>
+                                <label class="bi bi-clock-fill" for="time_endorse"><b>Time Endorsed</b></label>
                                 <input type="time" name="time_endorse" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="category">Select Division Name</label>
+                                <label class="fa fa-users" for="category">Select Division Name</label>
                                 <select name="cat_id" id="category" class="form-control" required>
                                     <option value="">Select Division</option>
                                     {% for i in category %}
@@ -227,7 +227,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="subcategory">Section Name</label>
+                                <label class="fa fa-users" for="subcategory">Section Name</label>
                                 <select name="subcategory_id" id="subcategory" class="form-control" required>
                                     <option value="">Select Section</option>
                                 </select>
@@ -238,18 +238,19 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="deadline">Deadline</label>
+                                <label class="fa fa-calendar" for="deadline">Deadline</label>
                                 <input type="date" name="deadline" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="remind_date">Remind Date</label>
+                                <label class="fa fa-calendar" for="remind_date">Remind Date</label>
                                 <span class="required">*</span>
                                 <input type="date" name="remind_date" class="form-control" required>
                             </div>
                         </div>
+
 
 
                     </div>
