@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+  <head>
+    
+    <meta charset="utf-8" />
+    <title>ROC-MS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesdesign" name="author" />
+
+    <!-- BOOTSTRAP 5 -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- END BOOTSTRAP 5 -->
+
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static 'assets/vendors/simple-line-icons/css/simple-line-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/flag-icon-css/css/flag-icon.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/css/vendor.bundle.base.css' %}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{% static 'assets/vendors/daterangepicker/daterangepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/chartist/chartist.min.css' %}">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <!-- End layout styles -->
+
+
+    <!-- Optional: Add Font Awesome for icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+
+    <!-- Additional CSS for Enhancement -->
+<style>
+
+
+
+
+
+  
+
+/* Table design improvements */
+.table {
+    font-size: 14px; /* Make font size more readable */
+    background-color: #fff; /* Ensure background is clean */
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: 12px 15px;
+    text-align: center;
+}
+
+.table-bordered {
+    border: 1px solid #e0e0e0;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.table th {
+    background-color: #007bff; /* Professional blue header */
+    color: #fff;
+    text-transform: uppercase; /* Uppercase for headers */
+    font-weight: bold;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* Badge Styles */
+.badge-danger {
+    background-color: #dc3545;
+    color: #fff;
+    font-weight: bold;
+}
+
+.badge-warning {
+    background-color: #ffc107;
+    color: #fff;
+    font-weight: bold;
+}
+
+.badge-success {
+    background-color: #28a745;
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Pagination styling */
+.pagination {
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.pagination .btn {
+    margin: 0 5px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+
+.pagination .btn-outline-secondary {
+    border-color: #007bff;
+    color: #007bff;
+}
+
+.pagination .btn-outline-secondary:hover {
+    background-color: #007bff;
+    color: #007bff;
+}
+
+/* Expandable Cell for Address */
+.expandable-cell {
+    white-space: normal;
+    word-wrap: break-word;
+    max-width: 250px; /* Allow space for address to break */
+}
+
+/* Card Styling */
+.card {
+    border: none;
+    border-radius: 12px;
+}
+
+.card-body {
+    padding: 30px;
+    background-color: #f8f9fa;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* Hoverable Rows */
+.hoverable:hover {
+    background-color: #e9ecef;
+    cursor: pointer;
+}
+
+
+/* Tooltip styling */
+.tooltip-inner {
+    max-width: 300px; /* Set max width for the tooltip */
+    white-space: pre-wrap; /* Preserve line breaks in tooltip */
+}
+
+  .section-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+  }
+  .form-label {
+      font-size: 1rem;
+      font-weight: 600;
+  }
+  .form-control {
+      border-radius: 8px;
+  }
+  .required {
+      color: red;
+  }
+  .fas {
+      margin-right: 5px;
+      color: #007bff;
+  }
+
+
+  /* Hover effect for cards */
+.card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Typography adjustments */
+.card-title {
+    font-size: 18px;
+    font-weight: 500;
+}
+.card-body h3 {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.highlight-today {
+        background-color: #ffeb3b; /* Example highlight color */
+    }
+</style>
+   
+  </head>
+  <body>
+    <div class="container-scroller">
+      <!-- partial:partials/_navbar.html -->
+      {% include 'includes/header.html' %}
+      
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_sidebar.html -->
+        {% include 'includes/sidebar.html' %}
+
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+          
+            
+            
+            {% block content %}
+            {% endblock %}
+          
+           
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:partials/_footer.html -->
+          {% include 'includes/footer.html' %}
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+
+    <!-- BOOTSTRAP 5 -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+ 
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+
+    <!-- END BOOTSTRAP 5 -->
+
+    
+
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="{% static 'assets/vendors/js/vendor.bundle.base.js' %}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="{% static 'assets/vendors/chart.js/Chart.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/moment/moment.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/daterangepicker/daterangepicker.js' %}"></script>
+    <script src="{% static 'assets/vendors/chartist/chartist.min.js' %}"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="{% static 'assets/js/off-canvas.js' %}"></script>
+    <script src="{% static 'assets/js/misc.js' %}"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="{% static 'assets/js/dashboard.js' %}"></script>
+    <!-- End custom js for this page -->
+
+  </body>
+</html>

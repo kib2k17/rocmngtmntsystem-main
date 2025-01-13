@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Update Category for City/Municipality</h4>
+         <hr>
+         <form class="forms-sample" method="POST" action="{% url 'update_category_details_citymunc' categorycitymunc.id %}">
+          {% include 'includes/messages.html' %}
+          {% csrf_token %}
+          
+          <div class="form-group">
+              <label for="exampleInputUsername2">Category Name</label>
+              <input type="text" name="catcitymupname" class="form-control" required="true" value="{{ categorycitymunc.catcitymupname }}">
+              
+              <!-- Hidden input for the ID, if you want to keep it (although you can pass this directly via URL) -->
+              <input type="hidden" name="catmupname_id" class="form-control" id="catmupname_id" required="true" value="{{ categorycitymunc.id }}">
+          </div>
+          
+          <div class="form-group">
+              <label for="exampleInputEmail2">Description</label>
+              <textarea name="catcitymupdes" class="form-control">{{ categorycitymunc.catcitymupdes }}</textarea>
+          </div>
+      
+          <button type="submit" class="btn btn-primary mr-2">Update</button>
+      </form>
+      
+        </div>
+      </div>
+    </div>
+    </div>
+    {% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Add Category for City of Municipality</h4>
+         <hr>
+          <form class="forms-sample" method="POST" action="">
+            {% include 'includes/messages.html' %}
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="exampleInputUsername1">Category Name</label>
+              <input type="text"placeholder="Enter category Name"  name="catcitymupname" class="form-control" required="true">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail2">Description</label>
+              <textarea  name="catcitymupdes" class="form-control" ></textarea>
+            </div>
+          
+           
+            <button type="submit" class="btn btn-primary mr-2">Add</button>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+    </div>
+    {% endblock %}

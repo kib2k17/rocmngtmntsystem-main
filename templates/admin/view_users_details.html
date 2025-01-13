@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <!-- User Profile Section -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="row mb-4">
+                <!-- Profile Picture -->
+                <div class="col-md-4 text-center">
+                    <img src="{{ listedusers.admin.profile_pic.url }}" alt="Profile Picture" class="img-fluid rounded-circle" style="max-width: 150px;">
+                </div>
+
+                <!-- User Info -->
+                <div class="col-md-8">
+                    <h4 class="card-title">{{ listedusers.admin.first_name }} {{ listedusers.admin.last_name }}</h4>
+                    <p class="text-muted">{{ listedusers.admin.email }}</p>
+                    
+                    <div class="d-flex mb-3">
+                        <div class="badge badge-info mr-2"><strong>Contact:</strong> {{ listedusers.mobilenumber }}</div>
+                        <div class="badge badge-success"><strong>Registered:</strong> {{ listedusers.regdate_at }}</div>
+                    </div>
+
+                    <a href="mailto:{{ listedusers.admin.email }}" class="btn btn-primary btn-sm">Email User</a>
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Complaint History Section -->
+            <div>
+                <h5 class="mt-4">Complaint History</h5>
+                <!-- You can add the complaint history here if needed -->
+                <p class="text-muted">No complaints available for this user.</p>
+            </div>
+
+        </div>
+    </div>
+    
+</div>
+
+{% endblock %}
