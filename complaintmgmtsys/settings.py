@@ -32,7 +32,8 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     'engaging-elephant-curiously.ngrok-free.app',
-    '172.31.242.12','*'  # Add this
+    '172.31.242.12',
+    'https://rocmngtmntsystem-main-production.up.railway.app/'# Add this
     # Add any other trusted origins
 ]
 
