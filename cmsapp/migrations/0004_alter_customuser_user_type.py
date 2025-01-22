@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('cmsapp', '0002_remove_complaints_catmupname_id_and_more'),
+        ('cmsapp', '0003_alter_customuser_user_type'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='customuser',
             name='user_type',
-            field=models.CharField(choices=[(3, 'moderator'), (2, 'compuser'), (1, 'admin')], default=1, max_length=50),
+            field=models.CharField(choices=[(2, 'compuser'), (3, 'moderator'), (1, 'admin')], default=1, max_length=50),
         ),
     ]

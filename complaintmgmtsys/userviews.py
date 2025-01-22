@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth.decorators import login_required
 
-from cmsapp.models import CustomUser,UserReg,Category,Subcategory,Complaints,ComplaintRemark, Categorycitymup, Subcategorycitymup
+from cmsapp.models import CustomUser,UserReg,Category,Subcategory,Complaints,ComplaintRemark, Categorycitymup, Subcategorycitymup, PacdComplaints
 from django.contrib import messages
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -572,7 +572,7 @@ def PACDEVEREG(request):
             userreg = request.user.userreg
 
             # Creating the complaint instance
-            complaint = Complaints(
+            complaint = PacdComplaints(
                 cat_id_id=cat_id,
                 subcategory_id_id=subcategory_id,
                 deadline=deadline,

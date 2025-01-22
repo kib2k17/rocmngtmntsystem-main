@@ -37,23 +37,31 @@ def doLogin(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
-        keep_signed_in = request.POST.get('keep_signed_in')
 
+        # Authenticate the user using EmailBackEnd
         user = EmailBackEnd.authenticate(request, username=email, password=password)
         if user is not None:
             login(request, user)
             user_type = user.user_type
-            if user_type == '1':
+            
+            # Redirect based on user type
+            if user_type == '1':  # Admin
                 return redirect('admin_home')
-            elif user_type == '2':
+            elif user_type == '2':  # Complaint User
                 return redirect('user_home')
+            elif user_type == '3':  # PACD User
+                return redirect('pacd_home')
+            else:
+                # Handle unexpected user type
+                messages.error(request, 'Unknown user type.')
+                return redirect('login')
         else:
-            messages.error(request, 'Email or Password is not valid')
-            return redirect('login')  # Redirect back to the login page with an error message
+            # Authentication failed
+            messages.error(request, 'Email or Password is not valid.')
+            return redirect('login')
     else:
-        # If the request method is not POST, redirect to the login page with an error message
-        messages.error(request, 'Invalid request method')
-        return redirect('login')
+        # Render the login page for GET requests
+        return render(request, 'login.html')
 
 
 login_required(login_url='/')

@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from .import views, adminviews, userviews
+from .import views, adminviews, userviews, pacdviews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -84,7 +84,13 @@ urlpatterns = [
     path('UserDashboardHistory', userviews.USERDASHBOARDHISTORY, name='userdashboardhistory'),
     path('UserDashboardDetails/<str:id>', userviews.USERDASHBOARDHISTORYDETAILS, name='userdashboarddetails'),
     path('ComplaintHistoryDetails/<str:id>', userviews.COMPLAINTHISTORYDETAILS, name='complainthistorydetails'),
-
+    
+    
+    # This is pacd panel
+    path('pacdusersignup/', pacdviews.PACDUSERSIGNUP, name='pacdusersignup'),
+    path('Pacduser/PacdHome', pacdviews.PACDUSERHOME, name='pacd_home'),
+    path('PacdComplaintHistory', pacdviews.PACDCOMPLAINTHISTORY, name='pacdcomplainthistory'),
+    path('PacdComplaintHistoryDetails/<str:id>', pacdviews.PACDCOMPLAINTHISTORYDETAILS, name='pacdcomplainthistorydetails'),
 
     #profile path
     path('Profile', views.PROFILE, name='profile'),
