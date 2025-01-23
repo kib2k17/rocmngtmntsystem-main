@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth.decorators import login_required
 
-from cmsapp.models import CustomUser,UserReg,Category,Subcategory,Complaints,ComplaintRemark, Categorycitymup, Subcategorycitymup, PacdComplaints, PacdComplaintRemark
+from cmsapp.models import CustomUser,UserReg,Category,Subcategory,Complaints,ComplaintRemark, Categorycitymup, Subcategorycitymup, PacdComplaints, PacdComplaintRemark,Odsus
 from django.contrib import messages
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -13,14 +13,14 @@ import random
 
 
 @login_required(login_url='/')
-def PACDUSERHOME(request):
+def ODSUSHOME(request):
     user_admin = request.user
     user_reg = UserReg.objects.get(admin=user_admin)
-    complaints = PacdComplaints.objects.all().order_by('remind_date')
-    complaints_count = PacdComplaints.objects.filter(userregid=user_reg).count()
-    newcom_count = PacdComplaints.objects.filter(status='0',userregid=user_reg).count()
-    ipcom_count = PacdComplaints.objects.filter(status='Inprocess',userregid=user_reg).count()
-    closed_count = PacdComplaints.objects.filter(status='Closed',userregid=user_reg).count()
+    complaints = Odsus.objects.all().order_by('remind_date')
+    complaints_count = Odsus.objects.filter(userregid=user_reg).count()
+    newcom_count = Odsus.objects.filter(status='0',userregid=user_reg).count()
+    ipcom_count = Odsus.objects.filter(status='Inprocess',userregid=user_reg).count()
+    closed_count = Odsus.objects.filter(status='Closed',userregid=user_reg).count()
     context = {
     'complaints':complaints,
     'complaints_count':complaints_count,
@@ -28,9 +28,9 @@ def PACDUSERHOME(request):
     'ipcom_count':ipcom_count,
     'closed_count':closed_count,        
     }
-    return render(request,'pacd/pacduserdashboard.html',context)
+    return render(request,'odsus/odsusdashboard.html',context)
 
-def PACDUSERSIGNUP(request):
+def ODSUSSIGNUP(request):
    
     if request.method == "POST":
         pic = request.FILES.get('pic')
@@ -43,17 +43,17 @@ def PACDUSERSIGNUP(request):
 
         if CustomUser.objects.filter(email=email).exists():
             messages.warning(request,'Email already exist')
-            return redirect('pacdusersignup')
+            return redirect('odsussignup')
         if CustomUser.objects.filter(username=username).exists():
             messages.warning(request,'Username already exist')
-            return redirect('pacdusersignup')
+            return redirect('odsussignup')
         else:
             user = CustomUser(
                first_name=first_name,
                last_name=last_name,
                username=username,
                email=email,
-               user_type=3,
+               user_type=4,
                profile_pic = pic,
             )
             user.set_password(password)
@@ -69,12 +69,12 @@ def PACDUSERSIGNUP(request):
     
     
 
-    return render(request,'pacd/pacduser_reg.html')
+    return render(request,'odsus/odsus_reg.html')
 
 
 #PACDEVEREG REGISTRATION
 @login_required(login_url='/')
-def PACDEVEREG(request):
+def ODSUSREG(request):
     category = Category.objects.all()
     categorycitymups = Categorycitymup.objects.all()
     subcategorycitymups = Subcategorycitymup.objects.all()
@@ -109,13 +109,13 @@ def PACDEVEREG(request):
 
             # Generating a unique complaint number
             complaint_number = random.randint(100000000, 999999999)
-            complaint_text = f"CARAGA-FO-ROC-PACD-25-{complaint_number}"
+            complaint_text = f"CARAGA-FO-ROC-ODSUS-25-{complaint_number}"
 
             # Accessing the UserReg instance associated with the logged-in user
             userreg = request.user.userreg
 
             # Creating the complaint instance
-            complaint = PacdComplaints(
+            complaint = Odsus(
                 cat_id_id=cat_id,
                 subcategory_id_id=subcategory_id,
                 deadline=deadline,
@@ -157,15 +157,15 @@ def PACDEVEREG(request):
         'subcategorycitymups': subcategorycitymups,
     }
 
-    return render(request, 'pacd/register-pacdevereg.html', context)
+    return render(request, 'odsus/register-odsusevereg.html', context)
 
 
 
 
 @login_required(login_url='/')
-def PACDCOMPLAINTHISTORY(request):
+def ODSUSHISTORY(request):
     userreg = request.user.userreg
-    complaint_list = PacdComplaints.objects.filter(userregid=userreg).order_by('-complaintdate_at')
+    complaint_list = Odsus.objects.filter(userregid=userreg).order_by('-complaintdate_at')
     paginator = Paginator(complaint_list, 10)  # Show 10 complaints per page
 
     page_number = request.GET.get('page')
@@ -179,16 +179,16 @@ def PACDCOMPLAINTHISTORY(request):
         complaints = paginator.page(paginator.num_pages)
 
     context = {'complaints': complaints}
-    return render(request, 'pacd/pacdcomplaint-history.html', context)
+    return render(request, 'odsus/odsus-history.html', context)
 
 
 @login_required(login_url='/')
-def PACDCOMPLAINTHISTORYDETAILS(request,id):
-    complaints = PacdComplaints.objects.get(id=id)
+def ODSUSHISTORYDETAILS(request,id):
+    complaints = Odsus.objects.get(id=id)
     complaintsremarks = PacdComplaintRemark.objects.filter(comp_id_id=id)
       
     context = {
          'complaints':complaints,
          'complaintsremarks':complaintsremarks,
     }
-    return render(request,'pacd/pacdcomplaint-details.html',context)
+    return render(request,'odsus/odsus-details.html',context)

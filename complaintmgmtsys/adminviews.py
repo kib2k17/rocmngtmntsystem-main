@@ -19,6 +19,10 @@ def ADMINHOME(request):
     newcom_count = Complaints.objects.filter(status='0').count()
     ipcom_count = Complaints.objects.filter(status='Inprocess').count()
     closed_count = Complaints.objects.filter(status='Closed').count()
+    dir_complaint_count = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-DIR-25-").count()
+    dir_complaint_count2 = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-INQ-25-").count()
+    dir_complaint_count3 = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-PACE-25-").count()
+    dir_complaint_count4 = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-CSCCCB-25-").count()
     context = {'user_count':user_count,
     'category_count': category_count,
     'subcategory_count':subcategory_count,
@@ -27,7 +31,11 @@ def ADMINHOME(request):
     'newcom_count':newcom_count,
     'ipcom_count':ipcom_count,
     'closed_count':closed_count,
-    'complaints':complaints        
+    'complaints':complaints,
+    'dir_complaint_count':dir_complaint_count,
+    'dir_complaint_count2':dir_complaint_count2,
+    'dir_complaint_count3':dir_complaint_count3,
+    'dir_complaint_count4':dir_complaint_count4,        
     }
     return render(request,'admin/admindashboard.html',context)
 

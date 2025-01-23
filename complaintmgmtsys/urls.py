@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from .import views, adminviews, userviews, pacdviews
+from .import views, adminviews, userviews, pacdviews,odsusviews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -75,8 +75,7 @@ urlpatterns = [
     path('PaceRegisterComplaint', userviews.PACEREGCOMPLAINT, name='paceregcomplaint'),
     path('CscCcbComplaint', userviews.CSCCCB, name='cscccbcomplaint'),
     path('Non8888RegComplaint', userviews.NON8888REGCOMPLAINT, name='non8888regcomplaint'),
-    path('PacDeveReg', userviews.PACDEVEREG, name='pacdevereg'),
-
+    
     path('pacdcomplaint', userviews.PACDOCOMPLAINT, name='pacdcomplaint'),
     path('get_subcat/', userviews.get_subcat, name='get_subcat'),
     path('get_subcats/', userviews.get_subcats, name='get_subcats'),
@@ -91,6 +90,16 @@ urlpatterns = [
     path('Pacduser/PacdHome', pacdviews.PACDUSERHOME, name='pacd_home'),
     path('PacdComplaintHistory', pacdviews.PACDCOMPLAINTHISTORY, name='pacdcomplainthistory'),
     path('PacdComplaintHistoryDetails/<str:id>', pacdviews.PACDCOMPLAINTHISTORYDETAILS, name='pacdcomplainthistorydetails'),
+    path('PacDeveReg', pacdviews.PACDEVEREG, name='pacdevereg'),
+
+
+    # This is odsus panel
+    path('OdsusSignup/', odsusviews.ODSUSSIGNUP, name='odsussignup'),
+    path('Odsus/OdsusHome', odsusviews.ODSUSHOME, name='odsus_home'),
+    path('OdsusHistory', odsusviews.ODSUSHISTORY, name='odsushistory'),
+    path('OdsusReg', odsusviews.ODSUSREG, name='odsusreg'),
+    path('OdsusHistoryDetails/<str:id>', odsusviews.ODSUSHISTORYDETAILS, name='odsushistorydetails'),
+
 
     #profile path
     path('Profile', views.PROFILE, name='profile'),

@@ -9,6 +9,7 @@ class CustomUser(AbstractUser):
         (1,'admin'),
         (2,'compuser'),
         (3, 'moderator'),
+        (4, 'sememoderator'),
         
     }
     user_type = models.CharField(choices=USER,max_length=50,default=1)
@@ -224,7 +225,7 @@ class PacdComplaints(models.Model):
     compfile = models.ImageField(upload_to='media/doc_file', blank=True, null=True)
     complaintdate_at = models.DateTimeField(auto_now_add=True)
     remark = models.TextField(blank=True)
-    status = models.CharField(max_length=250, default='0')
+    status = models.CharField(max_length=250, default='Closed')
     updated_at = models.DateTimeField(auto_now=True)
 
    
@@ -250,4 +251,78 @@ class PacdComplaintRemark(models.Model):
     remark = models.TextField(blank=True)
     status = models.CharField(max_length=250, default='Closed')  # Optional initial default
     remarkdate = models.DateTimeField(auto_now_add=True)
+    
+    
+class Odsus(models.Model):
+    userregid = models.ForeignKey(UserReg, on_delete=models.CASCADE, null=True, blank=True)
+    
+    # # Foreign keys for City and Municipality categories
+    # catmupname_id = models.ForeignKey(Categorycitymup, on_delete=models.CASCADE, null=True, blank=True)
+    # subcategorycitymup_id = models.ForeignKey(Subcategorycitymup, on_delete=models.CASCADE, null=True, blank=True)
+
+    # Other category-related fields
+    cat_id = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+    subcategory_id = models.ForeignKey(Subcategory, on_delete=models.CASCADE, null=True, blank=True)
+
+    # Dates and times
+    deadline = models.DateField(null=True, blank=True)
+    passed_date = models.DateField(null=True, blank=True)
+    date_received = models.DateField(null=True, blank=True)
+    date_endorse = models.DateField(null=True, blank=True)
+    remind_date = models.DateField(null=True, blank=True)
+    time_received = models.TimeField(null=True, blank=True)
+    time_acknowledge = models.TimeField(null=True, blank=True)
+    time_endorse = models.TimeField(null=True, blank=True)
+
+    #Complete Address Details
+    region_name = models.CharField(max_length=250, blank=True, null=True)
+    province_name = models.CharField(max_length=250, blank=True, null=True)
+    city_name = models.CharField(max_length=250, blank=True, null=True)
+    barangay_name = models.CharField(max_length=250, blank=True, null=True)
+
+    # Complaint details
+    complaint_number = models.IntegerField(default=0)
+    selfcomplaint_number = models.CharField(max_length=50, blank=True, null=True)
+    complainant_pace = models.CharField(max_length=250, default='No ticket number provided')
+    complaint_email = models.EmailField(max_length=255, blank=True, null=True)
+    complaint_text = models.CharField(max_length=255)
+    complainttype = models.CharField(max_length=250)
+    clientdetails = models.CharField(max_length=250, blank=True, null=True)
+
+    
+
+    noc = models.CharField(max_length=250)
+    endorseemp = models.CharField(max_length=250, blank=True, null=True)
+    complainant_fname = models.CharField(max_length=250, default='Anonymous')
+    complaindetails = models.TextField(blank=True)
+    compfile = models.ImageField(upload_to='media/doc_file', blank=True, null=True)
+    complaintdate_at = models.DateTimeField(auto_now_add=True)
+    remark = models.TextField(blank=True)
+    status = models.CharField(max_length=250, default='Closed')
+    updated_at = models.DateTimeField(auto_now=True)
+
+   
+
+    def __str__(self):
+        return self.complaint_text
+
+    def save(self, *args, **kwargs):
+        if not self.complainant_fname:
+            self.complainant_fname = 'Anonymous'
+        if not self.complainant_pace:
+            self.complainant_pace = 'No ticket number provided'
+        if not self.selfcomplaint_number:
+            self.selfcomplaint_number = "No mobile number provided"
+        if not self.complaint_email:
+            self.complaint_email = "No email provided"
+
+        super().save(*args, **kwargs)
+
+
+class OdsusRemark(models.Model):
+    comp_id_id = models.ForeignKey(Complaints, on_delete=models.CASCADE)
+    remark = models.TextField(blank=True)
+    status = models.CharField(max_length=250, default='Closed')  # Optional initial default
+    remarkdate = models.DateTimeField(auto_now_add=True)
+
 

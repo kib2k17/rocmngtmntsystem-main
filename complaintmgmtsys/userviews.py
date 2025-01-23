@@ -19,12 +19,20 @@ def USERHOME(request):
     newcom_count = Complaints.objects.filter(status='0',userregid=user_reg).count()
     ipcom_count = Complaints.objects.filter(status='Inprocess',userregid=user_reg).count()
     closed_count = Complaints.objects.filter(status='Closed',userregid=user_reg).count()
+    dir_complaint_count = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-DIR-25-",userregid=user_reg).count()
+    dir_complaint_count2 = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-INQ-25-",userregid=user_reg).count()
+    dir_complaint_count3 = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-PACE-25-",userregid=user_reg).count()
+    dir_complaint_count4 = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-CSCCCB-25-",userregid=user_reg).count()
     context = {
     'complaints':complaints,
     'complaints_count':complaints_count,
     'newcom_count':newcom_count,
     'ipcom_count':ipcom_count,
-    'closed_count':closed_count,        
+    'closed_count':closed_count,
+    'dir_complaint_count':dir_complaint_count,
+    'dir_complaint_count2':dir_complaint_count2,
+    'dir_complaint_count3':dir_complaint_count3,
+    'dir_complaint_count4':dir_complaint_count4,
     }
     return render(request,'user/userdashboard.html',context)
 
@@ -114,6 +122,10 @@ def REGCOMPLAINT(request):
     category = Category.objects.all()
     categorycitymups = Categorycitymup.objects.all()
     subcategorycitymups = Subcategorycitymup.objects.all()
+    
+
+
+
 
     if request.method == "POST":
         try:
@@ -186,7 +198,7 @@ def REGCOMPLAINT(request):
     context = {
         'category': category,
         'categorycitymups': categorycitymups,
-        'subcategorycitymups': subcategorycitymups,
+        'subcategorycitymups': subcategorycitymups, 
     }
 
     return render(request, 'user/register-complaint.html', context)
@@ -529,92 +541,92 @@ def CSCCCB(request):
 
 
 
- #ROC-CSC-CCB REGISTRATION
-@login_required(login_url='/')
-def PACDEVEREG(request):
-    category = Category.objects.all()
-    categorycitymups = Categorycitymup.objects.all()
-    subcategorycitymups = Subcategorycitymup.objects.all()
+# #PACDEVEREG REGISTRATION
+# @login_required(login_url='/')
+# def PACDEVEREG(request):
+#     category = Category.objects.all()
+#     categorycitymups = Categorycitymup.objects.all()
+#     subcategorycitymups = Subcategorycitymup.objects.all()
 
-    if request.method == "POST":
-        try:
-            # Fetching data from the form
-            cat_id = request.POST.get('cat_id')
-            subcategory_id = request.POST.get('subcategory_id')
-            deadline = request.POST.get('deadline')
-            passed_date = request.POST.get('passed_date')
-            date_received = request.POST.get('date_received')
-            date_endorse = request.POST.get('date_endorse')
-            remind_date = request.POST.get('remind_date')
-            time_received = request.POST.get('time_received')
-            time_acknowledge = request.POST.get('time_acknowledge')
-            time_endorse = request.POST.get('time_endorse')
-            region_name = request.POST.get('region_name', 'Unknown')
-            province_name = request.POST.get('province_name', 'Unknown')
-            city_name = request.POST.get('city_name', 'Unknown')
-            barangay_name = request.POST.get('barangay_name', 'Unknown')
-            selfcomplaint_number = request.POST.get('selfcomplaint_number', 'No mobile number provided')
-            complaint_email = request.POST.get('complaint_email', '')
-            complainant_fname = request.POST.get('complainant_fname', 'Anonymous')
-            endorseemp  = request.POST.get('endorseemp', 'Unknown')
-            complainant_pace = request.POST.get('complainant_pace', '')
-            complainttype = request.POST.get('complainttype')
-            clientdetails = request.POST.get('clientdetails')
-            noc = request.POST.get('noc')
-            complaindetails = request.POST.get('complaindetails')
-            compfile = request.FILES.get('compfile')
+#     if request.method == "POST":
+#         try:
+#             # Fetching data from the form
+#             cat_id = request.POST.get('cat_id')
+#             subcategory_id = request.POST.get('subcategory_id')
+#             deadline = request.POST.get('deadline')
+#             passed_date = request.POST.get('passed_date')
+#             date_received = request.POST.get('date_received')
+#             date_endorse = request.POST.get('date_endorse')
+#             remind_date = request.POST.get('remind_date')
+#             time_received = request.POST.get('time_received')
+#             time_acknowledge = request.POST.get('time_acknowledge')
+#             time_endorse = request.POST.get('time_endorse')
+#             region_name = request.POST.get('region_name', 'Unknown')
+#             province_name = request.POST.get('province_name', 'Unknown')
+#             city_name = request.POST.get('city_name', 'Unknown')
+#             barangay_name = request.POST.get('barangay_name', 'Unknown')
+#             selfcomplaint_number = request.POST.get('selfcomplaint_number', 'No mobile number provided')
+#             complaint_email = request.POST.get('complaint_email', '')
+#             complainant_fname = request.POST.get('complainant_fname', 'Anonymous')
+#             endorseemp  = request.POST.get('endorseemp', 'Unknown')
+#             complainant_pace = request.POST.get('complainant_pace', '')
+#             complainttype = request.POST.get('complainttype')
+#             clientdetails = request.POST.get('clientdetails')
+#             noc = request.POST.get('noc')
+#             complaindetails = request.POST.get('complaindetails')
+#             compfile = request.FILES.get('compfile')
 
-            # Generating a unique complaint number
-            complaint_number = random.randint(100000000, 999999999)
-            complaint_text = f"CARAGA-FO-ROC-PACD-25-{complaint_number}"
+#             # Generating a unique complaint number
+#             complaint_number = random.randint(100000000, 999999999)
+#             complaint_text = f"CARAGA-FO-ROC-PACD-25-{complaint_number}"
 
-            # Accessing the UserReg instance associated with the logged-in user
-            userreg = request.user.userreg
+#             # Accessing the UserReg instance associated with the logged-in user
+#             userreg = request.user.userreg
 
-            # Creating the complaint instance
-            complaint = PacdComplaints(
-                cat_id_id=cat_id,
-                subcategory_id_id=subcategory_id,
-                deadline=deadline,
-                region_name=region_name,
-                province_name=province_name,
-                city_name=city_name,
-                barangay_name=barangay_name,
-                passed_date=passed_date,
-                remind_date=remind_date,
-                date_endorse=date_endorse,
-                date_received=date_received,
-                time_received=time_received,
-                time_endorse=time_endorse,
-                time_acknowledge=time_acknowledge,
-                complaint_text=complaint_text,
-                complainant_fname=complainant_fname,
-                complainant_pace=complainant_pace,
-                complaint_email=complaint_email,
-                selfcomplaint_number=selfcomplaint_number,
-                complainttype=complainttype,
-                clientdetails = clientdetails,
-                noc=noc,
-                endorseemp=endorseemp,
-                complaindetails=complaindetails,
-                compfile=compfile,
-                userregid=userreg,
-            )
-            complaint.save()
+#             # Creating the complaint instance
+#             complaint = PacdComplaints(
+#                 cat_id_id=cat_id,
+#                 subcategory_id_id=subcategory_id,
+#                 deadline=deadline,
+#                 region_name=region_name,
+#                 province_name=province_name,
+#                 city_name=city_name,
+#                 barangay_name=barangay_name,
+#                 passed_date=passed_date,
+#                 remind_date=remind_date,
+#                 date_endorse=date_endorse,
+#                 date_received=date_received,
+#                 time_received=time_received,
+#                 time_endorse=time_endorse,
+#                 time_acknowledge=time_acknowledge,
+#                 complaint_text=complaint_text,
+#                 complainant_fname=complainant_fname,
+#                 complainant_pace=complainant_pace,
+#                 complaint_email=complaint_email,
+#                 selfcomplaint_number=selfcomplaint_number,
+#                 complainttype=complainttype,
+#                 clientdetails = clientdetails,
+#                 noc=noc,
+#                 endorseemp=endorseemp,
+#                 complaindetails=complaindetails,
+#                 compfile=compfile,
+#                 userregid=userreg,
+#             )
+#             complaint.save()
 
-            messages.success(request, 'Complaint Lodged Successfully!')
-            return redirect("pacdevereg")
+#             messages.success(request, 'Complaint Lodged Successfully!')
+#             return redirect("pacdevereg")
 
-        except Exception as e:
-            messages.error(request, f"An unexpected error occurred: {e}")
+#         except Exception as e:
+#             messages.error(request, f"An unexpected error occurred: {e}")
 
-    context = {
-        'category': category,
-        'categorycitymups': categorycitymups,
-        'subcategorycitymups': subcategorycitymups,
-    }
+#     context = {
+#         'category': category,
+#         'categorycitymups': categorycitymups,
+#         'subcategorycitymups': subcategorycitymups,
+#     }
 
-    return render(request, 'user/register-pacdevereg.html', context)
+#     return render(request, 'user/register-pacdevereg.html', context)
 
 
 @login_required(login_url='/')

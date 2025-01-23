@@ -41,12 +41,13 @@
                 </div>
             </div>
         </div>
+        
         <div class="col-md-3 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h6>Total Places</h6>
+                    <h6>Total PACD Registered</h6>
                     <h4 class="text-success">{{ catcitymup_list }}</h4>
-                    <a href="{% url 'manage_state' %}" class="btn btn-sm btn-outline-success">View</a>
+                    <a href="" class="btn btn-sm btn-outline-success">View</a>
                 </div>
             </div>
         </div>
@@ -81,6 +82,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-md-3 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body">
@@ -90,6 +92,53 @@
                 </div>
             </div>
         </div>
+
+        <!-- Total DSWD Email Direct Registration -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Total DSWD Email Direct Registered</h6>
+                    <h4 class="text-success">{{ dir_complaint_count }}</h4>
+                   
+                </div>
+            </div>
+        </div>
+
+        <!-- Total DSWD Inquiry Direct Registration -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Total DSWD Inquiry Direct Registered</h6>
+                    <h4 class="text-success">{{ dir_complaint_count2 }}</h4>
+                   
+                </div>
+            </div>
+        </div>
+
+        <!-- Total DSWD Inquiry Direct Registration -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Total Pace Registered</h6>
+                    <h4 class="text-success">{{ dir_complaint_count3 }}</h4>
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Total CSC-CCB Registration -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Total CSC-CCB Registered</h6>
+                    <h4 class="text-success">{{ dir_complaint_count4 }}</h4>
+                    
+                </div>
+            </div>
+        </div>
+
+
+
     </div>
 
     <!-- Statistics Section -->

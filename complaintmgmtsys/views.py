@@ -51,6 +51,8 @@ def doLogin(request):
                 return redirect('user_home')
             elif user_type == '3':  # PACD User
                 return redirect('pacd_home')
+            elif user_type == '4':  # ODSUS User
+                return redirect('odsus_home')
             else:
                 # Handle unexpected user type
                 messages.error(request, 'Unknown user type.')

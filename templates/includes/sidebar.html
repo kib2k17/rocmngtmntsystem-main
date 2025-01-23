@@ -276,5 +276,51 @@
     </ul>
   </nav>
 
+  {% elif user.user_type == '4' %}
+  <nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+      <li class="nav-item nav-profile">
+        <a href="#" class="nav-link">
+          <div class="profile-image">
+            <img class="img-xs rounded-circle" src="/{{user.profile_pic}}" alt="profile image">
+            <div class="dot-indicator bg-success"></div>
+          </div>
+          <div class="text-wrapper">
+            <p class="profile-name">{{user.first_name}} {{user.last_name}}</p>
+            <p class="designation">User</p>
+          </div>
+
+        </a>
+      </li>
+      <li class="nav-item nav-category">
+        <span class="nav-link">Dashboard</span>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'user_home' %}">
+          <span class="menu-title">Dashboard</span>
+          <i class="icon-screen-desktop menu-icon"></i>
+        </a>
+      </li>
+
+
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'pacdevereg' %}">
+          <span class="menu-title">PACD Every Day<br>Registration</span>
+          <i class="icon-reg menu-icon"></i>
+        </a>
+      </li>
+
+
+
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'pacdcomplainthistory' %}">
+          <span class="menu-title">Complaint History</span>
+          <i class="icon-chart menu-icon"></i>
+        </a>
+      </li>
+        
+    </ul>
+  </nav>
+
   
   {% endif %}
