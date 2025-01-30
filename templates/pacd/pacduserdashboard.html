@@ -11,13 +11,13 @@
     </div>
 
     <!-- Dashboard Stats Section -->
-    <div class="row">
+    <!-- <div class="row"> -->
         <!-- Complaints Summary Cards -->
-        <div class="col-md-6 col-xl-3">
+        <!-- <div class="col-md-6 col-xl-3">
             <div class="card border-0 rounded-lg shadow-lg card-hover">
                 <div class="card-body text-center">
                     <h6 class="text-muted">Total Complaints</h6>
-                    <h3 class="font-weight-bold text-primary">{{complaints_count}}</h3>
+                    <h3 class="font-weight-bold text-primary">{{ complaints_count }}</h3>
                 </div>
                 <div class="card-footer bg-primary text-white rounded-bottom text-center">
                     <i class="icon-doc"></i>
@@ -29,7 +29,7 @@
             <div class="card border-0 rounded-lg shadow-lg card-hover">
                 <div class="card-body text-center">
                     <h6 class="text-muted">New Complaints</h6>
-                    <h3 class="font-weight-bold text-warning">{{newcom_count}}</h3>
+                    <h3 class="font-weight-bold text-warning"></h3>
                 </div>
                 <div class="card-footer bg-warning text-white rounded-bottom text-center">
                     <i class="icon-doc"></i>
@@ -41,7 +41,7 @@
             <div class="card border-0 rounded-lg shadow-lg card-hover">
                 <div class="card-body text-center">
                     <h6 class="text-muted">In Process Complaints</h6>
-                    <h3 class="font-weight-bold text-danger">{{ipcom_count}}</h3>
+                    <h3 class="font-weight-bold text-danger"></h3>
                 </div>
                 <div class="card-footer bg-danger text-white rounded-bottom text-center">
                     <i class="icon-doc"></i>
@@ -52,8 +52,8 @@
         <div class="col-md-6 col-xl-3">
             <div class="card border-0 rounded-lg shadow-lg card-hover">
                 <div class="card-body text-center">
-                    <h6 class="text-muted">Closed Complaints</h6>
-                    <h3 class="font-weight-bold text-success">{{closed_count}}</h3>
+                    <h6 class="text-muted">Resolved Complaints</h6>
+                    <h3 class="font-weight-bold text-success"></h3>
                 </div>
                 <div class="card-footer bg-success text-white rounded-bottom text-center">
                     <i class="icon-doc"></i>
@@ -61,8 +61,11 @@
             </div>
         </div>
 
+
+
+
         
-    </div>
+    </div> -->
 
 
     <!-- Container for the dashboard -->
@@ -77,46 +80,11 @@
     <!-- Dashboard Stats Section -->
     <div class="row">
         <!-- Complaints Summary Cards -->
-        <div class="col-md-6 col-xl-3">
-            <div class="card border-0 rounded-lg shadow-lg card-hover">
-                <div class="card-body text-center">
-                    <h6 class="text-muted">Total DSWD Email Direct Registration</h6>
-                    <h3 class="font-weight-bold text-primary">{{complaints_count}}</h3>
-                </div>
-                <div class="card-footer bg-primary text-white rounded-bottom text-center">
-                    <i class="icon-doc"></i>
-                </div>
-            </div>
-        </div>
 
         <div class="col-md-6 col-xl-3">
             <div class="card border-0 rounded-lg shadow-lg card-hover">
                 <div class="card-body text-center">
-                    <h6 class="text-muted">Total DSWD Inquiry Direct Registration</h6>
-                    <h3 class="font-weight-bold text-warning">{{newcom_count}}</h3>
-                </div>
-                <div class="card-footer bg-warning text-white rounded-bottom text-center">
-                    <i class="icon-doc"></i>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-xl-3">
-            <div class="card border-0 rounded-lg shadow-lg card-hover">
-                <div class="card-body text-center">
-                    <h6 class="text-muted">Total Pace Registration</h6>
-                    <h3 class="font-weight-bold text-danger">{{ipcom_count}}</h3>
-                </div>
-                <div class="card-footer bg-danger text-white rounded-bottom text-center">
-                    <i class="icon-doc"></i>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-xl-3">
-            <div class="card border-0 rounded-lg shadow-lg card-hover">
-                <div class="card-body text-center">
-                    <h6 class="text-muted">Total CSC-CCB Registration</h6>
+                    <h6 class="text-muted">Total Catered Client</h6>
                     <h3 class="font-weight-bold text-success">{{closed_count}}</h3>
                 </div>
                 <div class="card-footer bg-success text-white rounded-bottom text-center">
@@ -125,6 +93,25 @@
             </div>
         </div>
 
+        
+
+<!-- 
+        <div class="col-md-6 col-xl-3">
+            <div class="card border-0 rounded-lg shadow-lg card-hover">
+                <div class="card-body text-center">
+                    <h6 class="text-muted">Total Catered Client Today</h6>
+                    <h3 class="font-weight-bold text-success"></h3>
+                </div>
+                <div class="card-footer bg-success text-white rounded-bottom text-center">
+                    <i class="icon-doc"></i>
+                </div>
+            </div>
+        </div> -->
+
+
+        
+
+            
         
     </div>
 
@@ -199,20 +186,20 @@
 
     <!-- Reminder Date Modal -->
 <!-- Reminder Date Modal -->
-<div class="modal fade" id="reminderDateModal" tabindex="-1" role="dialog" aria-labelledby="reminderDateModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="reminderDateModal" tabindex="-1" role="dialog" aria-labelledby="reminderDateModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="reminderDateModalLabel">Reminder - Nearing Deadline Tickets</h5>
             </div>
-            <div class="modal-body">
+            <div class="modal-body"> -->
                 <!-- Table for Tracking Number and Reminder Date -->
-                {% include 'includes/messages.html' %}
+                <!-- {% include 'includes/messages.html' %} -->
                 
                 <!-- Scrollable Table Wrapper -->
-                <div style="max-height: 400px; overflow-y: auto;">
+                <!-- <div style="max-height: 400px; overflow-y: auto;"> -->
                     <!-- Table with reminder date -->
-                    <table class="table table-striped table-bordered table-hover">
+                    <!-- <table class="table table-striped table-bordered table-hover">
                         <thead class="thead-dark">
                             <tr>
                                 <th>Tracking Number</th>
@@ -225,9 +212,9 @@
                                     <tr data-remind-date="{{ i.remind_date|date:'Y-m-d' }}">
                                         <td>{{ i.complaint_text }}</td>
                                         <td class="text-center text-bold" style="color: #FF5722;">
-                                            {{ i.remind_date|date:'l, F j, Y' }}
+                                            {{ i.remind_date|date:'l, F j, Y' }} -->
                                             <!-- Reminder countdown will be displayed here -->
-                                            <span class="reminder-countdown" id="reminder-{{ i.id }}"></span>
+                                            <!-- <span class="reminder-countdown" id="reminder-{{ i.id }}"></span>
                                         </td>
                                     </tr>
                                 {% endif %}
@@ -245,7 +232,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 
 
