@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect,HttpResponse
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 from cmsapp.models import CustomUser,UserReg,Category,Subcategory,Complaints,ComplaintRemark, Categorycitymup, Subcategorycitymup, PacdComplaints
@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 import random
+from django.utils import timezone
 
 
 
@@ -688,4 +689,44 @@ def USERDASHBOARDHISTORYDETAILS(request,id):
          'complaintsremarks':complaintsremarks,
     }
     return render(request,'user/complaint-details.html',context)
+
+
+
+
+def USERLODGEDCOMPLAINTSREMARK(request):
+    if request.method == 'POST':
+        complaint_id = request.POST.get('comp_id')
+        remark_text = request.POST.get('remark')
+        status = request.POST.get('status')
+        
+        # Update the Complaints model
+        lodged_complaint = Complaints.objects.get(id=complaint_id)
+        lodged_complaint.remark = remark_text
+        lodged_complaint.status = status
+        lodged_complaint.save()
+        
+        # Create a new ComplaintRemark entry
+        new_remark = ComplaintRemark.objects.create(
+            comp_id_id=lodged_complaint,  # Pass the Complaints instance here
+            remark=remark_text,
+            status=status,
+            remarkdate=timezone.now()
+        )
+        
+        messages.success(request, "Status updated successfully")
+        return redirect('complainthistory')
+    else:
+        # Handle the GET request if needed
+        complaint_id = request.GET.get('comp_id')
+        if complaint_id:
+            lodged_complaint = get_object_or_404(Complaints, id=complaint_id)
+            remarks = ComplaintRemark.objects.filter(comp_id_id=lodged_complaint)
+            context = {'complaint': lodged_complaint, 'remarks': remarks}
+        else:
+            context = {}
+             
+    return render(request, 'user/complaint-history.html', context)
+
+
+
 

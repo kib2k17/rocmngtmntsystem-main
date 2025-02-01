@@ -5,17 +5,18 @@ from django.dispatch import receiver
 
 
 class CustomUser(AbstractUser):
-    USER ={
-        (1,'admin'),
-        (2,'compuser'),
+    USER = [
+        (1, 'admin'),
+        (2, 'compuser'),
         (3, 'moderator'),
         (4, 'sememoderator'),
-        
-    }
-    user_type = models.CharField(choices=USER,max_length=50,default=1)
+    ]
 
-    profile_pic = models.ImageField(upload_to='media/profile_pic')
+    user_type = models.CharField(choices=USER, max_length=50, default=1)
+    profile_pic = models.ImageField(upload_to='media/profile_pic', blank=True, null=True)
 
+    def __str__(self):
+        return self.username
 # #BARANGAY
 
 # class Province(models.Model):

@@ -28,10 +28,11 @@
                                 <td>{{ complaints.clientdetails }}</td>
                                 <td><b>Complete Address</b></td>
                                 <td>
-                                    {{ complaints.region_name|default:"" }},
-                                    {{ complaints.province_name|default:"" }},
-                                    {{ complaints.city_name|default:"" }},
-                                    {{ complaints.barangay_name|default:"" }}
+                                    {{ complaints.region_name|default:"N/A" }},
+                                    {{ complaints.province_name|default:"N/A" }},
+                                    <br>
+                                    {{ complaints.city_name|default:"N/A" }},
+                                    {{ complaints.barangay_name|default:"N/A" }}
                                 </td>
                             </tr>
                             <tr>

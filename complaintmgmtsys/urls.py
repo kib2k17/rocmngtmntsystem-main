@@ -65,9 +65,7 @@ urlpatterns = [
     path('UserBetweenDateReport', adminviews.USERBDREPORT, name='userbdreports'),
     path('SearchComplaints', adminviews.Search_Complaints, name='searchcomplaints'),
     path('SearchUsers', adminviews.Search_Users, name='searchusers'),
-
     
-
      # This is user panel
     path('Comuser/UserHome', userviews.USERHOME, name='user_home'),
     path('usersignup/', userviews.USERSIGNUP, name='usersignup'),
@@ -83,6 +81,8 @@ urlpatterns = [
     path('UserDashboardHistory', userviews.USERDASHBOARDHISTORY, name='userdashboardhistory'),
     path('UserDashboardDetails/<str:id>', userviews.USERDASHBOARDHISTORYDETAILS, name='userdashboarddetails'),
     path('ComplaintHistoryDetails/<str:id>', userviews.COMPLAINTHISTORYDETAILS, name='complainthistorydetails'),
+    
+    path('UserLodgedComplaintRemark', userviews.USERLODGEDCOMPLAINTSREMARK, name='userlodgedcomplaintremark'),
     
     
     # This is pacd panel

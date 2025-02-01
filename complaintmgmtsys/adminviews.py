@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth.decorators import login_required
-from cmsapp.models import Category,Subcategory,State,Complaints,ComplaintRemark,UserReg, Categorycitymup, Subcategorycitymup
+from cmsapp.models import Category,Subcategory,State,Complaints,ComplaintRemark,UserReg, Categorycitymup, Subcategorycitymup,PacdComplaints
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import get_object_or_404
@@ -16,6 +16,7 @@ def ADMINHOME(request):
     subcategory_count = Subcategory.objects.all().count
     state_count = State.objects.all().count    
     complaints_count = Complaints.objects.all().count
+    pacdcomplaints_count = PacdComplaints.objects.all().count
     newcom_count = Complaints.objects.filter(status='0').count()
     ipcom_count = Complaints.objects.filter(status='Inprocess').count()
     closed_count = Complaints.objects.filter(status='Closed').count()
@@ -28,6 +29,7 @@ def ADMINHOME(request):
     'subcategory_count':subcategory_count,
     'state_count':state_count,
     'complaints_count':complaints_count,
+    'pacdcomplaints_count':pacdcomplaints_count,
     'newcom_count':newcom_count,
     'ipcom_count':ipcom_count,
     'closed_count':closed_count,

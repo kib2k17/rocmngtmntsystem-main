@@ -125,25 +125,29 @@
             <div class="row">
               <div class="col-md-3">
                 <label for="region" class="form-label">Region <span class="text-danger">*</span></label>
-                <select id="region" name="region_code" class="form-select form-select-sm" required>
+                <select id="region" name="region_code" class="form-select form-select-sm" required>\
+                  <input type="hidden" name="region_name" id="region_name">
                   <option value="">-- Select Region --</option>
                 </select>
               </div>
               <div class="col-md-3">
                 <label for="province" class="form-label">Province <span class="text-danger">*</span></label>
                 <select id="province" name="province_code" class="form-select form-select-sm" required>
+                  <input type="hidden" name="province_name" id="province_name">
                   <option value="">-- Select Province --</option>
                 </select>
               </div>
               <div class="col-md-3">
                 <label for="city" class="form-label">City <span class="text-danger">*</span></label>
                 <select id="city" name="city_code" class="form-select form-select-sm" required>
+                  <input type="hidden" name="city_name" id="city_name">
                   <option value="">-- Select City --</option>
                 </select>
               </div>
               <div class="col-md-3">
                 <label for="brgy" class="form-label">Barangay <span class="text-danger">*</span></label>
                 <select id="brgy" name="barangay_code" class="form-select form-select-sm" required>
+                  <input type="hidden" name="barangay_name" id="barangay_name">
                   <option value="">-- Select Barangay --</option>
                 </select>
               </div>
