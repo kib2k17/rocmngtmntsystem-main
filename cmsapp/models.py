@@ -4,49 +4,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-class CustomUser(AbstractUser):
-    USER = [
-        (1, 'admin'),
-        (2, 'compuser'),
-        (3, 'moderator'),
-        (4, 'sememoderator'),
-    ]
-
-    user_type = models.CharField(choices=USER, max_length=50, default=1)
-    profile_pic = models.ImageField(upload_to='media/profile_pic', blank=True, null=True)
-
-    def __str__(self):
-        return self.username
-# #BARANGAY
-
-# class Province(models.Model):
-#     name = models.CharField(max_length=100)
-
-#     def __str__(self):
-#         return self.name
-
-# class City(models.Model):
-#     name = models.CharField(max_length=100)
-#     province = models.ForeignKey(Province, on_delete=models.CASCADE, related_name='cities')
-
-#     def __str__(self):
-#         return f'{self.name}, {self.province.name}'
-
-# class Barangay(models.Model):
-#     name = models.CharField(max_length=100)
-#     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='barangays')
-
-#     def __str__(self):
-#         return f'{self.name}, {self.city.name}, {self.city.province.name}'
-
-# class CompleteAddress(models.Model):
-#     barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
-    
-#     def __str__(self):
-#         return f'{self.barangay.name}, {self.barangay.city.name}, {self.barangay.city.province.name}'
-    
-
-
 
 class Category(models.Model):
     catname = models.CharField(max_length=200)
@@ -65,6 +22,26 @@ class Subcategory(models.Model):
 
     def __str__(self):
         return self.subcatname
+    
+    
+class CustomUser(AbstractUser):
+    USER = [
+        (1, 'admin'),
+        (2, 'compuser'),
+        (3, 'moderator'),
+        (4, 'sememoderator'),
+    ]
+
+    user_type = models.CharField(choices=USER, max_length=50, default=1)
+    profile_pic = models.ImageField(upload_to='media/profile_pic', blank=True, null=True)
+    
+    # ForeignKey for Division and Section
+    cat = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+    subcategory = models.ForeignKey(Subcategory, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return self.username
+
     
 
 
@@ -97,8 +74,10 @@ class State(models.Model):
 
 class UserReg(models.Model):
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    cat = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)  # Division
+    subcategory = models.ForeignKey(Subcategory, on_delete=models.SET_NULL, null=True, blank=True)  # Section
     mobilenumber = models.CharField(max_length=11)
-    regdate_at = models.DateTimeField(auto_now_add=True)
+    regdate_at = models.DateTimeField(auto_now_add=True)    
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):

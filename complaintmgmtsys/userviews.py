@@ -41,9 +41,12 @@ def USERHOME(request):
 
 
 def USERSIGNUP(request):
-   
+    category = Category.objects.all()
+    
     if request.method == "POST":
         pic = request.FILES.get('pic')
+        cat_id = request.POST.get('cat_id')
+        subcategory_id = request.POST.get('subcategory_id')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         username = request.POST.get('username')
@@ -52,34 +55,46 @@ def USERSIGNUP(request):
         password = request.POST.get('password')
 
         if CustomUser.objects.filter(email=email).exists():
-            messages.warning(request,'Email already exist')
+            messages.warning(request, 'Email already exists')
             return redirect('usersignup')
-        if CustomUser.objects.filter(username=username).exists():
-            messages.warning(request,'Username already exist')
-            return redirect('usersignup')
-        else:
-            user = CustomUser(
-               first_name=first_name,
-               last_name=last_name,
-               username=username,
-               email=email,
-               user_type=2,
-               profile_pic = pic,
-            )
-            user.set_password(password)
-            user.save()            
-            comuser = UserReg(
-                admin = user,                
-                mobilenumber = mobno,              
-                
-            )
-            comuser.save()            
-            messages.success(request,'Signup Successfully')
-            return redirect('login')
-    
-    
 
-    return render(request,'user/user_reg.html')
+        if CustomUser.objects.filter(username=username).exists():
+            messages.warning(request, 'Username already exists')
+            return redirect('usersignup')
+
+        # Get ForeignKey Instances
+        category_instance = Category.objects.get(id=cat_id) if cat_id else None
+        subcategory_instance = Subcategory.objects.get(id=subcategory_id) if subcategory_id else None
+
+        # Create User
+        user = CustomUser(
+            first_name=first_name,
+            last_name=last_name,
+            username=username,
+            email=email,
+            user_type=4,
+            profile_pic=pic,
+            cat=category_instance,  # ✅ Correct (Stores FK instance)
+            subcategory=subcategory_instance  # ✅ Correct (Stores FK instance)
+        )
+        user.set_password(password)
+        user.save()
+
+        # Create UserReg Entry
+        comuser = UserReg(
+            admin=user,
+            mobilenumber=mobno,
+            cat_id=category_instance.id if category_instance else None,  # ✅ Pass ID instead of instance
+            subcategory_id=subcategory_instance.id if subcategory_instance else None  # ✅ Pass ID instead of instance
+        )
+        comuser.save()
+
+        messages.success(request, 'Signup Successfully')
+        return redirect('login')
+
+    context = {'category': category}
+    return render(request, 'user/user_reg.html', context)
+
 
 
 
@@ -689,9 +704,6 @@ def USERDASHBOARDHISTORYDETAILS(request,id):
          'complaintsremarks':complaintsremarks,
     }
     return render(request,'user/complaint-details.html',context)
-
-
-
 
 def USERLODGEDCOMPLAINTSREMARK(request):
     if request.method == 'POST':

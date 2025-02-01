@@ -1,5 +1,8 @@
 {% load static %}
 {% if user.user_type == '1' %}
+
+
+
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
       <li class="nav-item nav-profile">
@@ -289,7 +292,12 @@
           </div>
           <div class="text-wrapper">
             <p class="profile-name">{{user.first_name}} {{user.last_name}}</p>
-            <p class="designation">User</p>
+            <div class="designation d-flex flex-column">
+              <span class="badge badge-primary">{{ user.cat.catname }}</span>
+              <span class="badge badge-secondary mt-1">{{ user.subcategory.subcatname }}</span>
+          </div>
+          
+          
           </div>
 
         </a>
