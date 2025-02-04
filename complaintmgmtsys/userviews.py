@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
-from cmsapp.models import CustomUser,UserReg,Category,Subcategory,Complaints,ComplaintRemark, Categorycitymup, Subcategorycitymup, PacdComplaints
+from cmsapp.models import CustomUser,UserReg,Category,Subcategory,Complaints,ComplaintRemark, Categorycitymup, Subcategorycitymup, PacdComplaints,Odsus
 from django.contrib import messages
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
 import random
 from django.utils import timezone
+
 
 
 
@@ -19,16 +19,20 @@ def USERHOME(request):
     complaints_count = Complaints.objects.filter(userregid=user_reg).count()
     newcom_count = Complaints.objects.filter(status='0',userregid=user_reg).count()
     ipcom_count = Complaints.objects.filter(status='Inprocess',userregid=user_reg).count()
+    resolved_count = Complaints.objects.filter(status='Resolved',userregid=user_reg).count()
     closed_count = Complaints.objects.filter(status='Closed',userregid=user_reg).count()
     dir_complaint_count = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-DIR-25-",userregid=user_reg).count()
     dir_complaint_count2 = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-INQ-25-",userregid=user_reg).count()
     dir_complaint_count3 = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-PACE-25-",userregid=user_reg).count()
     dir_complaint_count4 = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-CSCCCB-25-",userregid=user_reg).count()
+    
+    
     context = {
     'complaints':complaints,
     'complaints_count':complaints_count,
     'newcom_count':newcom_count,
     'ipcom_count':ipcom_count,
+    'resolved_count':resolved_count,
     'closed_count':closed_count,
     'dir_complaint_count':dir_complaint_count,
     'dir_complaint_count2':dir_complaint_count2,
@@ -138,15 +142,18 @@ def REGCOMPLAINT(request):
     category = Category.objects.all()
     categorycitymups = Categorycitymup.objects.all()
     subcategorycitymups = Subcategorycitymup.objects.all()
+    compusers = UserReg.objects.select_related('admin').all()  # ✅ Fetch all users
     
-
-
-
-
+    print("DEBUG: Users in Dropdown:", compusers)
+    
     if request.method == "POST":
         try:
-            # Fetching data from the form
+            # ✅ Fetch division from the form
             cat_id = request.POST.get('cat_id')
+
+            # ✅ Get the division category (Promotive Services Division)
+            assigned_division = Category.objects.get(id=cat_id)
+
             subcategory_id = request.POST.get('subcategory_id')
             deadline = request.POST.get('deadline')
             passed_date = request.POST.get('passed_date')
@@ -176,9 +183,9 @@ def REGCOMPLAINT(request):
             # Accessing the UserReg instance associated with the logged-in user
             userreg = request.user.userreg
 
-            # Creating the complaint instance
+            # ✅ Ensure complaint is assigned to the selected division
             complaint = Complaints(
-                cat_id_id=cat_id,
+                cat_id=assigned_division,  # ✅ Assign correct division
                 subcategory_id_id=subcategory_id,
                 deadline=deadline,
                 region_name=region_name,
@@ -214,7 +221,8 @@ def REGCOMPLAINT(request):
     context = {
         'category': category,
         'categorycitymups': categorycitymups,
-        'subcategorycitymups': subcategorycitymups, 
+        'subcategorycitymups': subcategorycitymups,
+        'compusers': compusers,
     }
 
     return render(request, 'user/register-complaint.html', context)

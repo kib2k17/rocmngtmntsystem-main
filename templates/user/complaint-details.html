@@ -104,10 +104,11 @@
                         </tbody>
                     </table>
                 </div>
-                {% if complaints.status == '0' or complaints.status == 'Inprocess' %}
+                {% if complaints.status == '0' or complaints.status == 'Inprocess' or i.status == 'Resolved' %}
 
                 <p align="center"  style="padding-top: 20px">
-                  <button class="btn btn-primary waves-effect waves-light w-lg" data-toggle="modal" data-target="#myModal">Take Action</button></p>{% endif %}
+                  <button class="btn btn-primary waves-effect waves-light w-lg" data-toggle="modal" data-target="#myModal">Take Action</button></p>
+                {% endif %}
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                      <div class="modal-content">
@@ -146,6 +147,7 @@
                                     <select name="status" class="form-control wd-450" required="true">
                                         <option value="" selected="true">Select Status</option>
                                         <option value="Inprocess">Inprocess</option>
+                                        <option value="Resolved">Resolved</option>
                                         <option value="Closed">Closed</option>
                                     </select>
                                 </td>

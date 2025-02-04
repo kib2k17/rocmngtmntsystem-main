@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-
+#Division
 class Category(models.Model):
     catname = models.CharField(max_length=200)
     catdes = models.TextField(blank=True)
@@ -13,7 +13,8 @@ class Category(models.Model):
 
     def __str__(self):
         return self.catname
-
+    
+#SECTION
 class Subcategory(models.Model):
     cat_id = models.ForeignKey(Category, on_delete=models.CASCADE)
     subcatname = models.CharField(max_length=200)
@@ -235,6 +236,7 @@ class PacdComplaintRemark(models.Model):
     
 class Odsus(models.Model):
     userregid = models.ForeignKey(UserReg, on_delete=models.CASCADE, null=True, blank=True)
+    complaints = models.ManyToManyField(Complaints, related_name="odsus_entries")
     
     # # Foreign keys for City and Municipality categories
     # catmupname_id = models.ForeignKey(Categorycitymup, on_delete=models.CASCADE, null=True, blank=True)

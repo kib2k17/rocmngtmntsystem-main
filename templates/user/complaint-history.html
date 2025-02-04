@@ -56,6 +56,8 @@
                                         <span class="badge badge-danger">Not Processed Yet</span>
                                         {% elif i.status == 'Inprocess' %}
                                         <span class="badge badge-warning">In Process</span>
+                                        {% elif i.status == 'Resolved' %}
+                                        <span class="badge badge-warning">Resolved</span>
                                         {% elif i.status == 'Closed' %}
                                         <span class="badge badge-success">Closed</span>
                                         {% endif %}

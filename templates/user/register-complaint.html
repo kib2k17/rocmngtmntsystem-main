@@ -248,6 +248,20 @@
                             </div>
                         </div>
 
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="fa fa-user" for="assigned_to">Assign to User</label>
+                                <select name="assigned_to" id="assigned_to" class="form-control" required>
+                                    {% for user in compusers %}
+                                        {% if user.admin %}
+                                            <option value="{{ user.admin.id }}">{{ user.admin.first_name }} {{ user.admin.last_name }}</option>
+                                        {% else %}
+                                            <option value="{{ user.id }}">Unassigned User</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
 
                     </div>
 

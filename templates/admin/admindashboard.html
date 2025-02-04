@@ -86,6 +86,16 @@
         <div class="col-md-3 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body">
+                    <h6>Resolved Complaints</h6>
+                    <h4 class="text-danger">{{ resolved_count }}</h4>
+                    <a href="{% url 'inprocesscomplaints' %}" class="btn btn-sm btn-outline-danger">View</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
                     <h6>Closed Complaints</h6>
                     <h4 class="text-success">{{ closed_count }}</h4>
                     <a href="{% url 'closedcomplaints' %}" class="btn btn-sm btn-outline-success">View</a>

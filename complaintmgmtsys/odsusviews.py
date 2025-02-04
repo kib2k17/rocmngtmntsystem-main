@@ -15,20 +15,60 @@ import random
 @login_required(login_url='/')
 def ODSUSHOME(request):
     user_admin = request.user
-    user_reg = UserReg.objects.get(admin=user_admin)
-    complaints = Odsus.objects.all().order_by('remind_date')
-    complaints_count = Odsus.objects.filter(userregid=user_reg).count()
-    newcom_count = Odsus.objects.filter(status='0',userregid=user_reg).count()
-    ipcom_count = Odsus.objects.filter(status='Inprocess',userregid=user_reg).count()
-    closed_count = Odsus.objects.filter(status='Closed',userregid=user_reg).count()
+
+    # Get the user's registration details
+    try:
+        user_reg = UserReg.objects.get(admin=user_admin)
+    except UserReg.DoesNotExist:
+        return render(request, 'odsus/odsusdashboard.html', {'error': 'No user registration found.'})
+
+    # Get the user's assigned division (Category) and section (Subcategory)
+    user_division = user_reg.cat  # Division (Category)
+    user_section = user_reg.subcategory  # Section (Subcategory)
+
+    # Retrieve only complaints related to the user's division and section
+    complaints = Complaints.objects.filter(cat_id=user_division, subcategory_id=user_section).order_by('remind_date')
+
+    # Debugging Output
+    print(f"User Division: {user_division}")
+    print(f"User Section: {user_section}")
+    print(f"Complaints Found: {complaints.count()}")
+
+    # Count complaints only related to the user's division and section
+    complaints_count = complaints.count()
+    newcom_count = complaints.filter(status='0').count()
+    ipcom_count = complaints.filter(status='Inprocess').count()
+    resolved_count = complaints.filter(status='Resolved').count()
+    closed_count = complaints.filter(status='Closed').count()
+
+    # Directory complaint count based on prefixes in `complaint_text`
+    dir_complaint_count = complaints.filter(complaint_text__startswith="CARAGA-FO-ROC-DIR-25-").count()
+    dir_complaint_count2 = complaints.filter(complaint_text__startswith="CARAGA-FO-ROC-INQ-25-").count()
+    dir_complaint_count3 = complaints.filter(complaint_text__startswith="CARAGA-FO-ROC-PACE-25-").count()
+    dir_complaint_count4 = complaints.filter(complaint_text__startswith="CARAGA-FO-ROC-CSCCCB-25-").count()
+
     context = {
-    'complaints':complaints,
-    'complaints_count':complaints_count,
-    'newcom_count':newcom_count,
-    'ipcom_count':ipcom_count,
-    'closed_count':closed_count,        
+        'complaints': complaints,
+        'complaints_count': complaints_count,
+        'newcom_count': newcom_count,
+        'ipcom_count': ipcom_count,
+        'resolved_count': resolved_count,
+        'closed_count': closed_count,
+        'dir_complaint_count': dir_complaint_count,
+        'dir_complaint_count2': dir_complaint_count2,
+        'dir_complaint_count3': dir_complaint_count3,
+        'dir_complaint_count4': dir_complaint_count4,
     }
-    return render(request,'odsus/odsusdashboard.html',context)
+
+    return render(request, 'odsus/odsusdashboard.html', context)
+
+
+
+
+
+
+
+
 
 def ODSUSSIGNUP(request):
    

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, CustomUser, Subcategory, Subcategorycitymup, State, UserReg, Complaints, ComplaintRemark, Categorycitymup, PacdComplaints, PacdComplaintRemark
+from .models import Category, CustomUser, Subcategory, Subcategorycitymup, State, UserReg, Complaints, ComplaintRemark, Categorycitymup, PacdComplaints, PacdComplaintRemark, Odsus, OdsusRemark
 from django.contrib.auth.admin import UserAdmin
 
 class UserModel(UserAdmin):
@@ -16,6 +16,8 @@ admin.site.register(Categorycitymup)
 admin.site.register(Subcategorycitymup)
 admin.site.register(PacdComplaints)
 admin.site.register(PacdComplaintRemark)
+admin.site.register(Odsus)
+admin.site.register(OdsusRemark)
 
 
 

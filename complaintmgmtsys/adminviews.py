@@ -19,6 +19,7 @@ def ADMINHOME(request):
     pacdcomplaints_count = PacdComplaints.objects.all().count
     newcom_count = Complaints.objects.filter(status='0').count()
     ipcom_count = Complaints.objects.filter(status='Inprocess').count()
+    resolved_count = Complaints.objects.filter(status='Resolved').count()
     closed_count = Complaints.objects.filter(status='Closed').count()
     dir_complaint_count = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-DIR-25-").count()
     dir_complaint_count2 = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-INQ-25-").count()
@@ -32,6 +33,7 @@ def ADMINHOME(request):
     'pacdcomplaints_count':pacdcomplaints_count,
     'newcom_count':newcom_count,
     'ipcom_count':ipcom_count,
+    'resolved_count':resolved_count,
     'closed_count':closed_count,
     'complaints':complaints,
     'dir_complaint_count':dir_complaint_count,
@@ -546,6 +548,11 @@ def INPROCESSCOMPLAINTS(request):
     inprocess_complaints = Complaints.objects.filter(status='Inprocess').order_by('-complaintdate_at')
     context = {'inprocess_complaints': inprocess_complaints}
     return render(request, 'admin/inprocess_complaints.html', context)
+
+def RESOLVEDCOMPLAINTS(request):    
+    resolved_complaints = Complaints.objects.filter(status='Resolved').order_by('-complaintdate_at')
+    context = {'resolved_complaints': resolved_complaints}
+    return render(request, 'admin/resolved_complaints.html', context)
 
 def CLOSEDCOMPLAINTS(request):    
     closed_complaints = Complaints.objects.filter(status='Closed').order_by('-complaintdate_at')
