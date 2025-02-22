@@ -1,8 +1,8 @@
 {% load static %}
+
+
+<!-- SUPERADMIN SIDEBAR -->
 {% if user.user_type == '1' %}
-
-
-
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
       <li class="nav-item nav-profile">
@@ -133,8 +133,6 @@
           
           </ul>
         </div>
-
-
       </li>
 
 
@@ -181,6 +179,7 @@
     </ul>
   </nav>
 
+  <!-- ADMIN SIDEBAR -->
   {% elif user.user_type == '2' %}
   <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
@@ -192,7 +191,7 @@
           </div>
           <div class="text-wrapper">
             <p class="profile-name">{{user.first_name}} {{user.last_name}}</p>
-            <p class="designation">User</p>
+            <p class="designation">Admin</p>
           </div>
 
         </a>
@@ -231,10 +230,43 @@
           <i class="icon-chart menu-icon"></i>
         </a>
       </li>
+
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#auth2" aria-expanded="false" aria-controls="auth2">
+          <span class="menu-title">Search</span>
+          <i class="icon-doc menu-icon"></i>
+        </a>
+        <div class="collapse" id="auth2">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{% url 'searchusers' %}"> User Search </a></li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'searchcomplaints' %}"> Complaints Search </a></li>
+            <li class="nav-item"> <a class="nav-link" href=""> Division Search </a></li>
+          
+          </ul>
+        </div>
+      </li>
+
+
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#auth1" aria-expanded="false" aria-controls="auth1">
+          <span class="menu-title">Reports</span>
+          <i class="icon-doc menu-icon"></i>
+        </a>
+        <div class="collapse" id="auth1">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{% url 'complaintsreports' %}"> Complaints Report </a></li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'userbdreports' %}"> User Reports </a></li>
+          
+          </ul>
+        </div>
+      </li>
+
         
     </ul>
   </nav>
 
+
+    <!-- PACD SIDEBAR -->
   {% elif user.user_type == '3' %}
   <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
@@ -281,6 +313,7 @@
     </ul>
   </nav>
 
+  <!-- ODUS SIDEBAR -->
   {% elif user.user_type == '4' %}
   <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
@@ -301,11 +334,9 @@
 
         </a>
       </li>
-      <li class="nav-item nav-category">
-        <span class="nav-link">Dashboard</span>
-      </li>
+
       <li class="nav-item">
-        <a class="nav-link" href=>
+        <a class="nav-link" href="{% url 'odsus_home' %}">
           <span class="menu-title">Dashboard</span>
           <i class="icon-screen-desktop menu-icon"></i>
         </a>
@@ -313,11 +344,13 @@
 
 
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'pacdcomplainthistory' %}">
-          <span class="menu-title">Complaint History</span>
+        <a class="nav-link" href="{% url 'odsushistory' %}">
+          <span class="menu-title">Take Action</span>
           <i class="icon-chart menu-icon"></i>
         </a>
       </li>
+
+
         
     </ul>
   </nav>

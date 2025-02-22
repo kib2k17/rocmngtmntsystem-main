@@ -9,7 +9,7 @@
     <!-- Header Section -->
     <div class="row mb-4">
         <div class="col-md-12">
-            <h3 class="font-weight-bold text-dark text-center">ODSUS DAY DASHBOARD</h3>
+            <h3 class="font-weight-bold text-dark text-center">ODSUS DASHBOARD</h3>
         </div>
     </div>
 
@@ -58,6 +58,7 @@
                     </div>
                 </div>
             </div>
+         
             <div class="col-md-3">
                 <div class="card shadow-lg p-3 mb-4 bg-white rounded border-left-success">
                     <div class="card-body">
@@ -66,75 +67,117 @@
                     </div>
                 </div>
             </div>
+
+
+            <!-- DIRECTORY COUNT -->
+            <div class="col-md-3">
+                <div class="card shadow-lg p-3 mb-4 bg-white rounded border-left-success">
+                    <div class="card-body">
+                        <h5 class="card-title text-black-50">Directory Count</h5>
+                        <h3 class="font-weight-bold">{{ dir_complaint_count }}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DIRECTORY COUNT -->
+            <div class="col-md-3">
+                <div class="card shadow-lg p-3 mb-4 bg-white rounded border-left-success">
+                    <div class="card-body">
+                        <h5 class="card-title text-black-50">Inquiry Count</h5>
+                        <h3 class="font-weight-bold">{{ dir_complaint_count2 }}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow-lg p-3 mb-4 bg-white rounded border-left-success">
+                    <div class="card-body">
+                        <h5 class="card-title text-black-50">Pace Count</h5>
+                        <h3 class="font-weight-bold">{{ dir_complaint_count3 }}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow-lg p-3 mb-4 bg-white rounded border-left-success">
+                    <div class="card-body">
+                        <h5 class="card-title text-black-50">CSCCCB Count</h5>
+                        <h3 class="font-weight-bold">{{ dir_complaint_count4 }}</h3>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
         </div>
 
         <br>
 
-        
-
-        
-
-        <div class="card shadow-lg">
+        <div class="card shadow-sm mt-4">
             <div class="card-header bg-primary text-white">
-                <h5 class="mb-0"><center>COMPLAINT LIST</center></h5>
+                <h5 class="mb-0">All Complaints</h5>
             </div>
             <div class="card-body">
-                <div class="table-responsive"> <!-- Makes the table scrollable on smaller screens -->
-                    <table class="table table-striped table-hover align-middle text-center">
+                <!-- Check for flash messages -->
+                {% include 'includes/messages.html' %}
+        
+                <!-- Scrollable Table Wrapper -->
+                <div style="max-height: 400px; overflow-y: auto;">
+                    <!-- Elegant Table for Complaints -->
+                    <table class="table table-striped table-bordered table-hover align-middle text-center">
                         <thead class="thead-dark">
                             <tr>
-                                <th class="text-nowrap">Complaint ID</th>
-                                <th class="text-nowrap">ROC - Incharge</th>
-                                <th class="text-nowrap">Complaint Type</th>
-                                <th class="text-nowrap">Status</th>
-                                <th class="text-nowrap">Date Submitted</th>
-                                <th class="text-nowrap">Province</th>
-                                <th class="text-nowrap">Reminder Date</th>
-                                <th class="text-nowrap">Action</th>
+                                <th>Tracking Number</th>
+                                <th>Complaint Status</th>
+                                <th>Complainant</th>
+                                <th>Date Filed</th>
+                                <th>Reminder Date</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for complaint in complaints %}
-                                <tr data-remind-date="{{ complaint.remind_date|date:'Y-m-d' }}">
-                                    <td class="fw-bold">{{ complaint.complaint_text }}</td>
-                                    <td>{{ complaint.userregid.admin.get_full_name }}</td>
-                                    <td>{{ complaint.complainttype }}</td>
+                            {% for i in complaints %}
+                                <tr>
+                                    <td class="fw-bold">{{ i.complaint_text }}</td>
                                     <td>
-                                        {% if complaint.status == "0" %}
-                                            <span class="badge bg-warning text-dark">New</span>
-                                        {% elif complaint.status == "Inprocess" %}
-                                            <span class="badge bg-info text-white">In Process</span>
-                                        {% elif complaint.status == "Closed" %}
-                                            <span class="badge bg-success">Closed</span>
-                                        {% else %}
-                                            <span class="badge bg-warning">Resolved</span>
-                                        {% endif %}
+                                        <span class="badge {% if i.status == 'Pending' %}bg-warning text-dark{% elif i.status == 'Resolved' %}bg-success{% else %}bg-secondary{% endif %}">
+                                            {{ i.status }}
+                                        </span>
                                     </td>
-                                    <td>{{ complaint.date_received|date:"M. d, Y"|default:"N/A" }}</td>
-                                    <td>{{ complaint.province_name|default:"N/A" }}</td>
-                                    <td class="text-center text-bold" style="color: #FF5722;">
-                                        {% if complaint.remind_date %}
-                                            {{ complaint.remind_date|date:'l, F j, Y' }}
-                                            <!-- Placeholder for reminder countdown -->
-                                            <span class="reminder-countdown" id="reminder-{{ complaint.id }}"></span>
+                                    <td>{{ i.complainant_fname }}</td>
+                                    <td>{{ i.complaintdate_at|date:'l, F j, Y' }}</td>
+                                    <td class="fw-bold" style="color: #FF5722;">
+                                        {% if i.remind_date %}
+                                            {{ i.remind_date|date:'l, F j, Y' }}
+                                            <br>
+                                            <small class="reminder-countdown" id="reminder-{{ i.id }}"></small>
                                         {% else %}
-                                            <span class="text-muted">No Reminder</span>
+                                            <span class="text-muted">N/A</span>
                                         {% endif %}
                                     </td>
                                     <td>
-                                        
+                                        <a href="{% url 'odsushistorydetails' i.id %}" class="btn btn-sm btn-outline-primary shadow-sm">
+                                            <i class="fas fa-eye"></i> View
+                                        </a>
                                     </td>
                                 </tr>
                             {% empty %}
                                 <tr>
-                                    <td colspan="7" class="text-center text-danger fw-bold">No complaints found as of the moment.</td>
+                                    <td colspan="6" class="text-center text-muted">No complaints available.</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
-                    </table>
+                    </table>   
                 </div>
             </div>
         </div>
+        
+
+        <br>
+        
         
 
 
@@ -265,61 +308,30 @@
         </div>
     </div>
 
-    <!-- Reminder Date Modal -->
-<!-- Reminder Date Modal -->
-<div class="modal fade" id="reminderDateModal" tabindex="-1" role="dialog" aria-labelledby="reminderDateModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="reminderDateModalLabel">Reminder - Nearing Deadline Tickets</h5>
-            </div>
-            <div class="modal-body">
-                <!-- Table for Tracking Number and Reminder Date -->
-                {% include 'includes/messages.html' %}
-                
-                <!-- Scrollable Table Wrapper -->
-                <div style="max-height: 400px; overflow-y: auto;">
-                    <!-- Table with reminder date -->
-                    <table class="table table-striped table-bordered table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Tracking Number</th>
-                                <th>Reminder Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for i in complaints %}
-                                {% if i.remind_date %}
-                                    <tr data-remind-date="{{ i.remind_date|date:'Y-m-d' }}">
-                                        <td>{{ i.complaint_text }}</td>
-                                        <td class="text-center text-bold" style="color: #FF5722;">
-                                            {{ i.remind_date|date:'l, F j, Y' }}
-                                            <!-- Reminder countdown will be displayed here -->
-                                            <span class="reminder-countdown" id="reminder-{{ i.id }}"></span>
-                                        </td>
-                                    </tr>
-                                {% endif %}
-                            {% empty %}
-                                <tr>
-                                    <td colspan="2" class="text-center text-muted">No complaints near deadline.</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeReminderModalBtn">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 
 
     
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".reminder-countdown").forEach(function (element) {
+            let reminderDate = new Date(element.previousSibling.nodeValue.trim());
+            function updateCountdown() {
+                let now = new Date();
+                let diff = reminderDate - now;
+                if (diff > 0) {
+                    let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    element.innerHTML = `(in ${days} days)`;
+                } else {
+                    element.innerHTML = `<span class="text-danger">(Expired)</span>`;
+                }
+            }
+            updateCountdown();
+            setInterval(updateCountdown, 60000);
+        });
+    });
+</script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -335,17 +347,21 @@
             const timeDiff = remindDate - today;
             const daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert milliseconds to days
 
-            // Get the reminder countdown element and display the difference
+            // Get the reminder countdown element
             const reminderCountdown = row.querySelector('.reminder-countdown');
+
             if (daysLeft > 0) {
                 reminderCountdown.textContent = `Reminder: ${daysLeft} day(s) left until deadline.`;
                 reminderCountdown.style.color = "green"; // Optional: Set color to green for positive countdown
             } else if (daysLeft === 0) {
                 reminderCountdown.textContent = "Reminder: Today is the deadline!";
                 reminderCountdown.style.color = "red"; // Optional: Set color to red for today
+            } else if (daysLeft < 0 && daysLeft >= -3) {
+                reminderCountdown.textContent = `Reminder: The deadline passed ${Math.abs(daysLeft)} day(s) ago.`;
+                reminderCountdown.style.color = "orange"; // Optional: Set color to orange for recent past
             } else {
-                reminderCountdown.textContent = `Reminder: The deadline has passed.`;
-                reminderCountdown.style.color = "gray"; // Optional: Set color to gray for passed deadline
+                // Hide the row if the deadline has passed more than 3 days ago
+                row.style.display = "none";
             }
         });
     });

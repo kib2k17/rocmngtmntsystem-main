@@ -1,7 +1,7 @@
-from django.shortcuts import render,redirect,HttpResponse
+from django.shortcuts import render,redirect,HttpResponse,get_object_or_404
 from django.contrib.auth.decorators import login_required
 
-from cmsapp.models import CustomUser,UserReg,Category,Subcategory,Complaints,ComplaintRemark, Categorycitymup, Subcategorycitymup, PacdComplaints, PacdComplaintRemark,Odsus
+from cmsapp.models import CustomUser,UserReg,Category,Subcategory,Complaints,ComplaintRemark, Categorycitymup, Subcategorycitymup, PacdComplaints, PacdComplaintRemark,Odsus, OdsusRemark
 from django.contrib import messages
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -27,7 +27,7 @@ def ODSUSHOME(request):
     user_section = user_reg.subcategory  # Section (Subcategory)
 
     # Retrieve only complaints related to the user's division and section
-    complaints = Complaints.objects.filter(cat_id=user_division, subcategory_id=user_section).order_by('remind_date')
+    complaints = Complaints.objects.filter(cat_id=user_division, subcategory_id=user_section).order_by('-complaintdate_at')
 
     # Debugging Output
     print(f"User Division: {user_division}")
@@ -223,12 +223,12 @@ def ODSUSHISTORY(request):
 
 
 @login_required(login_url='/')
-def ODSUSHISTORYDETAILS(request,id):
-    complaints = Odsus.objects.get(id=id)
-    complaintsremarks = PacdComplaintRemark.objects.filter(comp_id_id=id)
+def ODSUSHISTORYDETAILS(request, id):
+    complaints = Complaints.objects.get(id=id)
+    complaintsremarks = ComplaintRemark.objects.filter(comp_id_id=id)
       
     context = {
          'complaints':complaints,
          'complaintsremarks':complaintsremarks,
     }
-    return render(request,'odsus/odsus-details.html',context)
+    return render(request,'user/complaint-details.html',context)

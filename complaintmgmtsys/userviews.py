@@ -76,7 +76,7 @@ def USERSIGNUP(request):
             last_name=last_name,
             username=username,
             email=email,
-            user_type=4,
+            user_type=2, # Change this type for different user types
             profile_pic=pic,
             cat=category_instance,  # ✅ Correct (Stores FK instance)
             subcategory=subcategory_instance  # ✅ Correct (Stores FK instance)
@@ -319,11 +319,18 @@ def NON8888REGCOMPLAINT(request):
     category = Category.objects.all()
     categorycitymups = Categorycitymup.objects.all()
     subcategorycitymups = Subcategorycitymup.objects.all()
-
+    compusers = UserReg.objects.select_related('admin').all()  # ✅ Fetch all users
+    
+    print("DEBUG: Users in Dropdown:", compusers)
+    
     if request.method == "POST":
         try:
-            # Fetching data from the form
+            # ✅ Fetch division from the form
             cat_id = request.POST.get('cat_id')
+
+            # ✅ Get the division category (Promotive Services Division)
+            assigned_division = Category.objects.get(id=cat_id)
+
             subcategory_id = request.POST.get('subcategory_id')
             deadline = request.POST.get('deadline')
             passed_date = request.POST.get('passed_date')
@@ -353,9 +360,9 @@ def NON8888REGCOMPLAINT(request):
             # Accessing the UserReg instance associated with the logged-in user
             userreg = request.user.userreg
 
-            # Creating the complaint instance
+            # ✅ Ensure complaint is assigned to the selected division
             complaint = Complaints(
-                cat_id_id=cat_id,
+                cat_id=assigned_division,  # ✅ Assign correct division
                 subcategory_id_id=subcategory_id,
                 deadline=deadline,
                 region_name=region_name,
@@ -383,7 +390,7 @@ def NON8888REGCOMPLAINT(request):
             complaint.save()
 
             messages.success(request, 'Complaint Lodged Successfully!')
-            return redirect("non8888regcomplaint")
+            return redirect("regcomplaint")
 
         except Exception as e:
             messages.error(request, f"An unexpected error occurred: {e}")
@@ -392,6 +399,7 @@ def NON8888REGCOMPLAINT(request):
         'category': category,
         'categorycitymups': categorycitymups,
         'subcategorycitymups': subcategorycitymups,
+        'compusers': compusers,
     }
 
     return render(request, 'user/register-complaint-non-8888.html', context)
@@ -403,11 +411,18 @@ def PACEREGCOMPLAINT(request):
     category = Category.objects.all()
     categorycitymups = Categorycitymup.objects.all()
     subcategorycitymups = Subcategorycitymup.objects.all()
-
+    compusers = UserReg.objects.select_related('admin').all()  # ✅ Fetch all users
+    
+    print("DEBUG: Users in Dropdown:", compusers)
+    
     if request.method == "POST":
         try:
-            # Fetching data from the form
+            # ✅ Fetch division from the form
             cat_id = request.POST.get('cat_id')
+
+            # ✅ Get the division category (Promotive Services Division)
+            assigned_division = Category.objects.get(id=cat_id)
+
             subcategory_id = request.POST.get('subcategory_id')
             deadline = request.POST.get('deadline')
             passed_date = request.POST.get('passed_date')
@@ -437,9 +452,9 @@ def PACEREGCOMPLAINT(request):
             # Accessing the UserReg instance associated with the logged-in user
             userreg = request.user.userreg
 
-            # Creating the complaint instance
+            # ✅ Ensure complaint is assigned to the selected division
             complaint = Complaints(
-                cat_id_id=cat_id,
+                cat_id=assigned_division,  # ✅ Assign correct division
                 subcategory_id_id=subcategory_id,
                 deadline=deadline,
                 region_name=region_name,
@@ -467,7 +482,7 @@ def PACEREGCOMPLAINT(request):
             complaint.save()
 
             messages.success(request, 'Complaint Lodged Successfully!')
-            return redirect("paceregcomplaint")
+            return redirect("regcomplaint")
 
         except Exception as e:
             messages.error(request, f"An unexpected error occurred: {e}")
@@ -476,6 +491,7 @@ def PACEREGCOMPLAINT(request):
         'category': category,
         'categorycitymups': categorycitymups,
         'subcategorycitymups': subcategorycitymups,
+        'compusers': compusers,
     }
 
     return render(request, 'user/register-complaint-pace.html', context)
@@ -486,11 +502,18 @@ def CSCCCB(request):
     category = Category.objects.all()
     categorycitymups = Categorycitymup.objects.all()
     subcategorycitymups = Subcategorycitymup.objects.all()
-
+    compusers = UserReg.objects.select_related('admin').all()  # ✅ Fetch all users
+    
+    print("DEBUG: Users in Dropdown:", compusers)
+    
     if request.method == "POST":
         try:
-            # Fetching data from the form
+            # ✅ Fetch division from the form
             cat_id = request.POST.get('cat_id')
+
+            # ✅ Get the division category (Promotive Services Division)
+            assigned_division = Category.objects.get(id=cat_id)
+
             subcategory_id = request.POST.get('subcategory_id')
             deadline = request.POST.get('deadline')
             passed_date = request.POST.get('passed_date')
@@ -520,9 +543,9 @@ def CSCCCB(request):
             # Accessing the UserReg instance associated with the logged-in user
             userreg = request.user.userreg
 
-            # Creating the complaint instance
+            # ✅ Ensure complaint is assigned to the selected division
             complaint = Complaints(
-                cat_id_id=cat_id,
+                cat_id=assigned_division,  # ✅ Assign correct division
                 subcategory_id_id=subcategory_id,
                 deadline=deadline,
                 region_name=region_name,
@@ -550,7 +573,7 @@ def CSCCCB(request):
             complaint.save()
 
             messages.success(request, 'Complaint Lodged Successfully!')
-            return redirect("cscccbcomplaint")
+            return redirect("regcomplaint")
 
         except Exception as e:
             messages.error(request, f"An unexpected error occurred: {e}")
@@ -559,6 +582,7 @@ def CSCCCB(request):
         'category': category,
         'categorycitymups': categorycitymups,
         'subcategorycitymups': subcategorycitymups,
+        'compusers': compusers,
     }
 
     return render(request, 'user/register-complaint-csc-ccb.html', context)
