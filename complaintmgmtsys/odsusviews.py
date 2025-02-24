@@ -29,10 +29,10 @@ def ODSUSHOME(request):
     # Retrieve only complaints related to the user's division and section
     complaints = Complaints.objects.filter(cat_id=user_division, subcategory_id=user_section).order_by('-complaintdate_at')
 
-    # Debugging Output
-    print(f"User Division: {user_division}")
-    print(f"User Section: {user_section}")
-    print(f"Complaints Found: {complaints.count()}")
+    # Pagination
+    paginator = Paginator(complaints, 10)  # Show 10 complaints per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     # Count complaints only related to the user's division and section
     complaints_count = complaints.count()
@@ -48,7 +48,7 @@ def ODSUSHOME(request):
     dir_complaint_count4 = complaints.filter(complaint_text__startswith="CARAGA-FO-ROC-CSCCCB-25-").count()
 
     context = {
-        'complaints': complaints,
+        'page_obj': page_obj,  # Updated to use paginated object
         'complaints_count': complaints_count,
         'newcom_count': newcom_count,
         'ipcom_count': ipcom_count,

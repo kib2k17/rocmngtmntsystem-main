@@ -29,7 +29,7 @@
             <div class="col-md-3">
                 <div class="card shadow-lg p-3 mb-4 bg-white rounded border-left-primary">
                     <div class="card-body">
-                        <h5 class="card-title text-primary">Total Complaints</h5>
+                        <h5 class="card-title text-dark-emphasis">Total Complaints</h5>
                         <h3 class="font-weight-bold">{{ complaints_count }}</h3>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
             <div class="col-md-3">
                 <div class="card shadow-lg p-3 mb-4 bg-white rounded border-left-warning">
                     <div class="card-body">
-                        <h5 class="card-title text-warning">New Complaints</h5>
+                        <h5 class="card-title text-primary info">New Complaints</h5>
                         <h3 class="font-weight-bold">{{ newcom_count }}</h3>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
             <div class="col-md-3">
                 <div class="card shadow-lg p-3 mb-4 bg-white rounded border-left-info">
                     <div class="card-body">
-                        <h5 class="card-title text-info">In Process Complaints</h5>
+                        <h5 class="card-title text-danger">In Process Complaints</h5>
                         <h3 class="font-weight-bold">{{ ipcom_count }}</h3>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
             <div class="col-md-3">
                 <div class="card shadow-lg p-3 mb-4 bg-white rounded border-left-info">
                     <div class="card-body">
-                        <h5 class="card-title text-info">Resolved</h5>
+                        <h5 class="card-title text-warning">Resolved</h5>
                         <h3 class="font-weight-bold">{{ resolved_count }}</h3>
                     </div>
                 </div>
@@ -68,7 +68,18 @@
                 </div>
             </div>
 
+            <br>
 
+
+
+
+        </div>
+
+        <br>
+
+        <!-- Dashboard Statistics -->
+        <div class="row text-center">
+         
             <!-- DIRECTORY COUNT -->
             <div class="col-md-3">
                 <div class="card shadow-lg p-3 mb-4 bg-white rounded border-left-success">
@@ -110,6 +121,9 @@
 
 
 
+            <br>
+
+
 
 
         </div>
@@ -118,7 +132,7 @@
 
         <div class="card shadow-sm mt-4">
             <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">All Complaints</h5>
+                <center><h5 class="mb-0">All Complaints</h5></center>
             </div>
             <div class="card-body">
                 <!-- Check for flash messages -->
@@ -139,13 +153,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for i in complaints %}
+                            {% for i in page_obj %}
                                 <tr>
                                     <td class="fw-bold">{{ i.complaint_text }}</td>
                                     <td>
-                                        <span class="badge {% if i.status == 'Pending' %}bg-warning text-dark{% elif i.status == 'Resolved' %}bg-success{% else %}bg-secondary{% endif %}">
-                                            {{ i.status }}
-                                        </span>
+                                        {% if i.status == "0" %}
+                                            <span class="badge bg-primary text-white">New Complaint</span>
+                                        {% elif i.status == "Pending" %}
+                                            <span class="badge bg-warning text-dark">Pending</span>
+                                        {% elif i.status == "Inprocess" %}
+                                            <span class="badge bg-danger">In Process</span>
+                                        {% elif i.status == "Resolved" %}
+                                            <span class="badge bg-warning text-bg-dark">Resolved</span>
+                                        {% elif i.status == "Closed" %}
+                                            <span class="badge bg-success">Closed</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Unknown</span>
+                                        {% endif %}
                                     </td>
                                     <td>{{ i.complainant_fname }}</td>
                                     <td>{{ i.complaintdate_at|date:'l, F j, Y' }}</td>
@@ -170,10 +194,42 @@
                                 </tr>
                             {% endfor %}
                         </tbody>
-                    </table>   
+                    </table>
+                </div>
+        
+                <!-- Pagination Controls -->
+                <div class="d-flex justify-content-center mt-3">
+                    <nav>
+                        <ul class="pagination">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1">&laquo; First</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                                </li>
+                            {% endif %}
+        
+                            <li class="page-item disabled">
+                                <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                            </li>
+        
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
+        
+        
+        
         
 
         <br>
@@ -240,7 +296,7 @@
 </div>
 
     <!-- Privacy Advisory Modal -->
-    <div class="modal fade" id="privacyAdvisoryModal" tabindex="-1" role="dialog" aria-labelledby="privacyAdvisoryModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="privacyAdvisoryModal" tabindex="-1" role="dialog" aria-labelledby="privacyAdvisoryModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content border-0 rounded-lg shadow-lg">
                 <div class="modal-header">
@@ -306,7 +362,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
 
