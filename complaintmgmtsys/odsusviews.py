@@ -232,3 +232,96 @@ def ODSUSHISTORYDETAILS(request, id):
          'complaintsremarks':complaintsremarks,
     }
     return render(request,'user/complaint-details.html',context)
+
+
+@login_required
+def NEWCOMPLAINTS(request):
+    user_admin = request.user  # Get logged-in user
+
+    # Get the user's registration details safely
+    user_reg = UserReg.objects.filter(admin=user_admin).first()
+    if not user_reg:
+        return HttpResponse("User registration details not found.", status=404)
+
+    # Access division & section from user model
+    user_division_id = user_reg.cat_id  # Ensure it's an ID
+    user_section_id = user_reg.subcategory_id  # Ensure it's an ID
+
+    # Filter complaints based on user's division (cat) & section (subcategory)
+    odsusnewcomplaints = Complaints.objects.filter(
+        cat_id=user_division_id,
+        subcategory_id=user_section_id,
+        status="0"  # Ensure the correct field name and value
+    ).order_by('-complaintdate_at')
+
+    context = {'odsusnewcomplaints': odsusnewcomplaints}
+    return render(request, 'odsus/new-complaints.html', context)
+
+
+
+
+def INPROCESSCOMPLAINTS(request):    
+    user_admin = request.user  # Get logged-in user
+
+    # Get the user's registration details safely
+    user_reg = UserReg.objects.filter(admin=user_admin).first()
+    if not user_reg:
+        return HttpResponse("User registration details not found.", status=404)
+
+    # Access division & section from user model
+    user_division_id = user_reg.cat_id  # Ensure it's an ID
+    user_section_id = user_reg.subcategory_id  # Ensure it's an ID
+
+    # Filter complaints based on user's division (cat) & section (subcategory)
+    odsusinprocesscomplaints = Complaints.objects.filter(
+        cat_id=user_division_id,
+        subcategory_id=user_section_id,
+        status="Inprocess"  # Ensure the correct field name and value
+    ).order_by('-complaintdate_at')
+
+    context = {'odsusinprocesscomplaints': odsusinprocesscomplaints}
+    return render(request, 'odsus/inprocess_complaints.html', context)
+
+def RESOLVEDCOMPLAINTS(request):    
+    user_admin = request.user  # Get logged-in user
+
+    # Get the user's registration details safely
+    user_reg = UserReg.objects.filter(admin=user_admin).first()
+    if not user_reg:
+        return HttpResponse("User registration details not found.", status=404)
+
+    # Access division & section from user model
+    user_division_id = user_reg.cat_id  # Ensure it's an ID
+    user_section_id = user_reg.subcategory_id  # Ensure it's an ID
+
+    # Filter complaints based on user's division (cat) & section (subcategory)
+    odsusresolvedcomplaints = Complaints.objects.filter(
+        cat_id=user_division_id,
+        subcategory_id=user_section_id,
+        status="Resolved"  # Ensure the correct field name and value
+    ).order_by('-complaintdate_at')
+
+    context = {'odsusresolvedcomplaints': odsusresolvedcomplaints}
+    return render(request, 'odsus/resolved_complaints.html', context)
+
+def CLOSEDCOMPLAINTS(request):    
+    user_admin = request.user  # Get logged-in user
+
+    # Get the user's registration details safely
+    user_reg = UserReg.objects.filter(admin=user_admin).first()
+    if not user_reg:
+        return HttpResponse("User registration details not found.", status=404)
+
+    # Access division & section from user model
+    user_division_id = user_reg.cat_id  # Ensure it's an ID
+    user_section_id = user_reg.subcategory_id  # Ensure it's an ID
+
+    # Filter complaints based on user's division (cat) & section (subcategory)
+    odsusclosedcomplaints = Complaints.objects.filter(
+        cat_id=user_division_id,
+        subcategory_id=user_section_id,
+        status="Closed"  # Ensure the correct field name and value
+    ).order_by('-complaintdate_at')
+
+    context = {'odsusclosedcomplaints': odsusclosedcomplaints}
+    return render(request, 'odsus/closed_complaints.html', context)

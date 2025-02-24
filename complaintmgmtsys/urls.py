@@ -58,9 +58,12 @@ urlpatterns = [
     path('ViewUser/<str:id>',adminviews.VIEWUSERS, name='viewusers'),   
     path('Admin/DeleteUser/<str:id>', adminviews.DELETEUSERS, name='delete_user'),
     path('Admin/UserComplaints/<str:id>', adminviews.USERSCOMPLAINTS, name='view_complaints'),   
+    
     path('NewComplaints', adminviews.NEWCOMPLAINTS, name='newcomplaints'),
     path('InprocessComplaints', adminviews.INPROCESSCOMPLAINTS, name='inprocesscomplaints'),
+    path('ResolvedComplaints', adminviews.RESOLVEDCOMPLAINTS, name='resolvedcomplaints'),
     path('ClosedComplaints', adminviews.CLOSEDCOMPLAINTS, name='closedcomplaints'),
+    
     path('ComplaintsBetweenDateReport', adminviews.COMPLAINTSREPORT, name='complaintsreports'),
     path('UserBetweenDateReport', adminviews.USERBDREPORT, name='userbdreports'),
     path('SearchComplaints', adminviews.Search_Complaints, name='searchcomplaints'),
@@ -99,6 +102,11 @@ urlpatterns = [
     path('OdsusHistory', odsusviews.ODSUSHISTORY, name='odsushistory'),
     path('OdsusReg', odsusviews.ODSUSREG, name='odsusreg'),
     path('OdsusHistoryDetails/<str:id>', odsusviews.ODSUSHISTORYDETAILS, name='odsushistorydetails'),
+    
+    path('odsusnewcomplaints/', odsusviews.NEWCOMPLAINTS, name='odsusnewcomplaints'),
+    path('odsusinprocesscomplaints', odsusviews.INPROCESSCOMPLAINTS, name='odsusinprocesscomplaints'),
+    path('odsusresolvedcomplaints', odsusviews.RESOLVEDCOMPLAINTS, name='odsusresolvedcomplaints'),
+    path('odsusclosedcomplaints', odsusviews.CLOSEDCOMPLAINTS, name='odsusclosedcomplaints'),
 
 
     #profile path
