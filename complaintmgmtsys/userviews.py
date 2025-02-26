@@ -76,7 +76,7 @@ def USERSIGNUP(request):
             last_name=last_name,
             username=username,
             email=email,
-            user_type=2, # Change this type for different user types
+            user_type=4, # Change this type for different user types
             profile_pic=pic,
             cat=category_instance,  # ✅ Correct (Stores FK instance)
             subcategory=subcategory_instance  # ✅ Correct (Stores FK instance)

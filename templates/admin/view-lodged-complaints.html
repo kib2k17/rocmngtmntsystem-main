@@ -42,7 +42,9 @@
                                     </tr>
                                     <tr>
                                         <td><b>To (Section)</b></td>
-                                        <td colspan="3">{{ i.subcategory_id.subcatname }}</td>
+                                        <td>{{ i.subcategory_id.subcatname }}</td>
+                                        <td><b>Category of <br> Grievance</b></td>
+                                        <td>-----</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -79,7 +81,7 @@
                                 {% elif i.status == 'Inprocess' %}
                                     <span class="badge badge-warning">In Process</span>
                                 {% elif i.status == 'Resolved' %}
-                                    <span class="badge badge-success">Resolved</span>
+                                    <span class="badge badge-success">Respond-Closed</span>
                                 {% elif i.status == 'Closed' %}
                                     <span class="badge badge-secondary">This is now closed</span>
                                 {% endif %}
@@ -128,9 +130,9 @@
                                     <td>
                                         <select name="status" class="form-control wd-450" required="true">
                                             <option value="" selected="true">Select Status</option>
-                                            <option value="Inprocess">Inprocess</option>
-                                            <option value="Resolved">Resolved</option>
-                                            <option value="Closed">Closed</option>
+                                            <option value="Inprocess">In-process</option>
+                                            <option value="Resolved">Respond-Closed</option>
+                                            <option value="Closed" hidden>Closed</option>
                                         </select>
                                     </td>
                                 </tr>

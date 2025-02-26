@@ -1,8 +1,10 @@
 from django.shortcuts import render,redirect,HttpResponse,get_object_or_404
 from django.contrib.auth.decorators import login_required
+from collections import defaultdict
 
 from cmsapp.models import CustomUser,UserReg,Category,Subcategory,Complaints,ComplaintRemark, Categorycitymup, Subcategorycitymup, PacdComplaints, PacdComplaintRemark,Odsus, OdsusRemark
 from django.contrib import messages
+from django.db.models import Count, Q
 from django.http import JsonResponse
 from datetime import timedelta
 from django.utils.timezone import now
@@ -10,7 +12,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 import random
-
 
 
 
@@ -24,50 +25,79 @@ def ODSUSHOME(request):
     except UserReg.DoesNotExist:
         return render(request, 'odsus/odsusdashboard.html', {'error': 'No user registration found.'})
 
-    # Get the user's assigned division (Category) and section (Subcategory)
-    user_division = user_reg.cat  # Division (Category)
-    user_section = user_reg.subcategory  # Section (Subcategory)
+    # Get user's assigned division and section
+    user_division = user_reg.cat
+    user_section = user_reg.subcategory
 
-    # Retrieve only complaints related to the user's division and section
-    complaints = Complaints.objects.filter(cat_id=user_division, subcategory_id=user_section).order_by('-complaintdate_at')
-    
+    # ✅ Define complaint categories
+    categories = [
+        "CARAGA-FO-ROC-DIR-25",
+        "CARAGA-FO-ROC-INQ-25",
+        "CARAGA-FO-ROC-PACE-25",
+        "CARAGA-FO-ROC-CSCCCB-25",
+    ]
+
+    # ✅ Query complaints using Q()
+    complaints = Complaints.objects.filter(
+        Q(cat_id=user_division, subcategory_id=user_section) |  # User's assigned division & section
+        Q(complaint_text__startswith=tuple(categories))  # Show all complaints with specific prefixes
+    ).distinct().order_by('-complaintdate_at')
+
     # ✅ Query for nearing deadline complaints (within the next 3 days)
     today = now().date()
     nearing_deadline_tickets = complaints.filter(remind_date__lte=today + timedelta(days=3))
 
-    # Pagination
-    paginator = Paginator(complaints, 10)  # Show 10 complaints per page
+    # ✅ Count complaints based on prefixes
+    complaint_counts = {category: complaints.filter(complaint_text__startswith=category).count() for category in categories}
+
+    # ✅ Complaint Status Breakdown
+    roc_stats = defaultdict(lambda: {"NEW": 0, "IN_PROCESS": 0, "RESOLVED": 0, "CLOSED": 0})
+
+    for complaint in complaints:
+        for category in categories:
+            if complaint.complaint_text.startswith(category):
+                status_key = {
+                    "0": "NEW",
+                    "inprocess": "IN_PROCESS",
+                    "resolved": "RESOLVED",
+                    "closed": "CLOSED"
+                }.get(complaint.status.lower(), None)
+
+                if status_key:
+                    roc_stats[category][status_key] += 1
+
+    # ✅ Pagination
+    paginator = Paginator(complaints, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # Count complaints only related to the user's division and section
+    # ✅ Overall Complaint Counts
     complaints_count = complaints.count()
     newcom_count = complaints.filter(status='0').count()
     ipcom_count = complaints.filter(status='Inprocess').count()
     resolved_count = complaints.filter(status='Resolved').count()
     closed_count = complaints.filter(status='Closed').count()
 
-    # Directory complaint count based on prefixes in `complaint_text`
-    dir_complaint_count = complaints.filter(complaint_text__startswith="CARAGA-FO-ROC-DIR-25-").count()
-    dir_complaint_count2 = complaints.filter(complaint_text__startswith="CARAGA-FO-ROC-INQ-25-").count()
-    dir_complaint_count3 = complaints.filter(complaint_text__startswith="CARAGA-FO-ROC-PACE-25-").count()
-    dir_complaint_count4 = complaints.filter(complaint_text__startswith="CARAGA-FO-ROC-CSCCCB-25-").count()
+    # ✅ Check if the table should be shown
+    show_table = any(sum(status_counts.values()) > 0 for status_counts in roc_stats.values())
 
+    # ✅ Pass context to the template
     context = {
-        'page_obj': page_obj,  # Updated to use paginated object
+        'page_obj': page_obj,
         'complaints_count': complaints_count,
         'newcom_count': newcom_count,
         'ipcom_count': ipcom_count,
         'resolved_count': resolved_count,
         'closed_count': closed_count,
-        'dir_complaint_count': dir_complaint_count,
-        'dir_complaint_count2': dir_complaint_count2,
-        'dir_complaint_count3': dir_complaint_count3,
-        'dir_complaint_count4': dir_complaint_count4,
         'nearing_deadline_tickets': nearing_deadline_tickets,
+        'roc_stats': dict(roc_stats),
+        'show_table': show_table,
+        **complaint_counts  # Dynamically pass complaint counts
     }
 
     return render(request, 'odsus/odsusdashboard.html', context)
+
+
 
 
 

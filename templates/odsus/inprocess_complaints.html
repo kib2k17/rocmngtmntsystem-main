@@ -20,7 +20,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for i in odsusclosedcomplaints %}
+                                {% for i in odsusinprocesscomplaints %}
                                 <tr class="hoverable">
                                     <td class="text-center">{{ forloop.counter }}</td>
                                     <td class="text-danger">{{ i.complaint_text }}</td>
@@ -29,7 +29,7 @@
                                         {% if i.status == '0' %}
                                         <span class="badge badge-danger">Not Processed Yet</span>
                                         {% elif i.status == 'Inprocess' %}
-                                        <span class="badge badge-warning">In Process</span>
+                                        <span class="badge badge-warning">In-Process</span>
                                         {% elif i.status == 'Resolved' %}
                                             <span class="badge badge-warning">Resolved</span>
                                         {% elif i.status == 'Closed' %}
