@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from cmsapp.models import CustomUser,UserReg,Category,Subcategory,Complaints,ComplaintRemark, Categorycitymup, Subcategorycitymup, PacdComplaints, PacdComplaintRemark,Odsus, OdsusRemark
 from django.contrib import messages
 from django.http import JsonResponse
+from datetime import timedelta
+from django.utils.timezone import now
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
@@ -28,6 +30,10 @@ def ODSUSHOME(request):
 
     # Retrieve only complaints related to the user's division and section
     complaints = Complaints.objects.filter(cat_id=user_division, subcategory_id=user_section).order_by('-complaintdate_at')
+    
+    # ✅ Query for nearing deadline complaints (within the next 3 days)
+    today = now().date()
+    nearing_deadline_tickets = complaints.filter(remind_date__lte=today + timedelta(days=3))
 
     # Pagination
     paginator = Paginator(complaints, 10)  # Show 10 complaints per page
@@ -58,6 +64,7 @@ def ODSUSHOME(request):
         'dir_complaint_count2': dir_complaint_count2,
         'dir_complaint_count3': dir_complaint_count3,
         'dir_complaint_count4': dir_complaint_count4,
+        'nearing_deadline_tickets': nearing_deadline_tickets,
     }
 
     return render(request, 'odsus/odsusdashboard.html', context)

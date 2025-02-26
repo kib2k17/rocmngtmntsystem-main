@@ -14,19 +14,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Tracking Number</th>
-                                    <th>Tracking Number PACE</th>
-                                    <th>Date Received</th>
-                                    <th>Time Received</th>
-                                    <th>Time Acknowledged</th>
-                                    <th>Name</th>
-                                    <th>Contact Number</th>
-                                    <th>Email Address</th>
-                                    <th>Sender Complete Address</th>
-                                    <th>Lodged Date</th>
-                                    <th>Deadline</th>
-                                    <th>Date Endorsed</th>
-                                    <th>Time Endorsed</th>
-                                    <th>Reminder Date</th>
+                                    <th>Complainant Name</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -36,26 +24,14 @@
                                 <tr class="hoverable">
                                     <td class="text-center">{{ forloop.counter }}</td>
                                     <td class="text-danger">{{ i.complaint_text }}</td>
-                                    <td class="text-danger">{{ i.complainant_pace }}</td>
-                                    <td>{{ i.date_received }}</td>
-                                    <td>{{ i.time_received }}</td>
-                                    <td>{{ i.time_acknowledge }}</td>
-                                    <td>{{ i.complainant_fname }}</td>
-                                    <td>{{ i.selfcomplaint_number }}</td>
-                                    <td>{{ i.complaint_email }}</td>
-                                    <td class="expandable-cell">
-                                        {{ i.region_name }}, {{ i.province_name }}<br>{{ i.city_name }}, {{ i.barangay_name }}
-                                    </td>
-                                    <td>{{ i.complaintdate_at }}</td>
-                                    <td>{{ i.deadline }}</td>
-                                    <td>{{ i.date_endorse }}</td>
-                                    <td>{{ i.time_endorse }}</td>
-                                    <td>{{ i.remind_date }}</td>
+                                    <td class="text-danger">{{ i.complainant_fname }}</td>
                                     <td class="text-center">
                                         {% if i.status == '0' %}
                                         <span class="badge badge-danger">Not Processed Yet</span>
                                         {% elif i.status == 'Inprocess' %}
                                         <span class="badge badge-warning">In Process</span>
+                                        {% elif i.status == 'Resolved' %}
+                                            <span class="badge badge-warning">Resolved</span>
                                         {% elif i.status == 'Closed' %}
                                         <span class="badge badge-success">Closed</span>
                                         {% endif %}

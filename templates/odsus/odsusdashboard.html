@@ -9,278 +9,207 @@
     <!-- Header Section -->
     <div class="row mb-4">
         <div class="col-md-12">
-            <h3 class="font-weight-bold text-dark text-center">ODSUS DASHBOARD</h3>
+            <h3 class="font-weight-bold text-dark text-center">{{ request.user.userreg.cat.catname }}</h3>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <!-- Division Info -->
+    <div class="alert alert-primary text-center" role="alert">
+        <h4 class="mb-0"><strong>Nearing Deadline Tickets</strong></h4>
+    </div>
+</div>
+
+            <!-- Nearing Deadline Tickets Section -->
+<div class="container my-3">
+    <!-- Section Header -->
+    <!-- <div class="alert text-center text-dark fw-bold p-2" style="background-color: #d4f8f9;">
+        Nearing Deadline Tickets
+    </div> -->
+
+    <!-- Notification Bar -->
+    <!-- <div class="alert alert-info text-white fw-bold shadow-sm p-2" style="background-color: #14d2dc;">
+        Reminder - Nearing Deadline Tickets
+    </div> -->
+
+    <!-- Tracking Table -->
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-bordered text-center mb-0" id="deadlineTable">
+                <thead class="text-white" style="background-color: #343a40;">
+                    <tr>
+                        <th>TRACKING NUMBER</th>
+                        <th>REMINDER DATE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if nearing_deadline_tickets %}
+                        {% for ticket in nearing_deadline_tickets %}
+                        <tr data-remind-date="{{ ticket.remind_date }}">
+                            <td>{{ ticket.complaint_text }}</td>
+                            <td>{{ ticket.remind_date }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="2" class="text-muted">No complaints near deadline.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
         </div>
     </div>
 
-        
-    </div>
+    
+</div>
+
+
+
+
+<br>
 
 
     {% if request.user.userreg.cat %}
     <div class="container mt-4">
         <!-- Division Info -->
         <div class="alert alert-primary text-center" role="alert">
-            <h4 class="mb-0">Your Division: <strong>{{ request.user.userreg.cat.catname }}</strong></h4>
+            <h4><strong>Ticket Status Overview</strong></h4>
         </div>
 
-        <!-- Dashboard Statistics -->
-        <div class="row text-center">
-            <div class="col-md-3">
-                <div class="card shadow-lg p-3 mb-4 bg-white rounded border-left-primary">
-                    <div class="card-body">
-                        <h5 class="card-title text-dark-emphasis">Total Complaints</h5>
-                        <h3 class="font-weight-bold">{{ complaints_count }}</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card shadow-lg p-3 mb-4 bg-white rounded border-left-warning">
-                    <div class="card-body">
-                        <h5 class="card-title text-primary info">New Complaints</h5>
-                        <a href="{% url 'odsusnewcomplaints' %}" class="btn btn-sm btn-outline-dark">View</a>
-                        <h3 class="font-weight-bold">{{ newcom_count }}</h3>    
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card shadow-lg p-3 mb-4 bg-white rounded border-left-info">
-                    <div class="card-body">
-                        <h5 class="card-title text-danger">In Process Complaints</h5>
-                        <a href="{% url 'odsusinprocesscomplaints' %}" class="btn btn-sm btn-outline-dark">View</a>
-                        <h3 class="font-weight-bold">{{ ipcom_count }}</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card shadow-lg p-3 mb-4 bg-white rounded border-left-info">
-                    <div class="card-body">
-                        <h5 class="card-title text-warning">Resolved</h5>
-                        <a href="{% url 'odsusresolvedcomplaints' %}" class="btn btn-sm btn-outline-dark">View</a>
-                        <h3 class="font-weight-bold">{{ resolved_count }}</h3>
-                    </div>
-                </div>
-            </div>
-         
-            <div class="col-md-3">
-                <div class="card shadow-lg p-3 mb-4 bg-white rounded border-left-success">
-                    <div class="card-body">
-                        <h5 class="card-title text-success">Closed Complaints</h5>
-                        <a href="{% url 'odsusclosedcomplaints' %}" class="btn btn-sm btn-outline-dark">View</a>
-                        <h3 class="font-weight-bold">{{ closed_count }}</h3>
-                    </div>
-                </div>
-            </div>
-
-            <br>
-
-
-
-
-        </div>
-
-        <br>
-
-        <!-- Dashboard Statistics -->
-        <div class="row text-center">
-         
-            <!-- DIRECTORY COUNT -->
-            <div class="col-md-3">
-                <div class="card shadow-lg p-3 mb-4 bg-white rounded border-left-success">
-                    <div class="card-body">
-                        <h5 class="card-title text-black-50">Directory Count</h5>
-                        <h3 class="font-weight-bold">{{ dir_complaint_count }}</h3>
-                    </div>
-                </div>
-            </div>
-
-            <!-- DIRECTORY COUNT -->
-            <div class="col-md-3">
-                <div class="card shadow-lg p-3 mb-4 bg-white rounded border-left-success">
-                    <div class="card-body">
-                        <h5 class="card-title text-black-50">Inquiry Count</h5>
-                        <h3 class="font-weight-bold">{{ dir_complaint_count2 }}</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="card shadow-lg p-3 mb-4 bg-white rounded border-left-success">
-                    <div class="card-body">
-                        <h5 class="card-title text-black-50">Pace Count</h5>
-                        <h3 class="font-weight-bold">{{ dir_complaint_count3 }}</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="card shadow-lg p-3 mb-4 bg-white rounded border-left-success">
-                    <div class="card-body">
-                        <h5 class="card-title text-black-50">CSCCCB Count</h5>
-                        <h3 class="font-weight-bold">{{ dir_complaint_count4 }}</h3>
-                    </div>
-                </div>
-            </div>
-
-            <br>
-
-        </div>
-
-        <br>
-
-        <div class="card shadow-sm mt-4">
-            <div class="card-header bg-primary text-white">
-                <center><h5 class="mb-0">All Complaints</h5></center>
-            </div>
-            <div class="card-body">
-                <!-- Check for flash messages -->
-                {% include 'includes/messages.html' %}
-        
-                <!-- Scrollable Table Wrapper -->
-                <div style="max-height: 400px; overflow-y: auto;">
-                    <!-- Elegant Table for Complaints -->
-                    <table class="table table-striped table-bordered table-hover align-middle text-center">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Tracking Number</th>
-                                <th>Complaint Status</th>
-                                <th>Complainant</th>
-                                <th>Date Filed</th>
-                                <th>Reminder Date</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for i in page_obj %}
-                                <tr>
-                                    <td class="fw-bold">{{ i.complaint_text }}</td>
-                                    <td>
-                                        {% if i.status == "0" %}
-                                            <span class="badge bg-primary text-white">New Complaint</span>
-                                        {% elif i.status == "Pending" %}
-                                            <span class="badge bg-warning text-dark">Pending</span>
-                                        {% elif i.status == "Inprocess" %}
-                                            <span class="badge bg-danger">In Process</span>
-                                        {% elif i.status == "Resolved" %}
-                                            <span class="badge bg-warning text-bg-dark">Resolved</span>
-                                        {% elif i.status == "Closed" %}
-                                            <span class="badge bg-success">Closed</span>
-                                        {% else %}
-                                            <span class="badge bg-secondary">Unknown</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ i.complainant_fname }}</td>
-                                    <td>{{ i.complaintdate_at|date:'l, F j, Y' }}</td>
-                                    <td class="fw-bold" style="color: #FF5722;">
-                                        {% if i.remind_date %}
-                                            {{ i.remind_date|date:'l, F j, Y' }}
-                                            <br>
-                                            <small class="reminder-countdown" id="reminder-{{ i.id }}"></small>
-                                        {% else %}
-                                            <span class="text-muted">N/A</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        <a href="{% url 'odsushistorydetails' i.id %}" class="btn btn-sm btn-outline-primary shadow-sm">
-                                            <i class="fas fa-eye"></i> View
-                                        </a>
-                                    </td>
-                                </tr>
-                            {% empty %}
-                                <tr>
-                                    <td colspan="6" class="text-center text-muted">No complaints available.</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-        
-                <!-- Pagination Controls -->
-                <div class="d-flex justify-content-center mt-3">
-                    <nav>
-                        <ul class="pagination">
-                            {% if page_obj.has_previous %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?page=1">&laquo; First</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-                                </li>
-                            {% endif %}
-        
-                            <li class="page-item disabled">
-                                <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
-                            </li>
-        
-                            {% if page_obj.has_next %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
-                                </li>
-                            {% endif %}
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
-        
-        
-        
-        
-
-        <br>
-        
-        
-
-
-        <!-- <div class="container mt-4">
-            <div class="card shadow-sm mt-4">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Reminder - Nearing Deadline Tickets</h5>
-                </div>
+<!-- Dashboard Statistics -->
+<div class="container">
+    <div class="row g-2 justify-content-center">
+        <!-- Total Complaints -->
+        <div class="col-sm-4 col-md-2">
+            <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
                 <div class="card-body">
-                  
-                    {% include 'includes/messages.html' %}
-            
-                   
-                    <div style="max-height: 400px; overflow-y: auto;">
-                        
-                        <table class="table table-striped table-bordered table-hover">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Tracking Number</th>
-                                    <th>Reminder Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for i in complaints %}
-                                    {% if i.remind_date %}
-                                        <tr data-remind-date="{{ i.remind_date|date:'Y-m-d' }}">
-                                            <td>{{ i.complaint_text }}</td>
-                                            <td class="text-center text-bold" style="color: #FF5722;">
-                                                {{ i.remind_date|date:'l, F j, Y' }}
-                                              
-                                                <span class="reminder-countdown" id="reminder-{{ i.id }}"></span>
-                                            </td>
-                                        </tr>
-                                    {% endif %}
-                                {% empty %}
-                                    <tr>
-                                        <td colspan="2" class="text-center text-muted">No complaints near deadline.</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                    <h6 class="card-title text-dark-emphasis">Total</h6>
+                    <h4 class="fw-bold text-primary">{{ complaints_count }}</h4>
                 </div>
             </div>
-                    
-        </div> -->
+        </div>
+
+        <!-- New Complaints -->
+        <div class="col-sm-4 col-md-2">
+            <div class="card shadow-sm p-2 bg-white rounded border-start border-info text-center" style="height: 120px;">
+                <div class="card-body">
+                    <h6 class="card-title text-info">New</h6>
+                    <h4 class="fw-bold text-info">{{ newcom_count }}</h4>
+                    <a href="{% url 'odsusnewcomplaints' %}" class="btn btn-outline-info btn-sm">🔍</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- In Process Complaints -->
+        <div class="col-sm-4 col-md-2">
+            <div class="card shadow-sm p-2 bg-white rounded border-start border-danger text-center" style="height: 120px;">
+                <div class="card-body">
+                    <h6 class="card-title text-danger">In Process</h6>
+                    <h4 class="fw-bold text-danger">{{ ipcom_count }}</h4>
+                    <a href="{% url 'odsusinprocesscomplaints' %}" class="btn btn-outline-danger btn-sm">🔍</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resolved Complaints -->
+        <div class="col-sm-4 col-md-2">
+            <div class="card shadow-sm p-2 bg-white rounded border-start border-warning text-center" style="height: 120px;">
+                <div class="card-body">
+                    <h6 class="card-title text-warning">Resolved</h6>
+                    <h4 class="fw-bold text-warning">{{ resolved_count }}</h4>
+                    <a href="{% url 'odsusresolvedcomplaints' %}" class="btn btn-outline-warning btn-sm">🔍</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Closed Complaints -->
+        <div class="col-sm-4 col-md-2">
+            <div class="card shadow-sm p-2 bg-white rounded border-start border-success text-center" style="height: 120px;">
+                <div class="card-body">
+                    <h6 class="card-title text-success">Closed</h6>
+                    <h4 class="fw-bold text-success">{{ closed_count }}</h4>
+                    <a href="{% url 'odsusclosedcomplaints' %}" class="btn btn-outline-success btn-sm">🔍</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
+        <br>
 
+        <div class="container mt-4">
+            <!-- Division Info -->
+            <div class="alert alert-primary text-center" role="alert">
+                <h4 class="mb-0"><strong>Complaint Submission Overview</strong></h4>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row g-2 justify-content-center">
+            
+                <!-- Directory -->
+                <div class="col-sm-4 col-md-2">
+                    <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
+                        <div class="card-body">
+                            <h6 class="card-title text-dark-emphasis">Total Directory</h6>
+                            <h4 class="fw-bold text-black-50">{{ dir_complaint_count }}</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inquiry -->
+                <div class="col-sm-4 col-md-2">
+                    <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
+                        <div class="card-body">
+                            <h6 class="card-title text-dark-emphasis">Total Inquiry</h6>
+                            <h4 class="fw-bold text-black-50">{{ dir_complaint_count2 }}</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pace -->
+                <div class="col-sm-4 col-md-2">
+                    <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
+                        <div class="card-body">
+                            <h6 class="card-title text-dark-emphasis">Total Pace</h6>
+                            <h4 class="fw-bold text-black-50">{{ dir_complaint_count3 }}</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CSCCCB -->
+                <div class="col-sm-4 col-md-2">
+                    <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
+                        <div class="card-body">
+                            <h6 class="card-title text-dark-emphasis">Total Csccb</h6>
+                            <h4 class="fw-bold text-black-50">{{ dir_complaint_count4 }}</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8888 -->
+                <div class="col-sm-4 col-md-2">
+                    <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
+                        <div class="card-body">
+                            <h6 class="card-title text-dark-emphasis">Total 8888</h6>
+                            <h4 class="fw-bold text-black-50">0</h4>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            
+
+            </div>
+        </div>
+
+        <br>
+
+       
+        
+        <br>
 
     </div>
 {% else %}
@@ -366,6 +295,44 @@
 
     
 </div>
+
+<!-- JavaScript to Highlight Nearing Deadline Tickets -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Remove time part
+
+        const rows = Array.from(document.querySelectorAll("#deadlineTable tbody tr"));
+        const urgentRows = [];
+        const normalRows = [];
+
+        rows.forEach(row => {
+            const remindDateStr = row.getAttribute("data-remind-date");
+            if (!remindDateStr) return;
+
+            const remindDate = new Date(remindDateStr);
+            const threeDaysFromNow = new Date(today);
+            threeDaysFromNow.setDate(today.getDate() + 3);
+
+            if (remindDate >= today && remindDate <= threeDaysFromNow) {
+                // Highlight urgent tickets in red
+                row.style.backgroundColor = "red";
+                row.style.color = "white";
+                row.style.fontWeight = "bold";
+                urgentRows.push(row);
+            } else {
+                normalRows.push(row);
+            }
+        });
+
+        // Move urgent rows to the top
+        const tbody = document.querySelector("#deadlineTable tbody");
+        tbody.innerHTML = ""; // Clear existing rows
+        urgentRows.forEach(row => tbody.appendChild(row));
+        normalRows.forEach(row => tbody.appendChild(row));
+    });
+</script>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
