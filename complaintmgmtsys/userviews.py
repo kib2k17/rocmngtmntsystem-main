@@ -21,6 +21,7 @@ def USERHOME(request):
     ipcom_count = Complaints.objects.filter(status='Inprocess',userregid=user_reg).count()
     resolved_count = Complaints.objects.filter(status='Resolved',userregid=user_reg).count()
     closed_count = Complaints.objects.filter(status='Closed',userregid=user_reg).count()
+    
     dir_complaint_count = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-DIR-25-",userregid=user_reg).count()
     dir_complaint_count2 = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-INQ-25-",userregid=user_reg).count()
     dir_complaint_count3 = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-PACE-25-",userregid=user_reg).count()
@@ -40,8 +41,6 @@ def USERHOME(request):
     'dir_complaint_count4':dir_complaint_count4,
     }
     return render(request,'user/userdashboard.html',context)
-
-
 
 
 def USERSIGNUP(request):
@@ -76,7 +75,7 @@ def USERSIGNUP(request):
             last_name=last_name,
             username=username,
             email=email,
-            user_type=4, # Change this type for different user types
+            user_type=3, # Change this type for different user types
             profile_pic=pic,
             cat=category_instance,  # ✅ Correct (Stores FK instance)
             subcategory=subcategory_instance  # ✅ Correct (Stores FK instance)
@@ -99,9 +98,6 @@ def USERSIGNUP(request):
     context = {'category': category}
     return render(request, 'user/user_reg.html', context)
 
-
-
-
 @login_required(login_url='/')
 def get_subcat(request):
     if request.method == 'GET':
@@ -112,8 +108,6 @@ def get_subcat(request):
             subcat_options += f'<option value="{subcategory.id}">{subcategory.subcatname}</option>'
         return JsonResponse({'subcat_options': subcat_options})
     
-
-
 @login_required(login_url='/')
 def get_subcats(request):
     if request.method == 'GET':
@@ -132,9 +126,6 @@ def get_subcats(request):
         else:
             # Return an empty options string if no province is selected
             return JsonResponse({'subcat_options': ''})
-
-
-
 
 # ROC DIR REGISTRATION
 @login_required(login_url='/')
@@ -175,6 +166,7 @@ def REGCOMPLAINT(request):
             noc = request.POST.get('noc')
             complaindetails = request.POST.get('complaindetails')
             compfile = request.FILES.get('compfile')
+            cog = request.POST.get('cog')
 
             # Generating a unique complaint number
             complaint_number = random.randint(100000000, 999999999)
@@ -209,6 +201,7 @@ def REGCOMPLAINT(request):
                 complaindetails=complaindetails,
                 compfile=compfile,
                 userregid=userreg,
+                cog=cog,
             )
             complaint.save()
 
@@ -226,8 +219,6 @@ def REGCOMPLAINT(request):
     }
 
     return render(request, 'user/register-complaint.html', context)
-
-
 
 #ROC PACD REGISTRATION
 @login_required(login_url='/')
@@ -260,7 +251,9 @@ def PACDOCOMPLAINT(request):
             complainttype = request.POST.get('complainttype')
             noc = request.POST.get('noc')
             complaindetails = request.POST.get('complaindetails')
+            cog = request.POST.get('cog')
             compfile = request.FILES.get('compfile')
+          
 
             # Generating a unique complaint number
             complaint_number = random.randint(100000000, 999999999)
@@ -292,9 +285,11 @@ def PACDOCOMPLAINT(request):
                 selfcomplaint_number=selfcomplaint_number,
                 complainttype=complainttype,
                 noc=noc,
+                cog=cog,
                 complaindetails=complaindetails,
                 compfile=compfile,
                 userregid=userreg,
+               
             )
             complaint.save()
 
@@ -311,7 +306,6 @@ def PACDOCOMPLAINT(request):
     }
 
     return render(request, 'user/register-complaint-pacd.html', context)
-
 
 # INQUIRY
 @login_required(login_url='/')
@@ -352,6 +346,7 @@ def NON8888REGCOMPLAINT(request):
             noc = request.POST.get('noc')
             complaindetails = request.POST.get('complaindetails')
             compfile = request.FILES.get('compfile')
+            cog = request.POST.get('cog')
 
             # Generating a unique complaint number
             complaint_number = random.randint(100000000, 999999999)
@@ -386,6 +381,7 @@ def NON8888REGCOMPLAINT(request):
                 complaindetails=complaindetails,
                 compfile=compfile,
                 userregid=userreg,
+                cog=cog,
             )
             complaint.save()
 
@@ -403,7 +399,6 @@ def NON8888REGCOMPLAINT(request):
     }
 
     return render(request, 'user/register-complaint-non-8888.html', context)
-
 
 #ROC-PACE REGISTRATION
 @login_required(login_url='/')
@@ -444,6 +439,7 @@ def PACEREGCOMPLAINT(request):
             noc = request.POST.get('noc')
             complaindetails = request.POST.get('complaindetails')
             compfile = request.FILES.get('compfile')
+            cog = request.POST.get('cog')
 
             # Generating a unique complaint number
             complaint_number = random.randint(100000000, 999999999)
@@ -478,6 +474,7 @@ def PACEREGCOMPLAINT(request):
                 complaindetails=complaindetails,
                 compfile=compfile,
                 userregid=userreg,
+                cog=cog,
             )
             complaint.save()
 
@@ -535,6 +532,7 @@ def CSCCCB(request):
             noc = request.POST.get('noc')
             complaindetails = request.POST.get('complaindetails')
             compfile = request.FILES.get('compfile')
+            cog = request.POST.get('cog')
 
             # Generating a unique complaint number
             complaint_number = random.randint(100000000, 999999999)
@@ -569,6 +567,7 @@ def CSCCCB(request):
                 complaindetails=complaindetails,
                 compfile=compfile,
                 userregid=userreg,
+                cog=cog,
             )
             complaint.save()
 
@@ -586,8 +585,6 @@ def CSCCCB(request):
     }
 
     return render(request, 'user/register-complaint-csc-ccb.html', context)
-
-
 
 # #PACDEVEREG REGISTRATION
 # @login_required(login_url='/')
@@ -675,7 +672,6 @@ def CSCCCB(request):
 #     }
 
 #     return render(request, 'user/register-pacdevereg.html', context)
-
 
 @login_required(login_url='/')
 def COMPLAINTHISTORY(request):

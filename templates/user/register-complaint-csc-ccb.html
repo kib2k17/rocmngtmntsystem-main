@@ -251,6 +251,36 @@
                             </div>
                         </div>
 
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="fa fa-user" for="assigned_to">Assign to User</label>
+                                <select name="assigned_to" id="assigned_to" class="form-control" required>
+                                    {% for user in compusers %}
+                                        {% if user.admin %}
+                                            <option value="{{ user.admin.id }}">{{ user.admin.first_name }} {{ user.admin.last_name }}</option>
+                                        {% else %}
+                                            <option value="{{ user.id }}">Unassigned User</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="cog" class="form-label">
+                                    <i class="fa fa-th-list"></i> Category of Grievance
+                                    <span class="required">*</span>
+                                </label>
+                                <select name="cog" id="cog" class="form-control" required>
+                                    <option value="">-- Select Category of Grievance --</option>
+                                    <option value="General Inquiries">Simple</option>
+                                    <option value="Request for Assistance">Complex</option>
+                                    <option value="Complaint/Grievance">Highly Technical</option>
+                                </select>
+                            </div>
+                        </div>
+
 
 
                     </div>

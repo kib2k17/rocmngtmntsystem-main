@@ -31,11 +31,20 @@ def ODSUSHOME(request):
 
     # ✅ Define complaint categories
     categories = [
-        "CARAGA-FO-ROC-DIR-25",
-        "CARAGA-FO-ROC-INQ-25",
-        "CARAGA-FO-ROC-PACE-25",
-        "CARAGA-FO-ROC-CSCCCB-25",
+        "DIRECTORY", # This is a prefix for complaints that belong to the "Directory" category
+        "INQUIRY",  # This is a prefix for complaints that belong to the "Inquiry" category
+        "PACE",  # This is a prefix for complaints that belong to the "PACE" category
+        "CSC-CCB",  # This is a prefix for complaints that belong to the "CSC-CCB" category
     ]
+    
+    complaint_counts = {
+    "CARAGA-FO-ROC-DIR-25": Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-DIR-25").count(),
+    "CARAGA-FO-ROC-INQ-25": Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-INQ-25").count(),
+    "CARAGA-FO-ROC-PACE-25": Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-PACE-25").count(),
+    "CARAGA-FO-ROC-CSCCCB-25": Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-CSCCCB-25").count(),
+}
+
+    
 
     # ✅ Query complaints using Q()
     complaints = Complaints.objects.filter(
@@ -92,19 +101,15 @@ def ODSUSHOME(request):
         'nearing_deadline_tickets': nearing_deadline_tickets,
         'roc_stats': dict(roc_stats),
         'show_table': show_table,
+        'dir_complaint_count': complaint_counts.get("CARAGA-FO-ROC-DIR-25", 0),
+        'dir_complaint_count2': complaint_counts.get("CARAGA-FO-ROC-INQ-25", 0),
+        'dir_complaint_count3': complaint_counts.get("CARAGA-FO-ROC-PACE-25", 0),
+        'dir_complaint_count4': complaint_counts.get("CARAGA-FO-ROC-CSCCCB-25", 0),
+        'dir_complaint_count5': 0,  # If you want to add "Total 8888", update this dynamically
         **complaint_counts  # Dynamically pass complaint counts
     }
 
     return render(request, 'odsus/odsusdashboard.html', context)
-
-
-
-
-
-
-
-
-
 
 
 def ODSUSSIGNUP(request):

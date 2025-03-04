@@ -34,61 +34,67 @@
             <!-- Your Nearing Deadline Tickets Box -->
             <div class="border p-3 flex-grow-1 me-2" style="width: 48%;">
                 <h6 class="text-danger text-center">YOUR NEARING DEADLINE TICKETS</h6>
-                <table class="table table-bordered text-center" id="deadlineTable">
-                    <thead class="bg-dark text-white">
-                        <tr>
-                            <th>TRACKING NUMBER</th>
-                            <th>REMINDER DATE</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if nearing_deadline_tickets %}
-                            {% for ticket in nearing_deadline_tickets %}
-                            <tr data-remind-date="{{ ticket.remind_date }}">
-                                <td>{{ ticket.complaint_text }}</td>
-                                <td>{{ ticket.remind_date }}</td>
-                            </tr>
-                            {% endfor %}
-                        {% else %}
+            
+                <!-- Scrollable Table Wrapper -->
+                <div style="max-height: 300px; overflow-y: auto;">
+                    <table class="table table-bordered text-center" id="deadlineTable">
+                        <thead class="bg-dark text-white">
                             <tr>
-                                <td colspan="2" class="text-muted">No complaints near deadline.</td>
+                                <th>TRACKING NUMBER</th>
+                                <th>REMINDER DATE</th>
                             </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% if nearing_deadline_tickets %}
+                                {% for ticket in nearing_deadline_tickets %}
+                                <tr data-remind-date="{{ ticket.remind_date }}">
+                                    <td>{{ ticket.complaint_text }}</td>
+                                    <td>{{ ticket.remind_date }}</td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="2" class="text-muted">No complaints near deadline.</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
+            
             <!-- ROC Statistics Box -->
-            <div class="border p-3 flex-grow-1" style="width: 48%;">
+            <div class="border p-3 flex-grow-1" style="width: 48%; overflow-x: auto;">
                 <h6 class="text-danger text-center">ROC STATISTICS</h6>
                 {% if show_table %}
-                <table class="table table-bordered text-center">
-                    <thead class="bg-dark text-white">
-                        <tr>
-                            <th>Category</th>
-                            <th>NEW</th>
-                            <th>IN-PROCESS</th>
-                            <th>RESOLVED</th>
-                            <th>CLOSED</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for category, counts in roc_stats.items %}
-                        <tr>
-                            <td>{{ category }}</td>
-                            <td>{{ counts.NEW }}</td>
-                            <td>{{ counts.IN_PROCESS }}</td>
-                            <td>{{ counts.RESOLVED }}</td>
-                            <td>{{ counts.CLOSED }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <div style="max-width: 100%; overflow-x: auto;">
+                    <table class="table table-bordered text-center w-100">
+                        <thead class="bg-dark text-white">
+                            <tr>
+                                <th>Category</th>
+                                <th>NEW</th>
+                                <th>IN-PROCESS</th>
+                                <th>RESOLVED</th>
+                                <th>CLOSED</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category, counts in roc_stats.items %}
+                            <tr>
+                                <td>{{ category }}</td>
+                                <td>{{ counts.NEW }}</td>
+                                <td>{{ counts.IN_PROCESS }}</td>
+                                <td>{{ counts.RESOLVED }}</td>
+                                <td>{{ counts.CLOSED }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
                 {% else %}
                 <p class="text-center">No complaints found.</p>
                 {% endif %}
-                
             </div>
+            
         </div>
     </div>
 </div>
@@ -324,9 +330,6 @@
         </div>
     </div> -->
 
-
-
-    
 </div>
 
 <!-- JavaScript to Highlight Nearing Deadline Tickets -->

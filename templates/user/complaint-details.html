@@ -93,6 +93,8 @@
                     <span class="badge badge-danger badge-pill text-uppercase">Not Processed Yet</span>
                 {% elif complaints.status == 'Inprocess' %}
                     <span class="badge badge-warning badge-pill text-uppercase">In Process</span>
+                {% elif complaints.status == 'Resolved' %}
+                <span class="badge badge-warning badge-pill text-uppercase">Resolved</span>
                 {% elif complaints.status == 'Closed' %}
                     <span class="badge badge-success badge-pill text-uppercase">Closed</span>
                 {% endif %}
@@ -140,11 +142,17 @@
                         </tbody>
                     </table>
                 </div> -->
-                {% if complaints.status == '0' or complaints.status == 'Inprocess' or i.status == 'Resolved' %}
-
-                <p align="center"  style="padding-top: 20px">
-                  <button class="btn btn-primary waves-effect waves-light w-lg" data-toggle="modal" data-target="#myModal">Take Action</button></p>
-                {% endif %}
+                {% if complaints.status in '0,Inprocess,Resolved,Closed' %}
+                <p align="center" style="padding-top: 20px">
+                    <button class="btn btn-primary waves-effect waves-light w-lg" data-toggle="modal" data-target="#myModal">
+                        Take Action
+                    </button>
+                </p>
+            {% endif %}
+            
+            <!-- Debugging: Check the actual status value -->
+            <p hidden>Status: "{{ complaints.status }}"</p>
+            
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                      <div class="modal-content">

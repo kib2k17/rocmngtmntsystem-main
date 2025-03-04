@@ -471,7 +471,6 @@ def UPDATE_STATE_DETAILS(request):
           return redirect('manage_state')
         return render(request, 'admin/update_state.html')
 
-
 @login_required(login_url='/')
 def LODGEDCOMPLAINTS(request):
     complaint_list = Complaints.objects.all().order_by('-complaintdate_at')

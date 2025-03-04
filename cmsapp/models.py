@@ -27,10 +27,10 @@ class Subcategory(models.Model):
     
 class CustomUser(AbstractUser):
     USER = [
-        (1, 'admin'),
-        (2, 'compuser'),
-        (3, 'moderator'),
-        (4, 'sememoderator'),
+        (1, 'admin'), #SuperAdmin  
+        (2, 'compuser'), #admin
+        (3, 'moderator'), #PACD
+        (4, 'sememoderator'), #Odsus
     ]
 
     user_type = models.CharField(choices=USER, max_length=50, default=1)
@@ -122,8 +122,9 @@ class Complaints(models.Model):
     complaint_text = models.CharField(max_length=255)
     complainttype = models.CharField(max_length=250)
     clientdetails = models.CharField(max_length=250, blank=True, null=True)
-
     
+    cog = models.CharField(max_length=250, blank=True, null=True)
+
 
     noc = models.CharField(max_length=250)
     endorseemp = models.CharField(max_length=250, blank=True, null=True)
@@ -197,7 +198,7 @@ class PacdComplaints(models.Model):
     complainttype = models.CharField(max_length=250)
     clientdetails = models.CharField(max_length=250, blank=True, null=True)
 
-    
+    cog = models.CharField(max_length=250, blank=True, null=True)
 
     noc = models.CharField(max_length=250)
     endorseemp = models.CharField(max_length=250, blank=True, null=True)
@@ -271,7 +272,7 @@ class Odsus(models.Model):
     complainttype = models.CharField(max_length=250)
     clientdetails = models.CharField(max_length=250, blank=True, null=True)
 
-    
+    cog = models.CharField(max_length=250, blank=True, null=True)
 
     noc = models.CharField(max_length=250)
     endorseemp = models.CharField(max_length=250, blank=True, null=True)
