@@ -34,41 +34,59 @@
             <!-- Your Nearing Deadline Tickets Box -->
             <div class="border p-3 flex-grow-1 me-2" style="width: 48%;">
                 <h6 class="text-danger text-center">YOUR NEARING DEADLINE TICKETS</h6>
-            
-                <!-- Scrollable Table Wrapper -->
                 <div style="max-height: 300px; overflow-y: auto;">
+                    {% load tz %}  {# Load timezone support #}
                     <table class="table table-bordered text-center" id="deadlineTable">
                         <thead class="bg-dark text-white">
                             <tr>
-                                <th>TRACKING NUMBER</th>
                                 <th>REMINDER DATE</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% if nearing_deadline_tickets %}
                                 {% for ticket in nearing_deadline_tickets %}
-                                <tr data-remind-date="{{ ticket.remind_date }}">
-                                    <td>{{ ticket.complaint_text }}</td>
-                                    <td>{{ ticket.remind_date }}</td>
-                                </tr>
+                                    {% with today=now|date:"Y-m-d" reminder_date=ticket.remind_date|date:"Y-m-d" %}
+                                    <tr data-remind-date="{{ reminder_date }}">
+                                        <td>
+                                            {% if reminder_date < today %}
+                                                <span style="color: red; font-weight: bold;">
+                                                    {{ ticket.remind_date|date:"l, F d, Y" }} - Reminder: The deadline passed 
+                                                    {{ today|date:"Y-m-d"|timesince:ticket.remind_date }} ago.
+                                                </span>
+                                            {% elif reminder_date == today %}
+                                                <span style="color: red; font-weight: bold;">
+                                                    {{ ticket.remind_date|date:"l, F d, Y" }} - <strong>Reminder: Today is the deadline!</strong>
+                                                </span>
+                                            {% else %}
+                                                <span style="color: green; font-weight: bold;">
+                                                    {{ ticket.remind_date|date:"l, F d, Y" }} - Reminder: 
+                                                    {{ ticket.remind_date|timeuntil:today }} left until deadline.
+                                                </span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endwith %}
                                 {% endfor %}
                             {% else %}
                                 <tr>
-                                    <td colspan="2" class="text-muted">No complaints near deadline.</td>
+                                    <td class="text-muted">No complaints near deadline.</td>
                                 </tr>
                             {% endif %}
                         </tbody>
                     </table>
+                    
+                    
                 </div>
+                
             </div>
-            
+
             <!-- ROC Statistics Box -->
-            <div class="border p-3 flex-grow-1" style="width: 48%; overflow-x: auto;">
+            <div class="border p-3 flex-grow-1" style="width: 48%;">
                 <h6 class="text-danger text-center">ROC STATISTICS</h6>
                 {% if show_table %}
-                <div style="max-width: 100%; overflow-x: auto;">
-                    <table class="table table-bordered text-center w-100">
-                        <thead class="bg-dark text-white">
+                <div style="max-height: 300px; overflow-y: auto; border: 1px solid #ccc;">
+                    <table class="table table-bordered text-center">
+                        <thead class="bg-dark text-white sticky-header">
                             <tr>
                                 <th>Category</th>
                                 <th>NEW</th>
@@ -90,11 +108,12 @@
                         </tbody>
                     </table>
                 </div>
+                
                 {% else %}
                 <p class="text-center">No complaints found.</p>
                 {% endif %}
+                
             </div>
-            
         </div>
     </div>
 </div>
@@ -332,6 +351,50 @@
 
 </div>
 
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const rows = document.querySelectorAll("#deadlineTable tbody tr");
+    
+        rows.forEach(row => {
+            const remindDateAttr = row.getAttribute("data-remind-date"); // Get the date from the attribute
+            if (!remindDateAttr) return;
+    
+            let remindDate = new Date(remindDateAttr); // Convert string to Date object
+            let today = new Date(); // Get the current date
+    
+            // Remove time part for accurate comparison
+            today.setHours(0, 0, 0, 0);
+            remindDate.setHours(0, 0, 0, 0);
+    
+            let difference = Math.ceil((remindDate - today) / (1000 * 60 * 60 * 24)); // Calculate difference in days
+    
+            let reminderCell = row.querySelector("td span"); // Find the span inside the table cell
+    
+            if (difference < -3) {
+                // Hide row if the deadline passed more than 3 days ago
+                row.style.display = "none";
+            } else if (difference < 0) {
+                // If the deadline has passed but is within 3 days, show how many days ago
+                reminderCell.style.color = "red";
+                reminderCell.innerHTML += ` (The deadline passed ${Math.abs(difference)} day(s) ago.)`;
+            } else if (difference === 0) {
+                // If today is the deadline, highlight it
+                reminderCell.style.color = "red";
+                reminderCell.innerHTML += ` (Today is the deadline!)`;
+            } else {
+                // If the deadline is still upcoming, show how many days left
+                reminderCell.style.color = "green";
+                reminderCell.innerHTML += ` (${difference} day(s) left until the deadline.)`;
+            }
+        });
+    });
+    </script>
+    
+    
+    
+    
+    
 <!-- JavaScript to Highlight Nearing Deadline Tickets -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {

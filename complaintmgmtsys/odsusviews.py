@@ -13,8 +13,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 import random
 
-
-
 @login_required(login_url='/')
 def ODSUSHOME(request):
     user_admin = request.user
@@ -31,10 +29,10 @@ def ODSUSHOME(request):
 
     # ✅ Define complaint categories
     categories = [
-        "DIRECTORY", # This is a prefix for complaints that belong to the "Directory" category
-        "INQUIRY",  # This is a prefix for complaints that belong to the "Inquiry" category
-        "PACE",  # This is a prefix for complaints that belong to the "PACE" category
-        "CSC-CCB",  # This is a prefix for complaints that belong to the "CSC-CCB" category
+        "CARAGA-FO-ROC-DIR-25",
+        "CARAGA-FO-ROC-INQ-25",
+        "CARAGA-FO-ROC-PACE-25",
+        "CARAGA-FO-ROC-CSCCCB-25",
     ]
     
     complaint_counts = {
