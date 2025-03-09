@@ -40,7 +40,10 @@ def ODSUSHOME(request):
     "CARAGA-FO-ROC-INQ-25": Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-INQ-25").count(),
     "CARAGA-FO-ROC-PACE-25": Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-PACE-25").count(),
     "CARAGA-FO-ROC-CSCCCB-25": Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-CSCCCB-25").count(),
-}
+    }
+
+    # ✅ Count new complaints with status = '0' (New)
+    new_tickets_count = Complaints.objects.filter(status='0').count()
 
     
 
@@ -99,6 +102,7 @@ def ODSUSHOME(request):
         'nearing_deadline_tickets': nearing_deadline_tickets,
         'roc_stats': dict(roc_stats),
         'show_table': show_table,
+        'new_tickets_count': new_tickets_count,
         'dir_complaint_count': complaint_counts.get("CARAGA-FO-ROC-DIR-25", 0),
         'dir_complaint_count2': complaint_counts.get("CARAGA-FO-ROC-INQ-25", 0),
         'dir_complaint_count3': complaint_counts.get("CARAGA-FO-ROC-PACE-25", 0),

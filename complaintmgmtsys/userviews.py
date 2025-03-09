@@ -15,8 +15,9 @@ from django.utils import timezone
 def USERHOME(request):
     user_admin = request.user
     user_reg = UserReg.objects.get(admin=user_admin)
-    complaints = Complaints.objects.all().order_by('remind_date')
+    complaints = Complaints.objects.filter(userregid=user_reg).order_by('remind_date')
     complaints_count = Complaints.objects.filter(userregid=user_reg).count()
+    
     newcom_count = Complaints.objects.filter(status='0',userregid=user_reg).count()
     ipcom_count = Complaints.objects.filter(status='Inprocess',userregid=user_reg).count()
     resolved_count = Complaints.objects.filter(status='Resolved',userregid=user_reg).count()
@@ -31,10 +32,12 @@ def USERHOME(request):
     context = {
     'complaints':complaints,
     'complaints_count':complaints_count,
+    
     'newcom_count':newcom_count,
     'ipcom_count':ipcom_count,
     'resolved_count':resolved_count,
     'closed_count':closed_count,
+    
     'dir_complaint_count':dir_complaint_count,
     'dir_complaint_count2':dir_complaint_count2,
     'dir_complaint_count3':dir_complaint_count3,
@@ -767,6 +770,39 @@ def USERLODGEDCOMPLAINTSREMARK(request):
              
     return render(request, 'user/complaint-history.html', context)
 
+
+def NEWCOMPLAINTS(request):
+    new_complaints = Complaints.objects.filter(status='0').order_by('-complaintdate_at')
+    context = {'new_complaints': new_complaints}
+    return render(request, 'user/new-complaints.html', context)
+
+
+def INPROCESSCOMPLAINTS(request):    
+    inprocess_complaints = Complaints.objects.filter(status='Inprocess').order_by('-complaintdate_at')
+    context = {'inprocess_complaints': inprocess_complaints}
+    return render(request, 'user/inprocess_complaints.html', context)
+
+def RESOLVEDCOMPLAINTS(request):    
+    resolved_complaints = Complaints.objects.filter(status='Resolved').order_by('-complaintdate_at')
+    context = {'resolved_complaints': resolved_complaints}
+    return render(request, 'user/resolved_complaints.html', context)
+
+def CLOSEDCOMPLAINTS(request):    
+    closed_complaints = Complaints.objects.filter(status='Closed').order_by('-complaintdate_at')
+    context = {'closed_complaints': closed_complaints}
+    return render(request, 'user/closed_complaints.html', context)
+
+
+@login_required(login_url='/')
+def VIEWLODGEDCOMPLAINTS(request,id):
+    complaints = Complaints.objects.filter(id=id)
+    complaintsremarks = ComplaintRemark.objects.filter(comp_id_id=id)
+      
+    context = {
+         'complaints':complaints,
+         'complaintsremarks':complaintsremarks,
+    }
+    return render(request,'user/view-lodged-complaints.html',context)
 
 
 

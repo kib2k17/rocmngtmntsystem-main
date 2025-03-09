@@ -535,9 +535,6 @@ def LODGEDCOMPLAINTSREMARK(request):
     return render(request, 'admin/lodged-complaints.html', context)
 
 
-
-
-
 def NEWCOMPLAINTS(request):    
     new_complaints = Complaints.objects.filter(status='0').order_by('-complaintdate_at')
     context = {'new_complaints': new_complaints}

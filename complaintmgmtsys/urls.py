@@ -53,6 +53,7 @@ urlpatterns = [
 
     path('ViewLodgedComplaint/<str:id>', adminviews.VIEWLODGEDCOMPLAINTS, name='viewlodgedcomplaint'),
 
+
     path('LodgedComplaintRemark', adminviews.LODGEDCOMPLAINTSREMARK, name='lodgedcomplaintremark'),
     path('ManageUser', adminviews.MANAGEUSERS, name='manageusers'),
     path('ViewUser/<str:id>',adminviews.VIEWUSERS, name='viewusers'),   
@@ -76,6 +77,16 @@ urlpatterns = [
     path('PaceRegisterComplaint', userviews.PACEREGCOMPLAINT, name='paceregcomplaint'),
     path('CscCcbComplaint', userviews.CSCCCB, name='cscccbcomplaint'),
     path('Non8888RegComplaint', userviews.NON8888REGCOMPLAINT, name='non8888regcomplaint'),
+    
+    
+    path('usernewcomplaints', userviews.NEWCOMPLAINTS, name='usernewcomplaints'),
+    path('userinprocesscomplaints', userviews.INPROCESSCOMPLAINTS, name='userinprocesscomplaints'),
+    path('userresolvedcomplaints', userviews.RESOLVEDCOMPLAINTS, name='userresolvedcomplaints'),
+    path('userclosedcomplaints', userviews.CLOSEDCOMPLAINTS, name='userclosedcomplaints'),
+    
+    
+        
+    path('UserViewLodgedComplaint/<str:id>', userviews.VIEWLODGEDCOMPLAINTS, name='userviewlodgedcomplaint'),
     
     path('pacdcomplaint', userviews.PACDOCOMPLAINT, name='pacdcomplaint'),
     path('get_subcat/', userviews.get_subcat, name='get_subcat'),

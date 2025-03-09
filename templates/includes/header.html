@@ -1,5 +1,79 @@
 {% load static %}
 {% if user.user_type == '1' %}
+
+
+<style>
+
+.highlight {
+    border: 3px solid red !important;
+    background: #ffecec !important;
+}
+
+.bell-icon {
+    position: relative;
+    animation: ring 1s infinite alternate; /* Bell Animation */
+}
+
+@keyframes ring {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    50% { transform: rotate(10deg); }
+    75% { transform: rotate(-5deg); }
+    100% { transform: rotate(5deg); }
+}
+
+/* Notification Badge Styling */
+#ticketCountBadge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-size: 12px;
+    display: none; /* Hidden by default */
+    padding: 5px 8px;
+    border-radius: 50%;
+}
+
+
+/* Bell Icon Styling */
+.notification-bell {
+    font-size: 24px;
+    color: white;
+    position: relative;
+}
+
+/* Notification Badge */
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #e74c3c; /* Red color */
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 8px;
+    border-radius: 50%;
+    display: none; /* Hide when there are no notifications */
+}
+
+/* Bell Animation */
+@keyframes shake {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    50% { transform: rotate(10deg); }
+    75% { transform: rotate(-5deg); }
+    100% { transform: rotate(5deg); }
+}
+
+.notification-bell.shake {
+    animation: shake 0.5s ease-in-out infinite;
+}
+
+
+
+</style>
+
+
+
 <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="navbar-brand-wrapper d-flex align-items-center">
       <a class="navbar-brand brand-logo" href="{% url 'admin_home' %}">
@@ -36,8 +110,11 @@
     </div>
   </nav>
 
-  {% else  %}
-<nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+
+
+  
+  {% elif user.user_type == '2'  %}
+  <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="navbar-brand-wrapper d-flex align-items-center">
       <a class="navbar-brand brand-logo" href="{% url 'user_home' %}">
         <p style="color: aliceblue;font-size: medium;font-weight: bolder;">CRES Dashboard</p>
@@ -70,4 +147,140 @@
         <span class="icon-menu"></span>
       </button>
     </div>
-  </nav>{% endif %}
+  </nav>
+
+  {% else  %}
+
+
+
+  <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <div class="navbar-brand-wrapper d-flex align-items-center">
+      <a class="navbar-brand brand-logo" href="{% url 'user_home' %}">
+        <p style="color: aliceblue;font-size: medium;font-weight: bolder;">CRES Dashboard</p>
+      </a>
+      <a class="navbar-brand brand-logo-mini" href="{% url 'user_home' %}"><img src="{% static 'assets/images/logo-mini.svg'%}" alt="logo" /></a>
+    </div>
+    <div class="navbar-menu-wrapper d-flex align-items-center flex-grow-1">
+      <h5 class="mb-0 font-weight-medium d-none d-lg-flex">Welcome {{user.first_name}} {{user.last_name}} to the dashboard!</h5>
+      <ul class="navbar-nav navbar-nav-right ml-auto">
+       
+
+        <!-- NOTIFICATONS -->
+
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="#" id="ticketNotification">
+            <span id="ticketMessage">You have {{ newcom_count }} new tickets</span>
+          </a>
+        </li>
+         -->
+     
+        <li class="nav-item dropdown d-none d-xl-inline-flex user-dropdown">
+          <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+            <img class="img-xs rounded-circle ml-2" src="/{{user.profile_pic}}" alt="Profile image" width="100"> <span class="font-weight-normal"> {{user.first_name}} {{user.last_name}}</span></a>
+          <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+            <div class="dropdown-header text-center">
+              <img class="img-xs img-md rounded-circle" src="/{{user.profile_pic}}" alt="Profile image">
+              <p class="mb-1 mt-3">{{user.first_name}} {{user.last_name}}</p>
+              <p class="font-weight-light text-muted mb-0">{{user.email}}</p>
+            </div>
+            <a class="dropdown-item" href="{% url 'profile' %}"><i class="dropdown-item-icon icon-user text-primary"></i> My Profile</a>
+            <a class="dropdown-item" href="{% url 'change_password' %}"><i class="dropdown-item-icon icon-speech text-primary"></i> Change Password</a>
+          
+            <a class="dropdown-item"  href="{% url 'logout' %}"><i class="dropdown-item-icon icon-power text-primary"></i>Sign Out</a>
+          </div>
+        </li>
+      </ul>
+      <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+        <span class="icon-menu"></span>
+      </button>
+    </div>
+  </nav>
+
+
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+    let notificationMessage = document.getElementById("ticketMessage");
+
+    function updateNotification(count) {
+        if (count > 0) {
+            notificationMessage.textContent = `You have ${count} new tickets`;
+        } else {
+            notificationMessage.textContent = "You have 0 tickets for today";
+        }
+    }
+
+    // Fetch new ticket count dynamically (if using an API)
+    function fetchTicketCount() {
+        fetch('/get_new_ticket_count') // Replace with your actual API endpoint
+            .then(response => response.json())
+            .then(data => {
+                updateNotification(data.newcom_count);
+            })
+            .catch(error => console.error("Error fetching ticket count:", error));
+    }
+
+    // Refresh ticket count every 30 seconds (optional)
+    setInterval(fetchTicketCount, 30000);
+
+    // Initial update
+    fetchTicketCount();
+});
+
+  </script>
+
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        let newTicketCount = JSON.parse(document.getElementById("new-tickets-data").textContent) || 0;
+        
+        let notifyIcon = document.getElementById("ticketNotification");
+        let ticketBadge = document.getElementById("ticketCountBadge");
+        let newTicketCard = document.getElementById("newTicket");
+
+        if (newTicketCount > 0) {
+            ticketBadge.innerText = newTicketCount;
+            ticketBadge.style.display = "inline-block";
+        }
+
+        if (notifyIcon && newTicketCard) {
+            notifyIcon.addEventListener("click", function () {
+                newTicketCard.classList.add("highlight");
+                ticketBadge.style.display = "none";
+            });
+
+            document.addEventListener("click", function (event) {
+                if (!newTicketCard.contains(event.target) && !notifyIcon.contains(event.target)) {
+                    newTicketCard.classList.remove("highlight");
+                }
+            });
+        }
+    });
+
+  </script>
+
+
+<!-- <script>
+
+document.addEventListener("DOMContentLoaded", function () {
+    let notifyIcon = document.getElementById("ticketNotification");
+    let ticketCountBadge = document.getElementById("ticketCountBadge");
+
+    if (notifyIcon) {
+        notifyIcon.addEventListener("click", function (event) {
+            event.preventDefault();  // Prevent default anchor behavior
+            console.log("Notification icon clicked!");  // Debugging
+
+            // Example action: Show an alert if there are no tickets
+            if (ticketCountBadge && ticketCountBadge.innerText.trim() !== "") {
+                alert("You have " + ticketCountBadge.innerText + " new tickets!");
+            } else {
+                alert("No new tickets available.");
+            }
+        });
+    }
+});
+
+
+
+</script> -->
+  {% endif %}
