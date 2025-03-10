@@ -2,11 +2,14 @@ from django.shortcuts import render,redirect,HttpResponse
 from cmsapp.EmailBackEnd import EmailBackEnd
 from django.contrib.auth import  logout,login
 from django.contrib import messages
-from cmsapp.models import CustomUser,Complaints
+from cmsapp.models import CustomUser,Complaints,UserActivityLog
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import user_passes_test
+from cmsapp.utils import is_admin_or_compuser
+from django.contrib.auth.decorators import login_required
+
 User = get_user_model()
 
-from django.contrib.auth.decorators import login_required
 
 def BASE(request):
        return render(request,'base.html')
@@ -126,3 +129,6 @@ def CHANGE_PASSWORD(request):
           messages.success(request,'Current Password wrong!!!')
           return redirect("change_password")
      return render(request,'change-password.html')
+ 
+ 
+

@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
-from cmsapp.models import CustomUser,UserReg,Category,Subcategory,Complaints,ComplaintRemark, Categorycitymup, Subcategorycitymup, PacdComplaints,Odsus
+from django.contrib.auth.decorators import user_passes_test
+from cmsapp.utils import is_admin_or_compuser
+from cmsapp.models import CustomUser,UserReg,Category,Subcategory,Complaints,ComplaintRemark, Categorycitymup, Subcategorycitymup, PacdComplaints,Odsus, UserActivityLog
 from django.contrib import messages
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -78,7 +80,7 @@ def USERSIGNUP(request):
             last_name=last_name,
             username=username,
             email=email,
-            user_type=3, # Change this type for different user types
+            user_type=4, # Change this type for different user types
             profile_pic=pic,
             cat=category_instance,  # ✅ Correct (Stores FK instance)
             subcategory=subcategory_instance  # ✅ Correct (Stores FK instance)
@@ -805,4 +807,18 @@ def VIEWLODGEDCOMPLAINTS(request,id):
     return render(request,'user/view-lodged-complaints.html',context)
 
 
+def view_complaint(request, complaint_id):
+    complaint = Complaints.objects.get(id=complaint_id)
 
+    # Log the user action
+    UserActivityLog.objects.create(
+        user=request.user,
+        action=f"Viewed complaint #{complaint.id} - {complaint.complaint_text}"
+    )
+
+    return render(request, 'user/view_complaint.html', {'complaint': complaint})
+
+@login_required(login_url='/')
+def user_logs(request):
+    logs = UserActivityLog.objects.filter(user=request.user).order_by('-timestamp')
+    return render(request, 'user/logs.html', {'logs': logs})

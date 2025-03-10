@@ -1,7 +1,11 @@
 from datetime import timedelta
 from django.conf import settings
 from django.utils.deprecation import MiddlewareMixin
-from .models import Complaints
+from .models import Complaints, UserActivityLog
+from django.db import DatabaseError
+import logging
+
+logger = logging.getLogger(__name__)
 
 class KeepSignedInMiddleware:
     def __init__(self, get_response):
@@ -34,4 +38,19 @@ class NewComplaintsMiddleware:
         newcom_count = Complaints.objects.filter(status='0').count()
         request.newcom_count = newcom_count
         response = self.get_response(request)
+        return response
+
+class ActivityLoggerMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        response = self.get_response(request)
+
+        if request.user.is_authenticated:
+            UserActivityLog.objects.create(
+                user=request.user,
+                action=f"{request.method} {request.path}"
+            )
+
         return response

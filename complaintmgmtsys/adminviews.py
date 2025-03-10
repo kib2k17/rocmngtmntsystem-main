@@ -17,10 +17,12 @@ def ADMINHOME(request):
     state_count = State.objects.all().count    
     complaints_count = Complaints.objects.all().count
     pacdcomplaints_count = PacdComplaints.objects.all().count
+    
     newcom_count = Complaints.objects.filter(status='0').count()
     ipcom_count = Complaints.objects.filter(status='Inprocess').count()
     resolved_count = Complaints.objects.filter(status='Resolved').count()
     closed_count = Complaints.objects.filter(status='Closed').count()
+    
     dir_complaint_count = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-DIR-25-").count()
     dir_complaint_count2 = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-INQ-25-").count()
     dir_complaint_count3 = Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-PACE-25-").count()
@@ -521,7 +523,7 @@ def LODGEDCOMPLAINTSREMARK(request):
         )
         
         messages.success(request, "Status updated successfully")
-        return redirect('lodgedcomplaint')
+        return redirect('odsus_home') # Redirect to the same page but error
     else:
         # Handle the GET request if needed
         complaint_id = request.GET.get('comp_id')

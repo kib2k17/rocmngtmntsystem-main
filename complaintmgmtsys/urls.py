@@ -11,6 +11,7 @@ urlpatterns = [
     path('', views.LOGIN, name='login'),
     path('doLogin', views.doLogin, name='doLogin'),
     path('doLogout', views.doLogout, name='logout'),
+    path('userlogs/', userviews.user_logs, name='userlogs'),
 
     # This is admin version two
     path('AdminversionTwo', adminviews.ADMINVERSIONTWO, name='adminversiontwo'),
@@ -83,8 +84,6 @@ urlpatterns = [
     path('userinprocesscomplaints', userviews.INPROCESSCOMPLAINTS, name='userinprocesscomplaints'),
     path('userresolvedcomplaints', userviews.RESOLVEDCOMPLAINTS, name='userresolvedcomplaints'),
     path('userclosedcomplaints', userviews.CLOSEDCOMPLAINTS, name='userclosedcomplaints'),
-    
-    
         
     path('UserViewLodgedComplaint/<str:id>', userviews.VIEWLODGEDCOMPLAINTS, name='userviewlodgedcomplaint'),
     

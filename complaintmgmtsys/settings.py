@@ -69,6 +69,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'cmsapp.middleware.KeepSignedInMiddleware',
     'cmsapp.middleware.NewComplaintsMiddleware',
+    'cmsapp.middleware.ActivityLoggerMiddleware', # Ito yung logger middleware
 ]
 
 ROOT_URLCONF = 'complaintmgmtsys.urls'
@@ -181,3 +182,8 @@ AUTH_USER_MODEL = 'cmsapp.CustomUser'
 KEEP_SIGNED_IN_EXPIRY = 30 * 24 * 60 * 60 
 
 GOOGLE_API_KEY = ""
+
+# settings.py
+
+LOGIN_URL = '/login/'  # Path ng login page
+LOGOUT_REDIRECT_URL = '/login/'  # Path after logout

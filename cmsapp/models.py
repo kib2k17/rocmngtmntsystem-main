@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.contrib.auth.models import User
+from django.utils.timezone import now
+from django.conf import settings
+
 
 
 #Division
@@ -43,7 +47,12 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
 
-    
+#User Activity Log
+class UserActivityLog(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    action = models.CharField(max_length=255)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
 
 
 #City and Municipalality    

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, CustomUser, Subcategory, Subcategorycitymup, State, UserReg, Complaints, ComplaintRemark, Categorycitymup, PacdComplaints, PacdComplaintRemark, Odsus, OdsusRemark
+from .models import Category, CustomUser, Subcategory, Subcategorycitymup, State, UserReg, Complaints, ComplaintRemark, Categorycitymup, PacdComplaints, PacdComplaintRemark, Odsus, OdsusRemark, UserActivityLog
 from django.contrib.auth.admin import UserAdmin
 
 class UserModel(UserAdmin):
@@ -18,6 +18,11 @@ admin.site.register(PacdComplaints)
 admin.site.register(PacdComplaintRemark)
 admin.site.register(Odsus)
 admin.site.register(OdsusRemark)
+
+@admin.register(UserActivityLog)
+class UserActivityLogAdmin(admin.ModelAdmin):
+    list_display = ('user', 'action', 'timestamp')
+    search_fields = ('user__username', 'action')
 
 
 
