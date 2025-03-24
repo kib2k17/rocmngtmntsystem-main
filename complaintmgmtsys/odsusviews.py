@@ -7,7 +7,8 @@ from django.contrib import messages
 from django.db.models import Count, Q
 from django.http import JsonResponse
 from datetime import timedelta
-from django.utils.timezone import now
+from django.utils.timezone import now, localtime
+from datetime import date, timedelta, datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
@@ -28,13 +29,17 @@ def ODSUSHOME(request):
     user_section = user_reg.subcategory
 
     # ✅ Define complaint categories
-    categories = [
-        "CARAGA-FO-ROC-DIR-25",
-        "CARAGA-FO-ROC-INQ-25",
-        "CARAGA-FO-ROC-PACE-25",
-        "CARAGA-FO-ROC-CSCCCB-25",
-    ]
-    
+    categories = {
+        "CARAGA-FO-ROC-DIR-25": "Directory",
+        "CARAGA-FO-ROC-INQ-25": "Inquiry",
+        "CARAGA-FO-ROC-PACE-25": "Pace",
+        "CARAGA-FO-ROC-CSCCCB-25": "CSCCCB",
+        "CARAGA-FO-ROC-ARTA-25": "ARTA",
+        "CARAGA-FO-ROC-IGRMS-25": "IGRMS",
+        "CARAGA-FO-ROC-PACD-25": "PACD",
+        "CARAGA-FO-ROC-8888-25": "8888",
+    }
+
     complaint_counts = {
     "CARAGA-FO-ROC-DIR-25": Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-DIR-25").count(),
     "CARAGA-FO-ROC-INQ-25": Complaints.objects.filter(complaint_text__startswith="CARAGA-FO-ROC-INQ-25").count(),
@@ -54,8 +59,15 @@ def ODSUSHOME(request):
     ).distinct().order_by('-complaintdate_at')
 
     # ✅ Query for nearing deadline complaints (within the next 3 days)
-    today = now().date()
-    nearing_deadline_tickets = complaints.filter(remind_date__lte=today + timedelta(days=3))
+    today = date.today()
+    tickets = Complaints.objects.all()
+
+    nearing_deadline_tickets = []
+    for ticket in tickets:
+        if isinstance(ticket.remind_date, str):
+            # Convert string to date object
+            ticket.remind_date = datetime.strptime(ticket.remind_date, '%Y-%m-%d').date()
+        nearing_deadline_tickets.append(ticket)
 
     # ✅ Count complaints based on prefixes
     complaint_counts = {category: complaints.filter(complaint_text__startswith=category).count() for category in categories}
@@ -64,8 +76,8 @@ def ODSUSHOME(request):
     roc_stats = defaultdict(lambda: {"NEW": 0, "IN_PROCESS": 0, "RESOLVED": 0, "CLOSED": 0})
 
     for complaint in complaints:
-        for category in categories:
-            if complaint.complaint_text.startswith(category):
+        for code, name in categories.items():
+            if complaint.complaint_text.startswith(code):
                 status_key = {
                     "0": "NEW",
                     "inprocess": "IN_PROCESS",
@@ -74,7 +86,8 @@ def ODSUSHOME(request):
                 }.get(complaint.status.lower(), None)
 
                 if status_key:
-                    roc_stats[category][status_key] += 1
+                    roc_stats[name][status_key] += 1
+
 
     # ✅ Pagination
     paginator = Paginator(complaints, 10)
@@ -100,6 +113,7 @@ def ODSUSHOME(request):
         'resolved_count': resolved_count,
         'closed_count': closed_count,
         'nearing_deadline_tickets': nearing_deadline_tickets,
+        'now': today,
         'roc_stats': dict(roc_stats),
         'show_table': show_table,
         'new_tickets_count': new_tickets_count,
@@ -369,3 +383,85 @@ def CLOSEDCOMPLAINTS(request):
 
     context = {'odsusclosedcomplaints': odsusclosedcomplaints}
     return render(request, 'odsus/closed_complaints.html', context)
+
+@login_required(login_url='/')
+def LODGEDCOMPLAINTS(request):
+    user = request.user
+
+    # Get the user's registration details
+    user_reg = UserReg.objects.filter(admin=user).first()
+    if not user_reg:
+        return HttpResponse("User registration details not found.", status=404)
+
+    # Get user division and section
+    user_division_id = user_reg.cat_id
+    user_section_id = user_reg.subcategory_id
+
+    # ✅ Direktang filtering (gaya sa NEWCOMPLAINTS)
+    complaints = Complaints.objects.filter(
+        cat_id=user_division_id,
+        subcategory_id=user_section_id
+    ).order_by('-complaintdate_at')
+
+    # ✅ Pagination
+    paginator = Paginator(complaints, 10)
+    page_number = request.GET.get('page')
+    
+    try:
+        complaints_page = paginator.page(page_number)
+    except PageNotAnInteger:
+        complaints_page = paginator.page(1)
+    except EmptyPage:
+        complaints_page = paginator.page(paginator.num_pages)
+
+    context = {
+        'complaints': complaints_page,
+    }
+    return render(request, 'odsus/lodged-complaints.html', context)
+
+
+@login_required(login_url='/')
+def COMPLAINTSREPORT(request):
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    odsuslodgedcomplaints = []
+
+    if start_date and end_date:
+        try:
+            # ✅ Convert to datetime para sakto sa DateTimeField
+            start_date = datetime.strptime(start_date, '%Y-%m-%d')
+            end_date = datetime.strptime(end_date, '%Y-%m-%d') + timedelta(days=1) - timedelta(seconds=1)
+        except ValueError:
+            return render(request, 'odsus/complaint-between-date-report.html', {
+                'odsuslodgedcomplaints': odsuslodgedcomplaints,
+                'error_message': 'Invalid date format'
+            })
+
+        user = request.user
+        user_reg = UserReg.objects.filter(admin=user).first()
+
+        if user_reg:
+            user_division_id = user_reg.cat_id
+            user_section_id = user_reg.subcategory_id
+
+            # ✅ Debugging (para ma-check natin kung may value)
+            print(f"User Division ID: {user_division_id}")
+            print(f"User Section ID: {user_section_id}")
+
+            # ✅ Limit data based on user division and section (kahit admin pa)
+            if user_division_id and user_section_id:
+                odsuslodgedcomplaints = Complaints.objects.filter(
+                    cat_id=user_division_id,
+                    subcategory_id=user_section_id,
+                    complaintdate_at__range=(start_date, end_date)
+                ).order_by('-complaintdate_at')
+                print(f"Filtered complaints count: {odsuslodgedcomplaints.count()}")
+
+    context = {
+        'odsuslodgedcomplaints': odsuslodgedcomplaints,
+        'start_date': start_date.date() if start_date else '',
+        'end_date': end_date.date() if end_date else ''
+    }
+
+    return render(request, 'odsus/complaint-between-date-report.html', context)

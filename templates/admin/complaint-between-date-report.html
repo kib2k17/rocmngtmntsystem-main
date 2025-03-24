@@ -36,42 +36,45 @@
         <p style="font-size: 20px;color: blue;text-align: center;">Data Between: "{{ start_date }} to {{ end_date }}"</p>
         
           {% include 'includes/messages.html' %}
-          <table class="table table-bordered table-responsive">
-            <thead>
-              <tr>
-                <th style="font-weight: bolder;"> # </th>
-                <th style="font-weight: bolder;"> Complaint No</th>
-                <th style="font-weight: bolder;"> Accountable Person Name</th>
-                <th style="font-weight: bolder;"> Complinant Name</th>
-                <th style="font-weight: bolder;"> Complainant Mobile Number</th>
-                <th style="font-weight: bolder;"> Complaint Lodged Date </th>
-                <th style="font-weight: bolder;"> Status </th>
-                <th style="font-weight: bolder;">Action </th>
-              </tr>
+          <table class="table table-bordered table-hover table-striped align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">Ticket Reference #</th>
+                    <th class="text-center">Platform</th>
+                    <th class="text-center">Date Referred to ODSU</th>
+                    <th class="text-center">Date of MOV Submission (Feedback Report and CSMF)</th>
+                    <th class="text-center">Timeliness</th>
+                    <th class="text-center">Status</th>
+                </tr>
             </thead>
             <tbody>
                 {% for i in lodgedcomplaints %}
-              <tr>
-                <td> {{ forloop.counter }}</td>
-                <td>{{i.complaint_text}}</td>
-                
-                <td>{{ i.userregid.admin.first_name }} {{ i.userregid.admin.last_name }}</td>
-                <td>{{ i.complainant_fname }}</td>
-                <td>{{i.userregid.mobilenumber}}</td>
-                <td>{{i.complaintdate_at}}</td>
-                <td>{% if i.status == '0' %}
-                    <span class="badge badge-danger">Not Processed Yet</span>
-                {% elif i.status == 'Inprocess' %}
-                    <span class="badge badge-warning">In Process</span>
-                {% elif i.status == 'Closed' %}
-                    <span class="badge badge-success">Closed</span>
-                {% endif %}</td>
-                <td><a href="{% url 'viewlodgedcomplaint' i.id %}" class="btn btn-success">
-                    View</a></td>
-              </tr>{% endfor %}
-           
+                <tr data-status="{{ i.status }}">
+                    <td class="text-center">{{ forloop.counter }}</td>
+                    <td>{{ i.complaint_text }}</td>
+                    <td>{{ i.complainttype }}</td>
+                    <td class="text-center">{{ i.complaintdate_at |date:"Y-m-d H:i:s"}}</td>
+                    <td class="text-center">{{ i.updated_at|date:"Y-m-d H:i:s" }}</td>
+                    
+                    <td class="text-center timeliness"></td>
+                    <td class="text-center">
+                        {% if i.status == '0' %}
+                            <span class="badge badge-danger">Not Processed Yet</span>
+                        {% elif i.status == 'Inprocess' %}
+                            <span class="badge badge-warning">In-Process</span>
+                        {% elif i.status == 'Resolved' %}
+                            <span class="badge badge-warning">Responded Closed</span>
+                        {% elif i.status == 'Closed' %}
+                            <span class="badge badge-success">Resolved Closed</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
             </tbody>
-          </table>
+        </table>
+        
+        
           <div class="pagination" style="padding-top: 10px;text-align: center;">
             <span class="step-links">
                 {% if complaints.has_previous %}
@@ -96,4 +99,79 @@
     
     
   </div>
+
+
+  <script>
+    // Define a mapping of prefixes to platform names
+    const platformMapping = {
+      'DIR': 'DIRECT',
+      'CSCCCB': 'CSCCCB',
+      'PACE': 'PACE',
+      'INQ': 'INQUIRY',
+      '8888': '8888'
+    };
+  
+    function updatePlatform() {
+      // Target the table
+      const rows = document.querySelectorAll('.table tbody tr');
+  
+      rows.forEach(row => {
+        const refCell = row.cells[1]; // Ticket Reference #
+        const platformCell = row.cells[2]; // Platform
+        const refNumber = refCell.textContent || refCell.innerText;
+  
+        // Extract prefix from reference number
+        const match = refNumber.match(/ROC-([A-Z0-9]+)-25/);
+        if (match) {
+          const prefix = match[1];
+          if (platformMapping[prefix]) {
+            platformCell.textContent = platformMapping[prefix];
+          }
+        }
+      });
+    }
+  
+    // Run after the table is rendered
+    document.addEventListener('DOMContentLoaded', updatePlatform);
+  </script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const rows = document.querySelectorAll('tbody tr');
+
+        rows.forEach(row => {
+            const status = row.getAttribute('data-status');
+            const dateEndorse = row.cells[3].innerText;
+            const dateMov = row.cells[4].innerText;
+            const timelinessCell = row.cells[5];
+
+            if (dateEndorse && dateMov) {
+                const startDate = new Date(dateEndorse);
+                const endDate = new Date(dateMov);
+                const diffMs = endDate - startDate;
+
+                if (!isNaN(diffMs)) {
+                    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                    const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+                    if (status === 'Closed') {
+                        // Show detailed timeliness with hours and minutes
+                        timelinessCell.innerText = ` ${diffDays} day(s), ${diffHours} hour(s), and ${diffMinutes} minute(s).`;
+                    } else {
+                        // Show standard timeliness
+                        timelinessCell.innerText = `${diffDays} day(s), ${diffHours} hour(s), and ${diffMinutes} minute(s)`;
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+
+
+
+
+  
   {% endblock %}

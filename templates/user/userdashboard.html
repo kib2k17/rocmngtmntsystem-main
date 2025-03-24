@@ -85,7 +85,7 @@
     </div>
 
     <div class="container">
-        <div class="header">Nearing Deadline Tickets</div>
+        <div class="header">Tickets Overview</div>
         <div class="content">
             <!-- Left Section -->
             <div class="box">
@@ -124,7 +124,8 @@
                                 <th>Category</th>
                                 <th>New</th>
                                 <th>In-Process</th>
-                                <th>Resolved</th>
+                                <th>Respond-Closed</th>
+                                <th>Resolved-Closed</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -137,7 +138,7 @@
                                 </tr>
                             {% empty %}
                                 <tr>
-                                    <td colspan="4">No data available</td>
+                                    <td colspan="5">No data available</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -212,6 +213,8 @@
                 </div>
             </div>
         </div>
+
+        
     </div>
 </div>
 
@@ -242,7 +245,7 @@
             <div class="col-sm-4 col-md-2">
                 <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
                     <div class="card-body">
-                        <h6 class="card-title text-dark-emphasis">Total Directory</h6>
+                        <h6 class="card-title text-dark-emphasis">DIRECTORY</h6>
                         <h4 class="fw-bold text-black-50">{{ dir_complaint_count }}</h4>
                     </div>
                 </div>
@@ -252,7 +255,7 @@
             <div class="col-sm-4 col-md-2">
                 <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
                     <div class="card-body">
-                        <h6 class="card-title text-dark-emphasis">Total Inquiry</h6>
+                        <h6 class="card-title text-dark-emphasis">INQUIRY</h6>
                         <h4 class="fw-bold text-black-50">{{ dir_complaint_count2 }}</h4>
                     </div>
                 </div>
@@ -262,7 +265,7 @@
             <div class="col-sm-4 col-md-2">
                 <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
                     <div class="card-body">
-                        <h6 class="card-title text-dark-emphasis">Total Pace</h6>
+                        <h6 class="card-title text-dark-emphasis">PACE</h6>
                         <h4 class="fw-bold text-black-50">{{ dir_complaint_count3 }}</h4>
                     </div>
                 </div>
@@ -272,7 +275,7 @@
             <div class="col-sm-4 col-md-2">
                 <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
                     <div class="card-body">
-                        <h6 class="card-title text-dark-emphasis">Total Csccb</h6>
+                        <h6 class="card-title text-dark-emphasis">CSCCCB</h6>
                         <h4 class="fw-bold text-black-50">{{ dir_complaint_count4 }}</h4>
                     </div>
                 </div>
@@ -282,11 +285,50 @@
             <div class="col-sm-4 col-md-2">
                 <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
                     <div class="card-body">
-                        <h6 class="card-title text-dark-emphasis">Total 8888</h6>
+                        <h6 class="card-title text-dark-emphasis">8888</h6>
                         <h4 class="fw-bold text-black-50">0</h4>
                     </div>
                 </div>
             </div>
+
+            <div class="row g-2 justify-content-center">
+                
+                <!-- IGRMS -->
+                <div class="col-sm-4 col-md-2">
+                    <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
+                        <div class="card-body">
+                            <h6 class="card-title text-dark-emphasis">IGRMS</h6>
+                            <h4 class="fw-bold text-black-50">0</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ARTA -->
+                <div class="col-sm-4 col-md-2">
+                    <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
+                        <div class="card-body">
+                            <h6 class="card-title text-dark-emphasis">ARTA</h6>
+                            <h4 class="fw-bold text-black-50">0</h4>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <!-- PACD -->
+                <div class="col-sm-4 col-md-2">
+                    <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
+                        <div class="card-body">
+                            <h6 class="card-title text-dark-emphasis">PACD</h6>
+                            <h4 class="fw-bold text-black-50">0</h4>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
             
             
         

@@ -49,6 +49,8 @@ urlpatterns = [
     path('UpdateState/<str:id>', adminviews.UPDATE_STATE, name='update_state'),
     path('UpdateStateDetails', adminviews.UPDATE_STATE_DETAILS, name='update_state_details'),
     path('LodgedComplaint', adminviews.LODGEDCOMPLAINTS, name='lodgedcomplaint'),
+    
+     path('OdsusLodgedComplaint', odsusviews.LODGEDCOMPLAINTS, name='odsuslodgedcomplaint'),
 
 
 
@@ -67,6 +69,9 @@ urlpatterns = [
     path('ClosedComplaints', adminviews.CLOSEDCOMPLAINTS, name='closedcomplaints'),
     
     path('ComplaintsBetweenDateReport', adminviews.COMPLAINTSREPORT, name='complaintsreports'),
+    
+     path('odsuscomplaintsreports', odsusviews.COMPLAINTSREPORT, name='odsuscomplaintsreports'),
+    
     path('UserBetweenDateReport', adminviews.USERBDREPORT, name='userbdreports'),
     path('SearchComplaints', adminviews.Search_Complaints, name='searchcomplaints'),
     path('SearchUsers', adminviews.Search_Users, name='searchusers'),

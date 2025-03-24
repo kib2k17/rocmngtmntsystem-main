@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<br>
+<br>
+<div class="row">
+
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+      
+        <div class="card-body">
+            <div class="card-block">
+                <h4 class="sub-title">Between Dates Report</h4>
+                <form method="get" action="{% url 'odsuscomplaintsreports' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">From Date</label>
+                        <div class="col-sm-10">
+                            <input type="date" id="query" name="start_date" class="form-control" required="">
+                        </div>
+                    </div>
+                     <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">To Date</label>
+                        <div class="col-sm-10">
+                            <input type="date" id="query" name="end_date" class="form-control" required="">
+                        </div>
+                    </div>
+    
+    
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-dark">Submit</button>
+                        </div>
+                    </div>
+                </form>
+                        
+                            </div>
+                            {% if odsuslodgedcomplaints %}
+        <p style="font-size: 20px;color: blue;text-align: center;">Data Between: "{{ start_date }} to {{ end_date }}"</p>
+        
+          {% include 'includes/messages.html' %}
+          <table class="table table-bordered table-hover table-striped align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">Ticket Reference #</th>
+                    <th class="text-center">Platform</th>
+                    <th class="text-center">Date Referred to ODSU</th>
+                    <th class="text-center">Date of MOV Submission (Feedback Report and CSMF)</th>
+                    <th class="text-center">Timeliness</th>
+                    <th class="text-center">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in odsuslodgedcomplaints %}
+                <tr data-status="{{ i.status }}">
+                    <td class="text-center">{{ forloop.counter }}</td>
+                    <td>{{ i.complaint_text }}</td>
+                    <td>{{ i.complainttype }}</td>
+                    <td class="text-center">{{ i.complaintdate_at|date:"Y-m-d H:i:s" }}</td>
+                    <td class="text-center">{{ i.updated_at|date:"Y-m-d H:i:s" }}</td>
+                    <td class="text-center timeliness">
+                        {% if i.updated_at and i.complaintdate_at %}
+                            {% with diff=i.updated_at|timesince:i.complaintdate_at %}
+                                {{ diff }}
+                            {% endwith %}
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        {% if i.status == '0' %}
+                            <span class="badge bg-danger">Not Processed Yet</span>
+                        {% elif i.status == 'Inprocess' %}
+                            <span class="badge bg-warning">In-Process</span>
+                        {% elif i.status == 'Resolved' %}
+                            <span class="badge bg-primary">Responded Closed</span>
+                        {% elif i.status == 'Closed' %}
+                            <span class="badge bg-success">Resolved Closed</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        
+        
+          <div class="pagination" style="padding-top: 10px;text-align: center;">
+            <span class="step-links">
+                {% if complaints.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ complaints.previous_page_number }}">previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ complaints.number }} of {{ complaints.paginator.num_pages }}.
+                </span>
+        
+                {% if complaints.has_next %}
+                    <a href="?page={{ complaints.next_page_number }}">next</a>
+                    <a href="?page={{ complaints.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+        </div>{% endif %}
+        
+      </div>
+    </div>
+    
+    
+  </div>
+
+
+  <script>
+    // Define a mapping of prefixes to platform names
+    const platformMapping = {
+      'DIR': 'DIRECT',
+      'CSCCCB': 'CSCCCB',
+      'PACE': 'PACE',
+      'INQ': 'INQUIRY',
+      '8888': '8888'
+    };
+  
+    function updatePlatform() {
+      // Target the table
+      const rows = document.querySelectorAll('.table tbody tr');
+  
+      rows.forEach(row => {
+        const refCell = row.cells[1]; // Ticket Reference #
+        const platformCell = row.cells[2]; // Platform
+        const refNumber = refCell.textContent || refCell.innerText;
+  
+        // Extract prefix from reference number
+        const match = refNumber.match(/ROC-([A-Z0-9]+)-25/);
+        if (match) {
+          const prefix = match[1];
+          if (platformMapping[prefix]) {
+            platformCell.textContent = platformMapping[prefix];
+          }
+        }
+      });
+    }
+  
+    // Run after the table is rendered
+    document.addEventListener('DOMContentLoaded', updatePlatform);
+  </script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const rows = document.querySelectorAll('tbody tr');
+
+        rows.forEach(row => {
+            const status = row.getAttribute('data-status');
+            const dateEndorse = row.cells[3].innerText;
+            const dateMov = row.cells[4].innerText;
+            const timelinessCell = row.cells[5];
+
+            if (dateEndorse && dateMov) {
+                const startDate = new Date(dateEndorse);
+                const endDate = new Date(dateMov);
+                const diffMs = endDate - startDate;
+
+                if (!isNaN(diffMs)) {
+                    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                    const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+                    if (status === 'Closed') {
+                        // Show detailed timeliness with hours and minutes
+                        timelinessCell.innerText = ` ${diffDays} day(s), ${diffHours} hour(s), and ${diffMinutes} minute(s).`;
+                    } else {
+                        // Show standard timeliness
+                        timelinessCell.innerText = `${diffDays} day(s), ${diffHours} hour(s), and ${diffMinutes} minute(s)`;
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+
+
+
+
+  
+  {% endblock %}

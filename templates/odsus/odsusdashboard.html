@@ -27,7 +27,7 @@
     <!-- Tracking Section -->
 <div class="card shadow-sm">
     <div class="card-header text-center bg-info text-white">
-        <h5 class="mb-0">Nearing Deadline Tickets</h5>
+        <h5 class="mb-0">Tickets Overview</h5>
     </div>
     <div class="card-body">
         <div class="d-flex justify-content-between">
@@ -45,26 +45,29 @@
                         <tbody>
                             {% if nearing_deadline_tickets %}
                                 {% for ticket in nearing_deadline_tickets %}
-                                    {% with today=now|date:"Y-m-d" reminder_date=ticket.remind_date|date:"Y-m-d" %}
-                                    <tr data-remind-date="{{ reminder_date }}">
-                                        <td>
-                                            {% if reminder_date < today %}
-                                                <span style="color: red; font-weight: bold;">
-                                                    {{ ticket.remind_date|date:"l, F d, Y" }} - Reminder: The deadline passed 
-                                                    {{ today|date:"Y-m-d"|timesince:ticket.remind_date }} ago.
-                                                </span>
-                                            {% elif reminder_date == today %}
-                                                <span style="color: red; font-weight: bold;">
-                                                    {{ ticket.remind_date|date:"l, F d, Y" }} - <strong>Reminder: Today is the deadline!</strong>
-                                                </span>
-                                            {% else %}
-                                                <span style="color: green; font-weight: bold;">
-                                                    {{ ticket.remind_date|date:"l, F d, Y" }} - Reminder: 
-                                                    {{ ticket.remind_date|timeuntil:today }} left until deadline.
-                                                </span>
-                                            {% endif %}
-                                        </td>
-                                    </tr>
+                                    {% with today=now reminder_date=ticket.remind_date %}
+                                        <tr data-remind-date="{{ reminder_date|date:'Y-m-d' }}">
+                                            <td>
+                                                {% if reminder_date < today %}
+                                                    <span style="color: red; font-weight: bold;">
+                                                        {{ ticket.complaint_text }} | 
+                                                        {{ ticket.remind_date|date:"l, F d, Y" }} - Reminder: The deadline passed 
+                                                        {{ today|timesince:reminder_date }} ago.
+                                                    </span>
+                                                {% elif reminder_date == today %}
+                                                    <span style="color: red; font-weight: bold;">
+                                                        {{ ticket.complaint_text }} | 
+                                                        {{ ticket.remind_date|date:"l, F d, Y" }} - <strong>Reminder: Today is the deadline!</strong>
+                                                    </span>
+                                                {% else %}
+                                                    <span style="color: green; font-weight: bold;">
+                                                        {{ ticket.complaint_text }} | 
+                                                        {{ ticket.remind_date|date:"l, F d, Y" }} - Reminder: 
+                                                        {{ reminder_date|timeuntil:today }} left until deadline.
+                                                    </span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
                                     {% endwith %}
                                 {% endfor %}
                             {% else %}
@@ -91,8 +94,8 @@
                                 <th>Category</th>
                                 <th>NEW</th>
                                 <th>IN-PROCESS</th>
-                                <th>RESOLVED</th>
-                                <th>CLOSED</th>
+                                <th>RESPONDED-CLOSED</th>
+                                <th>RESOLVED-CLOSED</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -174,7 +177,7 @@
         <div class="col-sm-4 col-md-2">
             <div class="card shadow-sm p-2 bg-white rounded border-start border-warning text-center" style="height: 120px;">
                 <div class="card-body">
-                    <h6 class="card-title text-warning">Respond-Closed</h6>
+                    <h6 class="card-title text-warning">Responded-Closed</h6>
                     <h4 class="fw-bold text-warning">{{ resolved_count }}</h4>
                     <a href="{% url 'odsusresolvedcomplaints' %}" class="btn btn-outline-warning btn-sm">🔍</a>
                 </div>
@@ -185,7 +188,7 @@
         <div class="col-sm-4 col-md-2">
             <div class="card shadow-sm p-2 bg-white rounded border-start border-success text-center" style="height: 120px;">
                 <div class="card-body">
-                    <h6 class="card-title text-success">Resolved-Close</h6>
+                    <h6 class="card-title text-success">Resolved-Closed</h6>
                     <h4 class="fw-bold text-success">{{ closed_count }}</h4>
                     <a href="{% url 'odsusclosedcomplaints' %}" class="btn btn-outline-success btn-sm">🔍</a>
                 </div>
@@ -200,7 +203,7 @@
         <div class="container mt-4">
             <!-- Division Info -->
             <div class="alert alert-primary text-center" role="alert">
-                <h4 class="mb-0"><strong>Complaint Submission Overview</strong></h4>
+                <h4 class="mb-0"><strong>Platform Submission Overview</strong></h4>
             </div>
         </div>
 
@@ -211,7 +214,7 @@
                 <div class="col-sm-4 col-md-2">
                     <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
                         <div class="card-body">
-                            <h6 class="card-title text-dark-emphasis">Total Directory</h6>
+                            <h6 class="card-title text-dark-emphasis">DIRECTORY</h6>
                             <h4 class="fw-bold text-black-50">{{ dir_complaint_count }}</h4>
                         </div>
                     </div>
@@ -221,7 +224,7 @@
                 <div class="col-sm-4 col-md-2">
                     <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
                         <div class="card-body">
-                            <h6 class="card-title text-dark-emphasis">Total Inquiry</h6>
+                            <h6 class="card-title text-dark-emphasis">INQUIRY</h6>
                             <h4 class="fw-bold text-black-50">{{ dir_complaint_count2 }}</h4>
                         </div>
                     </div>
@@ -231,7 +234,7 @@
                 <div class="col-sm-4 col-md-2">
                     <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
                         <div class="card-body">
-                            <h6 class="card-title text-dark-emphasis">Total Pace</h6>
+                            <h6 class="card-title text-dark-emphasis">PACE</h6>
                             <h4 class="fw-bold text-black-50">{{ dir_complaint_count3 }}</h4>
                         </div>
                     </div>
@@ -241,7 +244,7 @@
                 <div class="col-sm-4 col-md-2">
                     <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
                         <div class="card-body">
-                            <h6 class="card-title text-dark-emphasis">Total Csccb</h6>
+                            <h6 class="card-title text-dark-emphasis">CSCCCB</h6>
                             <h4 class="fw-bold text-black-50">{{ dir_complaint_count4 }}</h4>
                         </div>
                     </div>
@@ -251,14 +254,54 @@
                 <div class="col-sm-4 col-md-2">
                     <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
                         <div class="card-body">
-                            <h6 class="card-title text-dark-emphasis">Total 8888</h6>
+                            <h6 class="card-title text-dark-emphasis">8888</h6>
                             <h4 class="fw-bold text-black-50">0</h4>
                         </div>
                     </div>
                 </div>
+
+                <br>
+
                 
                 
             
+
+            </div>
+        </div>
+
+        <div class="container mt-4">
+            <div class="row g-2 justify-content-center">
+       
+                      <!-- 8888 -->
+                      <div class="col-sm-4 col-md-2">
+                        <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
+                            <div class="card-body">
+                                <h6 class="card-title text-dark-emphasis">IGRMS</h6>
+                                <h4 class="fw-bold text-black-50">0</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 8888 -->
+                    <div class="col-sm-4 col-md-2">
+                        <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
+                            <div class="card-body">
+                                <h6 class="card-title text-dark-emphasis">ARTA</h6>
+                                <h4 class="fw-bold text-black-50">0</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                       <!-- 8888 -->
+                       <div class="col-sm-4 col-md-2">
+                        <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
+                            <div class="card-body">
+                                <h6 class="card-title text-dark-emphasis">PACD</h6>
+                                <h4 class="fw-bold text-black-50">0</h4>
+                            </div>
+                        </div>
+                    </div>
+                    
 
             </div>
         </div>
@@ -394,45 +437,65 @@
     
     
     
+    <!-- Nearing deadlines tickets -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Remove time part
     
-<!-- JavaScript to Highlight Nearing Deadline Tickets -->
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0); // Remove time part
-
-        const rows = Array.from(document.querySelectorAll("#deadlineTable tbody tr"));
-        const urgentRows = [];
-        const normalRows = [];
-
-        rows.forEach(row => {
-            const remindDateStr = row.getAttribute("data-remind-date");
-            if (!remindDateStr) return;
-
-            const remindDate = new Date(remindDateStr);
             const threeDaysFromNow = new Date(today);
             threeDaysFromNow.setDate(today.getDate() + 3);
-
-            if (remindDate >= today && remindDate <= threeDaysFromNow) {
-                // Highlight urgent tickets in red
-                row.style.backgroundColor = "red";
-                row.style.color = "white";
-                row.style.fontWeight = "bold";
-                urgentRows.push(row);
-            } else {
-                normalRows.push(row);
-            }
+    
+            const threeDaysAgo = new Date(today);
+            threeDaysAgo.setDate(today.getDate() - 3);
+    
+            const rows = Array.from(document.querySelectorAll("#deadlineTable tbody tr"));
+            const passedRows = [];
+            const urgentRows = [];
+            const normalRows = [];
+    
+            rows.forEach(row => {
+                const remindDateStr = row.getAttribute("data-remind-date");
+                if (!remindDateStr) return;
+    
+                const remindDate = new Date(remindDateStr);
+    
+                if (remindDate < today) {
+                    // Passed deadline — keep it only if it's not older than 3 days
+                    if (remindDate >= threeDaysAgo) {
+                        row.style.backgroundColor = "#ffe6e6"; // Light red background
+                        row.style.color = "red";
+                        row.style.fontWeight = "bold";
+                        passedRows.push({ row, remindDate });
+                    }
+                } else if (remindDate <= threeDaysFromNow) {
+                    // Urgent tickets within 3 days
+                    row.style.backgroundColor = "#ffcccc"; // Light red background
+                    row.style.color = "red";
+                    row.style.fontWeight = "bold";
+                    urgentRows.push({ row, remindDate });
+                } else {
+                    // Normal tickets beyond 3 days
+                    normalRows.push({ row, remindDate });
+                }
+            });
+    
+            // Sort rows
+            passedRows.sort((a, b) => a.remindDate - b.remindDate); // Nearest passed deadlines first
+            urgentRows.sort((a, b) => a.remindDate - b.remindDate); // Nearest urgent deadlines first
+            normalRows.sort((a, b) => a.remindDate - b.remindDate); // Nearest normal deadlines first
+    
+            // Clear existing table rows
+            const tbody = document.querySelector("#deadlineTable tbody");
+            tbody.innerHTML = "";
+    
+            // Append sorted rows to table
+            passedRows.forEach(item => tbody.appendChild(item.row)); // Passed deadlines first
+            urgentRows.forEach(item => tbody.appendChild(item.row)); // Then urgent deadlines
+            normalRows.forEach(item => tbody.appendChild(item.row)); // Then normal deadlines
         });
-
-        // Move urgent rows to the top
-        const tbody = document.querySelector("#deadlineTable tbody");
-        tbody.innerHTML = ""; // Clear existing rows
-        urgentRows.forEach(row => tbody.appendChild(row));
-        normalRows.forEach(row => tbody.appendChild(row));
-    });
-</script>
-
-
+    </script>
+    
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".reminder-countdown").forEach(function (element) {
