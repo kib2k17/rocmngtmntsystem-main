@@ -121,16 +121,13 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'cmspythondb',
-#         'USER': 'root',
-#         'PASSWORD': '',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
-        
+#         'NAME': 'rocdb',          # Name ng bagong database
+#         'USER': 'root',           # Default user ng XAMPP
+#         'PASSWORD': '',           # Walang password by default
+#         'HOST': '127.0.0.1',      # Siguraduhing 127.0.0.1
+#         'PORT': '3306',           # Default port ng MySQL sa XAMPP
 #     }
 # }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 

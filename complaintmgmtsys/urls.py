@@ -48,9 +48,10 @@ urlpatterns = [
     path('Admin/DeleteState/<str:id>', adminviews.DELETE_STATE, name='delete_state'),
     path('UpdateState/<str:id>', adminviews.UPDATE_STATE, name='update_state'),
     path('UpdateStateDetails', adminviews.UPDATE_STATE_DETAILS, name='update_state_details'),
+    
     path('LodgedComplaint', adminviews.LODGEDCOMPLAINTS, name='lodgedcomplaint'),
     
-     path('OdsusLodgedComplaint', odsusviews.LODGEDCOMPLAINTS, name='odsuslodgedcomplaint'),
+     path('odsuslodgedcomplaint', odsusviews.LODGEDCOMPLAINTS, name='odsuslodgedcomplaint'),
 
 
 

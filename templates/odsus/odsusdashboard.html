@@ -177,7 +177,7 @@
         <div class="col-sm-4 col-md-2">
             <div class="card shadow-sm p-2 bg-white rounded border-start border-warning text-center" style="height: 120px;">
                 <div class="card-body">
-                    <h6 class="card-title text-warning">Responded-Closed</h6>
+                    <h6 class="card-title text-warning" style="font-size: 14px;">Responded Closed</h6>
                     <h4 class="fw-bold text-warning">{{ resolved_count }}</h4>
                     <a href="{% url 'odsusresolvedcomplaints' %}" class="btn btn-outline-warning btn-sm">🔍</a>
                 </div>
@@ -188,12 +188,14 @@
         <div class="col-sm-4 col-md-2">
             <div class="card shadow-sm p-2 bg-white rounded border-start border-success text-center" style="height: 120px;">
                 <div class="card-body">
-                    <h6 class="card-title text-success">Resolved-Closed</h6>
+                    <h6 class="card-title text-success" style="font-size: 14px;">Resolved Closed</h6>
                     <h4 class="fw-bold text-success">{{ closed_count }}</h4>
                     <a href="{% url 'odsusclosedcomplaints' %}" class="btn btn-outline-success btn-sm">🔍</a>
                 </div>
             </div>
         </div>
+
+
     </div>
 </div>
 
@@ -214,7 +216,7 @@
                 <div class="col-sm-4 col-md-2">
                     <div class="card shadow-sm p-2 bg-white rounded border-start border-primary text-center" style="height: 120px;">
                         <div class="card-body">
-                            <h6 class="card-title text-dark-emphasis">DIRECTORY</h6>
+                            <h6 class="card-title text-dark-emphasis" style="font-size: 14px;">DIRECTORY</h6>
                             <h4 class="fw-bold text-black-50">{{ dir_complaint_count }}</h4>
                         </div>
                     </div>
