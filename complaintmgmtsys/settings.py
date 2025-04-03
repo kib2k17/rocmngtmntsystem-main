@@ -96,13 +96,13 @@ WSGI_APPLICATION = 'complaintmgmtsys.wsgi.application'
 # SQLITE3
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# SQLITE3
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# # SQLITE3
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 # #POSTGRESSQL
 # DATABASES = {
@@ -118,16 +118,17 @@ DATABASES = {
 
 
 #MYSQL
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'rocdb',          # Name ng bagong database
-#         'USER': 'root',           # Default user ng XAMPP
-#         'PASSWORD': '',           # Walang password by default
-#         'HOST': '127.0.0.1',      # Siguraduhing 127.0.0.1
-#         'PORT': '3306',           # Default port ng MySQL sa XAMPP
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'rocdb',
+        'USER': 'root',
+        'PASSWORD': '12345',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
